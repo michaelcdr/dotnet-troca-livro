@@ -1,0 +1,44 @@
+﻿@model RegistrarModel
+<h5>Registrar » <small>É novo na plataforma? Informe seus dados e registre-se já ;)</small></h5>
+
+<hr />
+
+<form asp-action="Registrar">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Usuario" class="control-label"></label>
+                <input asp-for="Usuario" class="form-control" />
+                <span asp-validation-for="Usuario" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Senha" class="control-label"></label>
+                <input asp-for="Senha" class="form-control" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="ConfirmarSenha" class="control-label"></label>
+                <input asp-for="ConfirmarSenha" class="form-control" />
+                <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <button class="btn btn-outline-dark" type="button">
+                Não possui conta? Registre-se
+            </button>
+        </div>
+    </div>
+</form>  

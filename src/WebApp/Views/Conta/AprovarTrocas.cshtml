@@ -1,0 +1,42 @@
+﻿@model ContaModel
+
+@{
+    ViewData["Title"] = "Solicitações de troca aguardando aprovação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Solicitações de troca aguardando aprovação</h1>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Solicitante de troca</th>
+                    <th>Data</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Livro 1</td>
+                    <td>Fulano 1</td>
+                    <td>10/10/2021</td>
+                    <td>
+                        <button class="btn btn-success" type="button">Aprovar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Livro 1</td>
+                    <td>Fulano 1</td>
+                    <td>10/10/2021</td>
+                    <td>
+                        <button class="btn btn-success" type="button">Aprovar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

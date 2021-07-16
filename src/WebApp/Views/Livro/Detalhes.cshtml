@@ -1,0 +1,89 @@
+﻿@model LivroDetalhes
+
+@{
+    ViewData["Title"] = "Cadastrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+<div class="row">
+    <div class="col-md-3">
+        <img src="@Model.Capa" style="max-width:100%" />
+    </div>
+    <div class="col-md-6">
+        <h1>@Model.Titulo</h1>
+        <div class="ator pb-2">@Model.Autores </div>
+        <div class="isbn pb-2">@Model.ISBN - @Model.NumeroPagina páginas - @Model.Ano</div>
+        <p>@Html.Raw(Model.Descricao)</p>
+    </div>
+
+    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="mt-3"> Esse livro está sendo oferecido por:</h3>
+
+        <table class="table table-striped" width="100%">
+            @foreach (var item in Model.Usuarios)
+            {
+                <tr >
+                    <td class="text-center" width="10px" valign="middle">
+                        <img src="~/img/usuario/2.png" width="50" />
+                    </td>
+                    <td class="text-center" width="200px" valign="middle">
+                        <div>@item.Nome</div>
+                        <div>@item.LivrosEnviados Livros enviados</div>
+                    </td>
+                    <td class=" text-right " valign="middle" >
+                        <button class="btn btn-outline-dark">Solicitar troca</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 pt-2 pb-2">
+        <h3>Cadastre sua questão</h3>
+        <div class="form-group">
+            <label class="control-label">Título</label>
+            <input class="form-control" />
+        </div>
+        
+        
+        <div class="form-group">
+            <label id="descritivo" class="control-label">Descrição</label>
+            <textarea id="descritivo" class="form-control" style="height:150px"></textarea>
+        </div>
+
+        <button class="btn btn-block btn-outline-dark">Cadastrar</button>
+    </div>
+    <div class="col-md-12">
+        <h3>Últimas questões feitas</h3>
+
+        <ul class="list-unstyled">
+            <li>
+                <strong>O teclado e grande?</strong><br />
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dolor nec orci laoreet 
+                imperdiet finibus a urna. Quisque pretium lacinia vulputate. Nullam fermentum nec nisi ut tristique. 
+                Morbi justo ipsum, commodo sed malesuada a, gravida pulvinar lacus. Fusce urna enim, fermentum sed cursus
+                at, pretium vel leo. Ut condimentum diam lacus, eu porta felis consectetur pharetra. Proin posuere,
+                ex eu ultrices volutpat, quam neque iaculis leo, eget molestie sem velit quis sem. Nunc mattis
+                condimentum neque, nec cursus eros dignissim id. Quisque tempor leo sed leo pharetra semper.
+            </li>
+            <li>
+                <strong>O teclado e grande?</strong><br />
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dolor nec orci laoreet
+                imperdiet finibus a urna. Quisque pretium lacinia vulputate. Nullam fermentum nec nisi ut tristique.
+                Morbi justo ipsum, commodo sed malesuada a, gravida pulvinar lacus. Fusce urna enim, fermentum sed cursus
+                at, pretium vel leo. Ut condimentum diam lacus, eu porta felis consectetur pharetra. Proin posuere,
+                ex eu ultrices volutpat, quam neque iaculis leo, eget molestie sem velit quis sem. Nunc mattis
+                condimentum neque, nec cursus eros dignissim id. Quisque tempor leo sed leo pharetra semper.
+            </li>
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

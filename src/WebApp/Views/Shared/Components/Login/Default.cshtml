@@ -1,0 +1,31 @@
+﻿@model LoginModel
+<h5>Login » <small>Entre com suas credenciais abaixo</small></h5>
+
+<hr />
+
+<form asp-action="Logar">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Usuario" class="control-label"></label>
+                <input asp-for="Usuario" class="form-control" />
+                <span asp-validation-for="Usuario" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Senha" class="control-label"></label>
+                <input asp-for="Senha" class="form-control" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <button type="button" class="btn btn-outline-primary ">
+                Entrar
+            </button>
+        </div>
+    </div>
+</form>

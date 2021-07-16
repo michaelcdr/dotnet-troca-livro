@@ -1,0 +1,158 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using TrocaLivro.Dominio.Entidades;
+using TrocaLivro.Dominio.Repositorios;
+using TrocaLivro.Dominio.Services;
+using TrocaLivro.Dominio.Transacoes;
+using TrocaLivro.Infra.Data;
+using TrocaLivro.Infra.Repositorios.EF;
+using TrocaLivro.Infra.Transacoes;
+
+namespace TrocaLivro.Api
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddCors();
+            services.AddControllers();
+
+            string connStr = Configuration.GetConnectionString("ContextConnection");
+
+            services.AddDbContext<ApplicationDbContext>(opt =>
+            {
+                opt.UseSqlServer(connStr);
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrocaLivro.Api", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            services.AddMvc();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+
+            }).AddJwtBearer("JwtBearer", options => {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("troca-livros-security-key")),
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    ValidIssuer = "TrocaLivro.Api",
+                    ValidAudience = "Postman"
+                };
+            });
+
+            // definições de regras de segurança para a password
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 0;
+                options.User.RequireUniqueEmail = false;
+            });
+
+            //services.Configure<FormOptions>(option =>
+            //{
+            //    option.ValueLengthLimit = int.MaxValue;
+            //    option.MultipartBodyLengthLimit = int.MaxValue;
+            //    option.MemoryBufferThreshold = int.MaxValue;
+            //});
+
+
+            services.AddIdentity<Usuario, TipoUsuario>()
+              .AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddRoleManager<RoleManager<TipoUsuario>>()
+              .AddDefaultTokenProviders();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUsuariosRepositorio, UsuariosRepositorio>();
+
+            services.AddTransient<ILivrosRepositorio, LivrosRepositorio>();
+            services.AddTransient<IAutoresRepositorio, AutoresRepositorio>();
+            services.AddTransient<IEditorasRepositorio, EditorasRepositorio>();
+            services.AddTransient<ICategoriasRepositorio, CategoriasRepositorio>();
+
+            services.AddTransient<ILivroService, LivroService>();
+            services.AddTransient<IAutorService, AutorService>();
+            services.AddTransient<IEditoraService, EditoraService>();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrocaLivro.Api v1"));
+            }
+
+            app.UseHttpsRedirection();
+            app.UseRouting();
+
+            app.UseCors(x => x
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .SetIsOriginAllowed(origin => true) // allow any origin
+              .AllowCredentials()); // allow credentials
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
+            //app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),@"Resources")),
+            //    RequestPath = new PathString("/Resources")
+            //});
+            
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+        }
+    }
+}
