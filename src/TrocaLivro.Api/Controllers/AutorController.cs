@@ -24,7 +24,6 @@ namespace TrocaLivro.Api.Controllers
         {
             AppResponse<IList<AutorDTO>> resposta = await _autorService.ObterTodas();
 
-
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
             return Ok(resposta.Dados);
