@@ -1,20 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TrocaLivro.Dominio.Entidades;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 using WebApp.HttpClients;
-using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class ContaController : Controller
     {
-        private readonly LivroApClient api;
-        private readonly SignInManager<Usuario> _signInManager;
-        public ContaController(LivroApClient livroApClient, SignInManager<Usuario> signInManager)
+        private readonly ContaApiClient contaApi;
+        
+        public ContaController(ContaApiClient contaApiClient)
         {
-            this.api = livroApClient;
-            this._signInManager = signInManager;
+            this.contaApi = contaApiClient;
         }
 
         public IActionResult Index() => View(new ContaModel());
@@ -24,13 +21,22 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Logar(LoginModel model)
         {
-           
+            string token = await contaApi.GerarToken(model);
 
-            Usuario usuario = await api.ObterUsuario(model.Usuario, model.Senha);
+            var resultado = await contaApi.Logar(model);
             return View();
         }
 
         public IActionResult _Registrar() => View(new RegistrarModel());
+
+        [HttpPost]
+        public async Task<JsonResult> Registrar(RegistrarModel model)
+        {
+            var resultado =  await contaApi.Registrar(model);           
+
+
+            return Json(new { });
+        }
 
         public IActionResult AprovarTrocas()
         {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WebApp.Models;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 
 namespace WebApp.ViewComponents
 {

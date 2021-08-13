@@ -41,6 +41,7 @@ namespace TrocaLivro.Dominio.Entidades
         {
             this.Imagens = new List<Imagem>();
             this.Arquivos = new List<Arquivo>();
+
             CategoriaId = categoriaId;
             ISBN = iSBN;
             Titulo = titulo;

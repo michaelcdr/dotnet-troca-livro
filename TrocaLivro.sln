@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrocaLivro.Api", "src\Troca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrocaLivro.Infra", "src\TrocaLivro.Infra\TrocaLivro.Infra.csproj", "{17B50A2D-791B-4437-87A6-531CD27E8C48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "src\WebApp\WebApp.csproj", "{1F296C55-5A34-49FF-9CDD-911B36CAA229}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "src\WebApp\WebApp.csproj", "{1F296C55-5A34-49FF-9CDD-911B36CAA229}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrocaLivro.Aplicacao", "src\TrocaLivro.Aplicacao\TrocaLivro.Aplicacao.csproj", "{CF2E7B81-9781-4E49-92B1-F798A37ED6D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{1F296C55-5A34-49FF-9CDD-911B36CAA229}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F296C55-5A34-49FF-9CDD-911B36CAA229}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F296C55-5A34-49FF-9CDD-911B36CAA229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF2E7B81-9781-4E49-92B1-F798A37ED6D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF2E7B81-9781-4E49-92B1-F798A37ED6D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF2E7B81-9781-4E49-92B1-F798A37ED6D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF2E7B81-9781-4E49-92B1-F798A37ED6D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TrocaLivro.Dominio.Entidades;
+﻿using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Requests;
 
 namespace TrocaLivro.Dominio.Extensions
@@ -16,7 +15,8 @@ namespace TrocaLivro.Dominio.Extensions
                 livroRequest.Ano,          
                 livroRequest.AutorId,
                 livroRequest.EditoraId,
-                livroRequest.Subtitulo,livroRequest.CategoriaId);
+                livroRequest.Subtitulo,
+                livroRequest.CategoriaId);
         }
     }
 }

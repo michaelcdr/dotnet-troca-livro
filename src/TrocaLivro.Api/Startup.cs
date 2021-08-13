@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +19,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
+using TrocaLivro.Api.Interfaces;
+using TrocaLivro.Api.Services;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Repositorios;
 using TrocaLivro.Dominio.Services;
@@ -46,10 +50,7 @@ namespace TrocaLivro.Api
 
             string connStr = Configuration.GetConnectionString("ContextConnection");
 
-            services.AddDbContext<ApplicationDbContext>(opt =>
-            {
-                opt.UseSqlServer(connStr);
-            });
+            services.AddDbContext<ApplicationDbContext>(opt => { opt.UseSqlServer(connStr); });
 
             services.AddSwaggerGen(c =>
             {
@@ -64,20 +65,22 @@ namespace TrocaLivro.Api
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
             }).AddJwtBearer("JwtBearer", options => {
+                var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+
+                options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("troca-livros-security-key")),
-                    ClockSkew = TimeSpan.FromMinutes(5),
-                    ValidIssuer = "TrocaLivro.Api",
-                    ValidAudience = "Postman"
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = false
                 };
             });
 
@@ -92,14 +95,6 @@ namespace TrocaLivro.Api
                 options.Password.RequiredUniqueChars = 0;
                 options.User.RequireUniqueEmail = false;
             });
-
-            //services.Configure<FormOptions>(option =>
-            //{
-            //    option.ValueLengthLimit = int.MaxValue;
-            //    option.MultipartBodyLengthLimit = int.MaxValue;
-            //    option.MemoryBufferThreshold = int.MaxValue;
-            //});
-
 
             services.AddIdentity<Usuario, TipoUsuario>()
               .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -117,6 +112,7 @@ namespace TrocaLivro.Api
             services.AddTransient<ILivroService, LivroService>();
             services.AddTransient<IAutorService, AutorService>();
             services.AddTransient<IEditoraService, EditoraService>();
+            services.AddTransient<IGeradorToken, GeradorToken>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

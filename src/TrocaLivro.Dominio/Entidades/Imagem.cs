@@ -26,7 +26,6 @@
         public override bool TaValido()
         {
             return true;
-
         }
     }
 }

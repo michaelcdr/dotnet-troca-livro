@@ -5,6 +5,7 @@ namespace TrocaLivro.Dominio.Entidades
     public abstract class EntidadeBase
     {
         public List<Notificacao> _erros { get; private set; } = new List<Notificacao>();
+
         public List<Notificacao> ObterErros()
         {
             return this._erros;

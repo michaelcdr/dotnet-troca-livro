@@ -1,19 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApp.HttpClients;
 
 namespace WebApp
 {
     public class Startup
     {
+        private const string API_URL = "https://localhost:5001/api/";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,10 +24,8 @@ namespace WebApp
         {
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddHttpClient<LivroApClient>(config =>
-            {
-                config.BaseAddress = new Uri("https://localhost:44382/api/");
-            });
+            services.AddHttpClient<LivroApClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            services.AddHttpClient<ContaApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
 
             services.AddMvc().AddRazorOptions(options =>
             {

@@ -45,10 +45,7 @@ namespace WebApp.HttpClients
             return content;
         }
 
-        internal Task<Usuario> ObterUsuario(string usuario, string senha)
-        {
-            throw new System.NotImplementedException();
-        }
+       
 
         public async Task<AppResponse<Livro>> CadastrarLivro(LivroRequest request)
         {

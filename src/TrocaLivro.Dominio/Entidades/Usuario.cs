@@ -7,12 +7,14 @@ namespace TrocaLivro.Dominio.Entidades
     {
         public string Nome { get; set; }
         private List<string> _erros { get; set; }
+
         public Usuario(string nome, string userName, string email)
         {
             this.Nome = nome;
             this.UserName = userName;
             this.Email = email;
         }
+
         public bool TaValido()
         {
             bool retorno = true;
