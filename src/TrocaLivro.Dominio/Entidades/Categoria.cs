@@ -13,5 +13,15 @@ namespace TrocaLivro.Dominio.Entidades
         {
             return true;
         }
+
+        public Categoria()
+        {
+
+        }
+
+        public Categoria(string nome)
+        {
+            this.Nome = nome;
+        }
     }
 }

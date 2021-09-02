@@ -21,6 +21,8 @@ namespace WebApp.Controllers
             this.contaApi = contaApiClient;
         }
 
+        public IActionResult Login2() => View();
+
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)

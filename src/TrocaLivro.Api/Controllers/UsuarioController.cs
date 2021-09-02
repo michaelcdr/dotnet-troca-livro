@@ -32,7 +32,6 @@ namespace TrocaLivro.Api.Controllers
 
                 if (!logarResultado.Sucesso)
                     return BadRequest(new AppResponse<object>(false, logarResultado.Mensagem));
-
                 
                 return Ok(new AppResponse<LogarUsuarioResultado>(true, "Logado com sucesso. ", logarResultado.Dados));
             }

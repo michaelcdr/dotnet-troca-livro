@@ -5,15 +5,16 @@ namespace TrocaLivro.Dominio.Entidades
 {
     public class Usuario : IdentityUser
     {
-        public string Nome { get; set; }
-        public string Sobrenome { get; set; }
+        public string Nome { get; private set; }
+        public string Sobrenome { get; private set; }
         private List<Notificacao> _erros { get; set; }
 
-        public Usuario(string nome, string userName, string email)
+        public Usuario(string nome, string userName, string email, string sobrenome)
         {
             this.Nome = nome;
             this.UserName = userName;
             this.Email = email;
+            this.Sobrenome = sobrenome;
         }
 
         public bool TaValido()

@@ -20,7 +20,7 @@ namespace WebApp.Controllers
 
         public IActionResult Index()
         {
-            var claimToken = HttpContext.User.Claims.FirstOrDefault(e => e.Type == "Token");
+            
 
             return View();
         }

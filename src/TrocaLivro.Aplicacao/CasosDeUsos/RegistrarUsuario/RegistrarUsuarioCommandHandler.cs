@@ -21,7 +21,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 
         public async Task<AppResponse<RegistrarUsuarioResultado>> Handle(RegistrarUsuarioCommand request, CancellationToken cancellationToken)
         {
-            var usuario = new Usuario(request.Nome, request.Usuario, request.Email);
+            var usuario = new Usuario(request.Nome, request.Usuario, request.Email, request.Sobrenome);
 
             if (!usuario.TaValido()) return new AppResponse<RegistrarUsuarioResultado>("Dados inválidos", false, usuario.ObterErros());
 

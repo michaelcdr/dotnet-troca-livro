@@ -1,0 +1,56 @@
+﻿:root {
+    --primary-color: #C01327;
+    --second-color: #F5F0EC;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F5F0EC;
+}
+
+a {
+    color: var(--second-color);
+    text-decoration: none;
+}
+
+    a.a-primary {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+/*helpers*/
+.logo-strong {
+    color: var(--primary-color);
+    font-weight: 400;
+}
+
+.spacer-header {
+    background-color: #343A40;
+    height: 200px;
+}
+
+.container-login,
+.container-register {
+    width: 100%;
+    position: absolute;
+    top: 80px;
+}
+
+    .container-register .card {
+        background-color: #fff;
+        max-width: calc(100% - 200px);
+        margin: 0px auto;
+        padding: 80px 80px !important;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }
+
+    .container-login .card {
+        background-color: #fff;
+        max-width: 456px;
+        margin: 0px auto;
+        padding: 80px 80px !important;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }

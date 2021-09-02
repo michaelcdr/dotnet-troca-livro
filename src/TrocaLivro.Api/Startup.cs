@@ -116,7 +116,8 @@ namespace TrocaLivro.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<Usuario> userManager, RoleManager<TipoUsuario> roleManager)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
+            UserManager<Usuario> userManager, RoleManager<TipoUsuario> roleManager, ApplicationDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -137,7 +138,7 @@ namespace TrocaLivro.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            var gerador = new GeradorDadosPadroesDaAplicacao(userManager, roleManager);
+            var gerador = new GeradorDadosPadroesDaAplicacao(userManager, roleManager,context);
             gerador.Gerar().GetAwaiter().GetResult();
 
             //app.UseStaticFiles();
