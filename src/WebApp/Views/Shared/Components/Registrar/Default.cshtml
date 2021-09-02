@@ -1,43 +1,75 @@
-﻿@model RegistrarModel
+﻿@model RegistrarUsuarioModel
 <h5>Registrar » <small>É novo na plataforma? Informe seus dados e registre-se já ;)</small></h5>
 
 <hr />
 
 <form asp-action="Registrar" id="form-registrar">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    @*@if (!string.IsNullOrEmpty(ViewBag.Mensagem))
+    { 
+        <div class="alert @((bool)ViewBag.Sucesso ? "alert-success" : "alert-danger") ">
+            <span>@ViewBag.Mensagem</span>
+            @if (!(bool)ViewBag.Sucesso)
+            {
+                <ul class="mb-0">
+                    @foreach (string erroOcorrido in (List<string>)ViewBag.Erros)
+                    {
+                        <li>@erroOcorrido</li>
+                    }
+                </ul>
+            }
+        </div>
+    }*@
+
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Usuario" class="control-label"></label>
                 <input asp-for="Usuario" class="form-control" />
                 <span asp-validation-for="Usuario" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Sobrenome" class="control-label"></label>
+                <input asp-for="Sobrenome" class="form-control" />
+                <span asp-validation-for="Sobrenome" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Senha" class="control-label"></label>
-                <input asp-for="Senha" class="form-control" />
+                <input asp-for="Senha" type="password" class="form-control" />
                 <span asp-validation-for="Senha" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="ConfirmarSenha" class="control-label"></label>
-                <input asp-for="ConfirmarSenha" class="form-control" />
+                <input asp-for="ConfirmarSenha" type="password" class="form-control" />
                 <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
             </div>
         </div>
 
         <div class="col-md-12">
-            <button class="btn btn-outline-dark" type="submit">
-                Não possui conta? Registre-se
+            <button class="btn btn-outline-dark btn-block" type="submit">
+                Registrar
             </button>
         </div>
     </div>

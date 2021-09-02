@@ -6,9 +6,9 @@ namespace WebApp.ViewComponents
 {
     public class LoginViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
-            return View(new LoginModel());
+            return View(new LogarUsuarioModel());
         }
     }
 }

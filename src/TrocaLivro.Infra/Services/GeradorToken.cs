@@ -7,11 +7,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using TrocaLivro.Api.Configuracoes;
-using TrocaLivro.Api.Interfaces;
 using TrocaLivro.Dominio.Entidades;
+using TrocaLivro.Dominio.Responses;
+using TrocaLivro.Infra.Configuracoes;
 
-namespace TrocaLivro.Api.Services
+namespace TrocaLivro.Infra.Services
 {
     public class GeradorToken : IGeradorToken
     {
@@ -24,11 +24,17 @@ namespace TrocaLivro.Api.Services
             _jwtConfig = optionsMonitor.CurrentValue;
         }
 
-        public async Task<string> Gerar(string login, Usuario usuarioEncontrado)
+        public async Task<AppResponse<TokenResultado>> Gerar(string login)
         {
+            Usuario usuario = await _userManager.FindByNameAsync(login);
+
+            if (usuario == null) return new AppResponse<TokenResultado>(false,$"O usuario {login} não foi encontrado.");
+
             var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
 
-            var rolesDoUsuario = await _userManager.GetRolesAsync(usuarioEncontrado);
+            var rolesDoUsuario = await _userManager.GetRolesAsync(usuario);
+
+            if (rolesDoUsuario == null || rolesDoUsuario.Count == 0) return new AppResponse<TokenResultado>(false, "Tipo de usuário não encontrado.");
 
             var role = rolesDoUsuario.First();
 
@@ -36,9 +42,9 @@ namespace TrocaLivro.Api.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("Id", usuarioEncontrado.Id),
+                    new Claim("Id", usuario.Id),
                     new Claim(ClaimTypes.Role, role),
-                    new Claim(JwtRegisteredClaimNames.Email, usuarioEncontrado.Email),
+                    new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
                     new Claim(JwtRegisteredClaimNames.Sub, login),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }),
@@ -50,7 +56,7 @@ namespace TrocaLivro.Api.Services
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = tokenHandler.WriteToken(token);
 
-            return jwtToken;
+            return new AppResponse<TokenResultado>(true, "Token gerado com sucesso", new TokenResultado(jwtToken));
         }
     }
 }

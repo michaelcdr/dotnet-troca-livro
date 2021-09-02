@@ -1,4 +1,4 @@
-﻿namespace TrocaLivro.Api.Configuracoes
+﻿namespace TrocaLivro.Infra.Configuracoes
 {
     public class JwtConfiguracao
     {

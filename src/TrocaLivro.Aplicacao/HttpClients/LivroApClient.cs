@@ -9,7 +9,7 @@ using TrocaLivro.Dominio.Helpers;
 using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
 
-namespace WebApp.HttpClients
+namespace TrocaLivro.Aplicacao.HttpClients
 {
     public class LivroApClient
     {

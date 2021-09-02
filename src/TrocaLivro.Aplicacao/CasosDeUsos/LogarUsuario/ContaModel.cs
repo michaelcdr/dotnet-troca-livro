@@ -2,7 +2,7 @@
 {
     public class ContaModel
     {
-        public RegistrarModel Registrar { get; set; }
-        public LoginModel Login { get; set; }
+        public RegistrarUsuarioModel Registrar { get; set; }
+        public LogarUsuarioModel Login { get; set; }
     }
 }

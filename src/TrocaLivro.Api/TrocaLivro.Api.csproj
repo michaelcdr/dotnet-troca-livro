@@ -22,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Interfaces\" />
     <Folder Include="Resources\img\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

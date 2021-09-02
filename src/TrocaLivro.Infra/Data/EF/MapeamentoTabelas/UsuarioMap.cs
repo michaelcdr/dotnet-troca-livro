@@ -11,6 +11,7 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
             builder.ToTable("Usuarios");
             builder.Property(p => p.Nome).HasMaxLength(150).IsRequired(true);
             builder.Property(p => p.Email).HasMaxLength(100).IsRequired(true);
+            builder.Property(p => p.Sobrenome).HasMaxLength(100).IsRequired(true);
         }
     }
 }

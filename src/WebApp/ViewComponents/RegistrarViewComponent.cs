@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 
 namespace WebApp.ViewComponents
 {
     public class RegistrarViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
-            return View(new RegistrarModel());
+            return View(new RegistrarUsuarioModel());
         }
     }
 }

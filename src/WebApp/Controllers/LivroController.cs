@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Extensions;
-using WebApp.HttpClients;
 using WebApp.Models;
 
 namespace WebApp.Controllers

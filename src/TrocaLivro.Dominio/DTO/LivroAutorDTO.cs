@@ -1,8 +1,8 @@
 ﻿namespace TrocaLivro.Dominio.DTO
 {
-    public class AutorDTO
+    public class LivroAutorDTO
     {
-        public int Id { get; set; }
+        public int AutorId { get; set; }
         public string Nome { get; set; }
     }
 }

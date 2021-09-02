@@ -1,10 +1,27 @@
-﻿@model LoginModel
+﻿@model LogarUsuarioModel
 <h5>Login » <small>Entre com suas credenciais abaixo</small></h5>
 
 <hr />
 
 <form asp-action="Logar" id="form-login">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Mensagem))
+    {
+        <div class="alert @((bool)ViewBag.Sucesso ? "alert-success" : "alert-danger") ">
+            <span>@ViewBag.Mensagem</span>
+            @if (!(bool)ViewBag.Sucesso)
+            {
+                <ul class="mb-0">
+                    @foreach (string erroOcorrido in (List<string>)ViewBag.Erros)
+                    {
+                        <li>@erroOcorrido</li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -17,7 +34,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label asp-for="Senha" class="control-label"></label>
-                <input asp-for="Senha" class="form-control" />
+                <input asp-for="Senha" type="password" class="form-control" />
                 <span asp-validation-for="Senha" class="text-danger"></span>
             </div>
         </div>

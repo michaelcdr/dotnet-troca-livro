@@ -97,3 +97,6 @@ body {
 .navbar .dropdown-menu {
     border: none; 
 }
+.input-validation-error {
+    border: 1px solid #dc3545;
+}

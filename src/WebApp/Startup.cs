@@ -1,10 +1,13 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using WebApp.HttpClients;
+using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Aplicacao.Mapping;
 
 namespace WebApp
 {
@@ -22,10 +25,21 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = "TrocaLivro";
+                    options.LoginPath = "/Usuario/Login";
+                });
+
+            services.AddHttpClient<LivroApClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddHttpClient<LivroApClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            services.AddHttpClient<ContaApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+
+
+            services.AddAutoMapper(typeof(UsuarioProfile));
 
             services.AddMvc().AddRazorOptions(options =>
             {
@@ -46,12 +60,14 @@ namespace WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
