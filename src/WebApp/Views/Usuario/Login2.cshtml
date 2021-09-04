@@ -1,67 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Login";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
+<div class="col-md-12">
+    <form class="form-signin mt-5" id="form-login" method="post" action="/login-post">
+        <div class="card p-3">
+            <h1 class="h4 mb-3 font-weight-normal text-center ">
+                Olá! Para continuar, digite o seu login e senha
+            </h1>
+            <label for="login" class="sr-only">Login</label>
+            <input type="text" id="login" name="login" class="form-control"
+                   placeholder="Informe seu login" required="" autofocus="">
 
-<!doctype html>
-<html lang="en">
-    <head>
-        <title>Book exchange - Sua plataforma para troca de livros</title>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control"
+                   placeholder="Informe sua senha" required="">
 
-        <!-- Meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-              rel="stylesheet">
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/css/login.css">
-        @*<link rel="stylesheet" href="/libs/sweetAlert2/sweetalert2.min.css">*@
-    </head>
-    <body>
-        <!-- cabeçalho e navegação -->
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/">
-                        <span class="logo-strong">B</span>ook<span class="logo-strong">E</span>xchange
-                    </a>
-                </div>
-            </nav>
-            <div class="spacer-header"></div>
-        </header>
-        <main>
-            <div class="container-login">
-                <div class="col-md-12">
-                    <form class="form-signin mt-5" id="form-login" method="post" action="/login-post">
-                        <div class="card p-3">
-                            <h1 class="h4 mb-3 font-weight-normal text-center ">
-                                Olá! Para continuar, digite o seu login e senha
-                            </h1>
-                            <label for="login" class="sr-only">Login</label>
-                            <input type="login" id="login" name="login" class="form-control"
-                                   placeholder="Informe seu login" required="" autofocus="">
-
-                            <label for="password" class="sr-only">Password</label>
-                            <input type="password" id="password" name="password" class="form-control"
-                                   placeholder="Informe sua senha" required="">
-
-                            <button class="btn btn-lg btn-block mt-3 btn-outline-dark"
-                                    data-loading-text="Processando, aguarde <i class='fa fa-circle-o-notch fa-spin'></i>"
-                                    type="submit">
-                                Entrar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </main>
-        <footer class="mt-3 text-light"></footer>
-    </body>
-</html>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            <button class="btn btn-lg btn-block mt-3 btn-outline-dark"
+                    data-loading-text="Processando, aguarde <i class='fa fa-circle-o-notch fa-spin'></i>"
+                    type="submit">
+                Entrar
+            </button>
+        </div>
+    </form>
+</div>

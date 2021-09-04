@@ -1,4 +1,4 @@
-﻿@model LivroCadastro
+﻿@model TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro.CadastrarLivroViewModel
 
 @{
     ViewData["Title"] = "Cadastrar";
@@ -19,14 +19,14 @@
 <form asp-action="Cadastrar" role="form" enctype="multipart/form-data" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Subtitulo" class="control-label"></label>
                 <input asp-for="Subtitulo" class="form-control" />
@@ -43,14 +43,18 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="AutorId" class="control-label">Autor</label>
-                <select asp-for="AutorId" multiple class="form-control" style="height:150px" asp-items="ViewBag.Autores"></select>
+                <select asp-for="AutorId" multiple class="form-control" style="height:150px" asp-items="ViewBag.Autores">
+                    
+                </select>
                 <span asp-validation-for="AutorId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EditoraId" class="control-label">Editora</label>
-                <select asp-for="EditoraId" class="form-control" asp-items="ViewBag.Editoras"></select>
+                <select asp-for="EditoraId" class="form-control" asp-items="ViewBag.Editoras">
+                    <option value="">Selecione...</option>
+                </select>
                 <span asp-validation-for="EditoraId" class="text-danger"></span>
             </div>
         </div>
@@ -58,7 +62,9 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label">Categoria</label>
-                <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.Categorias"></select>
+                <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.Categorias">
+                    <option value="">Selecione...</option>
+                </select>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
         </div>

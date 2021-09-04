@@ -23,7 +23,9 @@ a {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-
+.control-label{
+    margin-bottom:0px;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

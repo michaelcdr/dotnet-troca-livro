@@ -15,7 +15,8 @@
                     <a class="nav-link " asp-area="" asp-controller="Livro" asp-action="Cadastrar">Cadastrar livro</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categorias
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
@@ -51,16 +52,29 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar" aria-label="Pesquisar">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Pesquisar</button>
+                <input class="form-control" type="text" placeholder="Pesquisar" aria-label="Pesquisar">
             </form>
+            <div class="form-inline">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Login" asp-controller="Usuario">Login</a>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <div>
+                        Olá @User.Identity.Name 
+                        <a class="nav-link" asp-action="Logout" asp-controller="Usuario">[Sair]</a>
+                    </div>
+                }
+            </div>
         </div>
-
     </div>
 </nav>

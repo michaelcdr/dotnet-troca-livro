@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Entidades;
@@ -45,13 +46,21 @@ namespace WebApp.Controllers
             ViewBag.Editoras = new SelectList(editoras, "Id", "Nome");
             ViewBag.Autores = new SelectList(autores, "Id", "Nome");
             ViewBag.Categorias = new SelectList(categorias, "Id", "Nome");
-            return View(new LivroCadastro());
+            return View(new CadastrarLivroViewModel());
         }
 
         [HttpPost]
         public async Task<IActionResult> Cadastrar(LivroRequest request)
         {
             AppResponse<Livro> resposta = await api.CadastrarLivro(request);
+            
+            if (!resposta.Sucesso)
+            {
+                foreach (var item in resposta.Erros)
+                    ModelState.AddModelError(item.Propriedade, item.Mensagem);
+
+                return View();
+            }
 
             return RedirectToAction("Index","Home");
         }
