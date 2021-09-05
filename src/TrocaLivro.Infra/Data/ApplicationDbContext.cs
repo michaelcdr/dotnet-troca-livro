@@ -12,7 +12,7 @@ namespace TrocaLivro.Infra.Data
         public DbSet<Autor> Autores { get; set; }
         public DbSet<Editora> Editoras { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-
+        public DbSet<LivroDisponibilizadoParaTroca> LivrosDisponibilizadosParaTrocas { get; set; }
         public ApplicationDbContext() { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -34,11 +34,12 @@ namespace TrocaLivro.Infra.Data
             builder.Entity<Editora>().Ignore(e => e._erros);
             builder.Entity<Arquivo>().Ignore(e => e._erros);
             builder.Entity<Imagem>().Ignore(e => e._erros);
-            builder.Entity<Categoria>().Ignore(e => e._erros);
+            builder.Entity<Categoria>().Ignore(e => e._erros); 
 
             builder.ApplyConfiguration(new UsuarioMap());
             builder.ApplyConfiguration(new TipoUsuarioMap());
             builder.ApplyConfiguration(new LivroMap());
+            builder.ApplyConfiguration(new LivroDisponibilizadoParaTrocaMap());
             builder.ApplyConfiguration(new AutorMap());
             builder.ApplyConfiguration(new EditoraMap());
             builder.ApplyConfiguration(new LivroAutorMap());

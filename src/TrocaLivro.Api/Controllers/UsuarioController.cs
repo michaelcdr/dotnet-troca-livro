@@ -7,7 +7,9 @@ using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Api.Controllers
 {
-    [ApiController, Route("api/[controller]")]
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/Usuario")]
     public class UsuarioController : Controller
     {
         private readonly string erroLogar = "Não foi posivel autenticar.";

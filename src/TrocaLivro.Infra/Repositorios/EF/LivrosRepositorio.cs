@@ -38,12 +38,25 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Include(e => e.Editora).OrderByDescending(e => e.DataCadastro).ToListAsync();
         }
 
-        public async Task<List<Livro>> ObterUltimosLivrosCadastrados(int quantidade)
+        public async Task<int> ObterTotal()
         {
-            return await ApplicationDbContext.Livros
-                .Include(e => e.Autores).ThenInclude(e => e.Autor)
-                .Include(e => e.Imagens)
-                .Include(e => e.Editora).OrderByDescending(e => e.DataCadastro).Take(quantidade).ToListAsync();
+            return await ApplicationDbContext.Livros.AsNoTracking().CountAsync();
+        }
+
+        public async Task<int> ObterTotalDeTrocas()
+        {
+            return await ApplicationDbContext.LivrosDisponibilizadosParaTrocas.AsNoTracking()
+                .Where(e => e.Status == Dominio.Enums.StatusTroca.TrocaConcluida)
+                .Select(e => e.Id)
+                .CountAsync();
+        }
+
+        public async Task<int> ObterTotalLivrosDisponiveisParaTroca()
+        {
+            return await ApplicationDbContext.LivrosDisponibilizadosParaTrocas.AsNoTracking()
+               .Where(e => e.Status == Dominio.Enums.StatusTroca.Disponibilizado)
+               .Select(e => e.Id)
+               .CountAsync();
         }
 
         public async Task<List<Livro>> PesquisarLivrosComAutores(Expression<Func<Livro, bool>> predicado)

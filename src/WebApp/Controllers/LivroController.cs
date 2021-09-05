@@ -24,7 +24,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> _ListAdicionadosRecentemente()
         {
             var claimToken = HttpContext.User.Claims.FirstOrDefault(e => e.Type == "Token");
-            List<LivroDTO> livrosDTO = await api.ObterListaLivros(string.Empty);
+            List<LivroDTO> livrosDTO = await api.ObterLivrosAdicionadosRecentemente();
             List<LivroCard> cards = livrosDTO.Select(livroDto => livroDto.ToModel()).ToList();
             return PartialView(cards);
         }

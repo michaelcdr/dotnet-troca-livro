@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +14,7 @@ namespace WebApp
 {
     public class Startup
     {
-        private const string API_URL = "https://localhost:5001/api/";
+        private const string API_URL = "https://localhost:5001/api/v1.0/";
 
         public Startup(IConfiguration configuration)
         {
@@ -36,18 +35,9 @@ namespace WebApp
                     options.LoginPath = "/Usuario/Login";
                     options.Events = new CookieAuthenticationEvents
                     {
-                        OnSignedIn = async context =>
-                        {
-                            await Task.CompletedTask;
-                        },
-                        OnSigningIn = async context =>
-                        {
-                            await Task.CompletedTask;
-                        },
-                        OnValidatePrincipal = async context =>
-                        {
-                            await Task.CompletedTask;
-                        }
+                        OnSignedIn = async context => { await Task.CompletedTask; },
+                        OnSigningIn = async context => { await Task.CompletedTask; },
+                        OnValidatePrincipal = async context => { await Task.CompletedTask; }
                     };
                 });
 

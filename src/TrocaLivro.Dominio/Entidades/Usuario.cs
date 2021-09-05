@@ -8,7 +8,7 @@ namespace TrocaLivro.Dominio.Entidades
         public string Nome { get; private set; }
         public string Sobrenome { get; private set; }
         private List<Notificacao> _erros { get; set; }
-
+        public List<LivroDisponibilizadoParaTroca> Trocas { get; set; }
         public Usuario(string nome, string userName, string email, string sobrenome)
         {
             this.Nome = nome;

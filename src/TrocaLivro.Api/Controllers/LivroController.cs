@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Requests;
@@ -10,7 +11,9 @@ using TrocaLivro.Dominio.Services;
 
 namespace TrocaLivro.Api.Controllers
 {
-    [ApiController, Route("api/[controller]")]
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/livros")]
     public class LivroController : Controller
     {
         private readonly ILivroService _livroService;
@@ -30,6 +33,16 @@ namespace TrocaLivro.Api.Controllers
         public async Task<IActionResult> Get([FromQuery] ObterTodosLivrosRequest request)
         {
             AppResponse<IList<LivroDTO>> resposta = await _livroService.ObterTodos(request);
+
+            if (!resposta.Sucesso) return BadRequest(resposta.Erros);
+
+            return Ok(resposta.Dados);
+        }
+
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> Dashboard([FromQuery] ObterDadosDashboardQuery query)
+        {
+            AppResponse<ObterDadosDashboardResultado> resposta = await _mediator.Send(query);
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
@@ -57,9 +70,9 @@ namespace TrocaLivro.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost,DisableRequestSizeLimit]
-        public async Task<IActionResult> Post([FromForm] CadastrarLivroCommand command)
+        public async Task<IActionResult> Post([FromForm] CadastrarLivroCommand comando)
         {
-            AppResponse<CadastrarLivroResultado> resultado = await _mediator.Send(command);
+            AppResponse<CadastrarLivroResultado> resultado = await _mediator.Send(comando);
 
             if (!resultado.Sucesso) return BadRequest(resultado);
 

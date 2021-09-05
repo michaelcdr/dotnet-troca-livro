@@ -11,6 +11,8 @@ namespace TrocaLivro.Dominio.Repositorios
         Task<List<Livro>> PesquisarLivrosComAutores(Expression<Func<Livro, bool>> predicado);
         Task<List<Livro>> ObterLivrosComAutores();
         Task<Livro> Obter(int id);
-        Task<List<Livro>> ObterUltimosLivrosCadastrados(int quantidade);
+        Task<int> ObterTotal();
+        Task<int> ObterTotalDeTrocas();
+        Task<int> ObterTotalLivrosDisponiveisParaTroca();
     }
 }

@@ -9,8 +9,9 @@ using TrocaLivro.Dominio.Services;
 
 namespace TrocaLivro.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class EditoraController : Controller
     {
         private IEditoraService _editoraService;

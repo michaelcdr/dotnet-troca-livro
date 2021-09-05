@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.DTO;
-using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Helpers;
 using TrocaLivro.Dominio.Responses;
 
@@ -16,6 +15,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
     {
         private readonly HttpClient httpClient;
         private readonly IMapper mapper;
+        private const string APICONTROLLER_LIVRO = "livros";
 
         public LivroApClient(HttpClient httpClient, IMapper mapper)
         {
@@ -23,9 +23,21 @@ namespace TrocaLivro.Aplicacao.HttpClients
             this.mapper = mapper;
         }
 
-        public Task<IndexViewModel> ObterInformacoesHome()
+        public async Task<IndexViewModel> ObterInformacoesHome()
         {
-            throw new System.NotImplementedException();
+            var resposta = await httpClient.GetAsync(APICONTROLLER_LIVRO);
+            resposta.EnsureSuccessStatusCode();
+
+            return new IndexViewModel();
+        }
+
+        public async Task<List<LivroDTO>> ObterLivrosAdicionadosRecentemente()
+        {
+            var resposta = await httpClient.GetAsync(APICONTROLLER_LIVRO);
+            resposta.EnsureSuccessStatusCode();
+
+            var livros = await resposta.Content.ReadFromJsonAsync<List<LivroDTO>>();
+            return livros;
         }
 
         private HttpContent CriarMultipartFormDataParaLivro(CadastrarLivroCommand requisicao)
@@ -58,7 +70,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
         {
             CadastrarLivroCommand comando = mapper.Map<CadastrarLivroCommand>(request);
             HttpContent content = CriarMultipartFormDataParaLivro(comando);
-            HttpResponseMessage resposta = await httpClient.PostAsync("livro", content);
+            HttpResponseMessage resposta = await httpClient.PostAsync(APICONTROLLER_LIVRO, content);
 
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<CadastrarLivroResultado>>();
             return conteudoResposta;
@@ -66,7 +78,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<List<LivroDTO>> ObterListaLivros(string termoPesquisa)
         {
-            var resposta = await httpClient.GetAsync($"Livro?TermoPesquisa={termoPesquisa}");
+            var resposta = await httpClient.GetAsync($"${APICONTROLLER_LIVRO}?TermoPesquisa={termoPesquisa}");
             resposta.EnsureSuccessStatusCode();
 
             var livros = await resposta.Content.ReadFromJsonAsync<List<LivroDTO>>();
@@ -84,7 +96,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<LivroDTO> ObterLivros(int id)
         {
-            HttpResponseMessage resposta = await httpClient.GetAsync($"Livro/{id}");
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/{id}");
             resposta.EnsureSuccessStatusCode();
 
             LivroDTO livros = await resposta.Content.ReadFromJsonAsync<LivroDTO>();

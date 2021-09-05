@@ -22,6 +22,7 @@ namespace TrocaLivro.Dominio.Entidades
         public string Tags { get; set; }
         public List<Imagem> Imagens { get; set; }
         public List<Arquivo> Arquivos { get; set; }
+        public List<LivroDisponibilizadoParaTroca> Trocas { get; set; }
         public Categoria Categoria { get; set; }
         public int CategoriaId { get; set; }
 
@@ -30,6 +31,7 @@ namespace TrocaLivro.Dominio.Entidades
             this.Autores = new List<LivroAutor>();
             this.Imagens = new List<Imagem>();
             this.Arquivos = new List<Arquivo>();
+            this.Trocas = new List<LivroDisponibilizadoParaTroca>();
         }
 
         public Livro(
@@ -41,6 +43,7 @@ namespace TrocaLivro.Dominio.Entidades
         {
             this.Imagens = new List<Imagem>();
             this.Arquivos = new List<Arquivo>();
+            this.Trocas = new List<LivroDisponibilizadoParaTroca>();
 
             CategoriaId = categoriaId;
             ISBN = iSBN;

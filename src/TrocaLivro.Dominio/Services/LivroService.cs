@@ -25,7 +25,6 @@ namespace TrocaLivro.Dominio.Services
             this.uow = unitOfWork;
             this.environment = environment;
         }
-         
 
         public async Task<AppResponse<LivroDTO>> Obter(int livroId)
         {
@@ -42,7 +41,7 @@ namespace TrocaLivro.Dominio.Services
                 livros = await uow.Livros.PesquisarLivrosComAutores(e => e.Titulo.Contains(request.TermoPesquisa));
             else
                 livros = await uow.Livros.ObterLivrosComAutores();
-
+            
             return new AppResponse<IList<LivroDTO>>(true, "Livros obtidos com sucesso.", livros.Select(e => e.ToDTO()).ToList());
         }
     }
