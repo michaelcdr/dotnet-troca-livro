@@ -21,7 +21,7 @@ namespace WebApp.Controllers
             this.api = livroApClient;
         } 
 
-        public async Task<IActionResult> _List()
+        public async Task<IActionResult> _ListAdicionadosRecentemente()
         {
             var claimToken = HttpContext.User.Claims.FirstOrDefault(e => e.Type == "Token");
             List<LivroDTO> livrosDTO = await api.ObterListaLivros(string.Empty);

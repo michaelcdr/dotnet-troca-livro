@@ -4,8 +4,10 @@
     @foreach (var livroDTO in Model)
     {
         <div class="flex-fill col-md-3 mb-3">
-            <div class="card " >
-                <img src="@livroDTO.Capa" class="card-img-top" alt="...">
+            <div class="card" >
+                <div class="img-container">
+                    <img src="@livroDTO.Capa" class="" alt="...">
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">@livroDTO.Titulo</h5>
                     <p class="card-text">@livroDTO.Descricao</p>

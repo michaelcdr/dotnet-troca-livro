@@ -38,6 +38,14 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Include(e => e.Editora).OrderByDescending(e => e.DataCadastro).ToListAsync();
         }
 
+        public async Task<List<Livro>> ObterUltimosLivrosCadastrados(int quantidade)
+        {
+            return await ApplicationDbContext.Livros
+                .Include(e => e.Autores).ThenInclude(e => e.Autor)
+                .Include(e => e.Imagens)
+                .Include(e => e.Editora).OrderByDescending(e => e.DataCadastro).Take(quantidade).ToListAsync();
+        }
+
         public async Task<List<Livro>> PesquisarLivrosComAutores(Expression<Func<Livro, bool>> predicado)
         {
             return await ApplicationDbContext.Livros.Include(e => e.Autores).ThenInclude(e => e.Autor)

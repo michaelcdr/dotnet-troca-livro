@@ -1,19 +1,21 @@
-﻿@{
+﻿@model IndexViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Lista de livros</h1>
-</div>
+<h3 class="text-center">
+    <strong>@Model.QtdLivrosDisponiveis</strong> livros disponiveis
+</h3>
 
-<div id="livros"></div>
+<div id="livros-adicionados-recentemente" class="pt-2"></div>
+
+<h3 class="text-center">
+    <strong>@Model.QtdLivrosTrocados</strong> livros trocados
+</h3>
+
+<div id="livros-adicionados-recentemente" class="pt-2"></div>
 
 @section Scripts{
-    <script>
-        $(function () {
-            $.get("/Livro/_List", function (data) {
-                $("#livros").html(data);
-            })
-        })
-    </script>
+    <script src="~/js/livro/home.js"></script>
 }

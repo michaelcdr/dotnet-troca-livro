@@ -5,24 +5,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Aplicacao.ViewModels;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly LivroApClient _api;
+        public HomeController(LivroApClient api)
         {
-            _logger = logger;
+            this._api = api;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
+            IndexViewModel model = await _api.ObterInformacoesHome();
 
-            return View();
+            return View(model);
         }
 
         public IActionResult Privacy()

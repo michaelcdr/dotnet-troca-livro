@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Helpers;
@@ -20,6 +21,11 @@ namespace TrocaLivro.Aplicacao.HttpClients
         {
             this.httpClient = httpClient;
             this.mapper = mapper;
+        }
+
+        public Task<IndexViewModel> ObterInformacoesHome()
+        {
+            throw new System.NotImplementedException();
         }
 
         private HttpContent CriarMultipartFormDataParaLivro(CadastrarLivroCommand requisicao)
