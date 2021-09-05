@@ -9,7 +9,6 @@ namespace TrocaLivro.Dominio.Services
 {
     public interface ILivroService
     {
-        Task<AppResponse<LivroDTO>> Criar(LivroRequest request);
         Task<AppResponse<IList<LivroDTO>>> ObterTodos(ObterTodosLivrosRequest request);
         Task<AppResponse<LivroDTO>> Obter(int livroId);
     }

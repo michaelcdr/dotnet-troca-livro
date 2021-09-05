@@ -1,24 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Dominio.DTO;
-using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Dominio.Services;
 
 namespace TrocaLivro.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Route("api/[controller]")]
     public class LivroController : Controller
     {
         private readonly ILivroService _livroService;
-
-        public LivroController(ILivroService livroService)
+        private IMediator _mediator;
+        public LivroController(IMediator mediator, ILivroService livroService)
         {
             this._livroService = livroService;
+            this._mediator = mediator;
         }
 
         /// <summary>
@@ -57,15 +57,15 @@ namespace TrocaLivro.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost,DisableRequestSizeLimit]
-        public async Task<IActionResult> Post([FromForm] LivroRequest request)
+        public async Task<IActionResult> Post([FromForm] CadastrarLivroCommand command)
         {
-            AppResponse<LivroDTO> resposta = await _livroService.Criar(request);
+            AppResponse<CadastrarLivroResultado> resultado = await _mediator.Send(command);
 
-            if (!resposta.Sucesso) return BadRequest(resposta);
+            if (!resultado.Sucesso) return BadRequest(resultado);
 
-            var uri = Url.Action("Get", new { id = resposta.Dados.Id });
+            var uri = Url.Action("Get", new { id = resultado.Dados.Id });
 
-            return Ok(resposta);
+            return Ok(resultado);
         }
     }
 }

@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Dominio.DTO;
-using TrocaLivro.Dominio.Entidades;
-using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Extensions;
+using WebApp.Filtros;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -38,30 +36,32 @@ namespace WebApp.Controllers
             return View(model);
         }
 
+        [AuthorizeCustomizado]
         public async Task<IActionResult> Cadastrar()
         {
-            List<EditoraDTO> editoras = await api.ObterEditoras();
-            List<AutorDTO> autores = await api.ObterAutores();
-            List<CategoriaDTO> categorias = await api.ObterCategorias();
-            ViewBag.Editoras = new SelectList(editoras, "Id", "Nome");
-            ViewBag.Autores = new SelectList(autores, "Id", "Nome");
-            ViewBag.Categorias = new SelectList(categorias, "Id", "Nome");
-            return View(new CadastrarLivroViewModel());
+            return View(new CadastrarLivroViewModel(
+                await api.ObterEditoras(),
+                await api.ObterAutores(),
+                await api.ObterCategorias()
+            ));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Cadastrar(LivroRequest request)
+        [AuthorizeCustomizado, HttpPost]
+        public async Task<IActionResult> Cadastrar(CadastrarLivroViewModel model)
         {
-            AppResponse<Livro> resposta = await api.CadastrarLivro(request);
+            model.Usuario = User.Identity.Name;
+
+            AppResponse<CadastrarLivroResultado> resposta = await api.CadastrarLivro(model);
             
             if (!resposta.Sucesso)
             {
-                foreach (var item in resposta.Erros)
-                    ModelState.AddModelError(item.Propriedade, item.Mensagem);
+                ModelState.AddModelError("", string.Join("<br/>", resposta.Erros.Select(e =>e.Mensagem).ToList()));
 
-                return View();
+                model.Autores = await api.ObterAutores();
+                model.Editoras = await api.ObterEditoras();
+                model.Categorias = await api.ObterCategorias();
+                return View(model);
             }
-
             return RedirectToAction("Index","Home");
         }
     }

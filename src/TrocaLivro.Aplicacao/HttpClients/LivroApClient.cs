@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Helpers;
-using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.HttpClients
@@ -14,13 +14,15 @@ namespace TrocaLivro.Aplicacao.HttpClients
     public class LivroApClient
     {
         private readonly HttpClient httpClient;
+        private readonly IMapper mapper;
 
-        public LivroApClient(HttpClient httpClient)
+        public LivroApClient(HttpClient httpClient, IMapper mapper)
         {
             this.httpClient = httpClient;
+            this.mapper = mapper;
         }
 
-        private HttpContent CriarMultipartFormDataParaLivro(LivroRequest requisicao)
+        private HttpContent CriarMultipartFormDataParaLivro(CadastrarLivroCommand requisicao)
         {
             var content = new MultipartFormDataContent();
             content.Add(new StringContent(requisicao.Titulo), "\"titulo\"");
@@ -28,6 +30,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
             content.Add(new StringContent(requisicao.Descricao), BotarAspas("descricao"));
             content.Add(new StringContent(requisicao.ISBN), BotarAspas("isbn"));
             content.Add(new StringContent(requisicao.CategoriaId.ToString()), BotarAspas("categoriaId"));
+
             foreach (var item in requisicao.AutorId)
                 content.Add(new StringContent(item.ToString()), BotarAspas("autorId"));
 
@@ -45,15 +48,13 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return content;
         }
 
-       
-
-        public async Task<AppResponse<Livro>> CadastrarLivro(LivroRequest request)
+        public async Task<AppResponse<CadastrarLivroResultado>> CadastrarLivro(CadastrarLivroViewModel request)
         {
-            HttpContent content = CriarMultipartFormDataParaLivro(request);
-
+            CadastrarLivroCommand comando = mapper.Map<CadastrarLivroCommand>(request);
+            HttpContent content = CriarMultipartFormDataParaLivro(comando);
             HttpResponseMessage resposta = await httpClient.PostAsync("livro", content);
 
-            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<Livro>>();
+            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<CadastrarLivroResultado>>();
             return conteudoResposta;
         }
 
@@ -102,8 +103,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return dados;
         }
 
-        private string BotarAspas(string valor) => $"\"{valor}\"";
-
-        
+        private string BotarAspas(string valor) => $"\"{valor}\"";        
     }
 }

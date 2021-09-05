@@ -25,40 +25,7 @@ namespace TrocaLivro.Dominio.Services
             this.uow = unitOfWork;
             this.environment = environment;
         }
-
-        public async Task<AppResponse<LivroDTO>> Criar(LivroRequest request)
-        {
-            Livro livro = request.ToLivro();
-            livro.DataCadastro = DateTime.Now;
-            livro.CadastradoPor = "michael";
-
-            if (!livro.TaValido())
-                return new AppResponse<LivroDTO>( "Livro criado com sucesso.", false, livro.ObterErros());
-
-            uow.Livros.Add(livro);
-            await uow.CommitAsync();
-
-            Livro livroCriado = await uow.Livros.Obter(livro.Id);
-            
-            string diretorio = Path.Combine(environment.WebRootPath, "img", "livro");
-
-            var imagens = new Imagem();
-
-            if (request.Imagens.Count > 0) 
-            {
-                foreach (IFormFile imagemFormFile in request.Imagens)
-                {
-                    string extensao = Path.GetExtension(imagemFormFile.FileName);
-                    string novoNome = Guid.NewGuid() + extensao;
-                    string diretorioImg = Path.Combine(diretorio, imagemFormFile.FileName);
-                    string diretorioImgComNomeNovo = Path.Combine(diretorio, novoNome);
-
-                    livro.AdicionarImagem(new Imagem(livroCriado.Id, FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
-                }
-                await uow.CommitAsync();
-            }
-            return new AppResponse<LivroDTO>(true, "Livro criado com sucesso.", livroCriado.ToDTO());
-        }
+         
 
         public async Task<AppResponse<LivroDTO>> Obter(int livroId)
         {

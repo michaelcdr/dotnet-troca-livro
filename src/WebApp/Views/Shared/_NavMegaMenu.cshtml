@@ -11,9 +11,12 @@
                 <li class="nav-item">
                     <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " asp-area="" asp-controller="Livro" asp-action="Cadastrar">Cadastrar livro</a>
-                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link " asp-area="" asp-controller="Livro" asp-action="Cadastrar">Cadastrar livro</a>
+                    </li>
+                }
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,7 +74,7 @@
                 {
                     <div>
                         Olá @User.Identity.Name 
-                        <a class="nav-link" asp-action="Logout" asp-controller="Usuario">[Sair]</a>
+                        <a class="nav-link" asp-action="Sair" asp-controller="Usuario">[Sair]</a>
                     </div>
                 }
             </div>

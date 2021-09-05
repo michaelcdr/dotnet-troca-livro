@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Configuracoes\" />
     <Folder Include="wwwroot\img\usuario\" />
   </ItemGroup>
 

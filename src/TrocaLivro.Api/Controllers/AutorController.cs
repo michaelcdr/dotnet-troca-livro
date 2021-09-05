@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrocaLivro.Dominio.DTO;
@@ -44,6 +45,12 @@ namespace TrocaLivro.Api.Controllers
             var uri = Url.Action("Get", new { id = resposta.Dados.Id });
 
             return Created(uri, resposta);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] AutorRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using TrocaLivro.Api.Filtros;
 using TrocaLivro.Aplicacao.Mapping;
 using TrocaLivro.Aplicacao.Services;
 using TrocaLivro.Dominio.Entidades;
@@ -57,7 +58,9 @@ namespace TrocaLivro.Api
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddMvc();
+            services.AddMvc(option => {
+                option.Filters.Add(typeof(ErrorResponseFilter));
+            });
 
             services.AddAuthentication(options =>
             {
@@ -136,7 +139,7 @@ namespace TrocaLivro.Api
               .AllowCredentials()); // allow credentials
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             var gerador = new GeradorDadosPadroesDaAplicacao(userManager, roleManager,context);
             gerador.Gerar().GetAwaiter().GetResult();

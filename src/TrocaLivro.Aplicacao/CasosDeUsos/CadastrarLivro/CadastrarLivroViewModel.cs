@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TrocaLivro.Dominio.DTO;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 {
@@ -20,7 +22,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 
         [Display(Name = "ISBN")]
         [Required(ErrorMessage = "Informe o campo {0}")]
-        public int? ISBN { get; set; }
+        public string ISBN { get; set; }
 
         [Display(Name = "Ano")]
         [Required(ErrorMessage = "Informe o campo {0}")]
@@ -37,5 +39,23 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
         [Display(Name = "Categoria")]
         [Required(ErrorMessage = "Informe o campo {0}")]
         public int? CategoriaId { get; set; }
+
+        public List<IFormFile> Imagens { get; set; }
+
+        public List<AutorDTO> Autores { get; set; }
+        public List<EditoraDTO> Editoras { get; set; }
+        public List<CategoriaDTO> Categorias { get; set; }
+        public string Usuario { get; set; }
+
+        public CadastrarLivroViewModel()
+        {
+
+        }
+        public CadastrarLivroViewModel(List<EditoraDTO> editoras, List<AutorDTO> autores, List<CategoriaDTO> categorias)
+        {
+            this.Editoras = editoras;
+            this.Autores = autores;
+            this.Categorias = categorias;
+        }
     }
 }

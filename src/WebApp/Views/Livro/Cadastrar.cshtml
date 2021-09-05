@@ -3,15 +3,7 @@
 @{
     ViewData["Title"] = "Cadastrar";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<style>
-    .img-livro{
-        max-width:100px;
-    }
-    #imagens-container .item{
-        display:inline-block;
-    }
-</style>
+} 
 <h1>Cadastrar » <small>Livro</small></h1>
 
 <hr />
@@ -43,8 +35,11 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="AutorId" class="control-label">Autor</label>
-                <select asp-for="AutorId" multiple class="form-control" style="height:150px" asp-items="ViewBag.Autores">
-                    
+                <select asp-for="AutorId" multiple class="form-control" style="height:150px"  >
+                    @foreach (var item in Model.Autores)
+                    {
+                        <option value="@item.Id">@item.Nome</option>
+                    }
                 </select>
                 <span asp-validation-for="AutorId" class="text-danger"></span>
             </div>
@@ -52,8 +47,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EditoraId" class="control-label">Editora</label>
-                <select asp-for="EditoraId" class="form-control" asp-items="ViewBag.Editoras">
+                <select asp-for="EditoraId" class="form-control"  >
                     <option value="">Selecione...</option>
+                    @foreach (var item in Model.Editoras)
+                    {
+                        <option value="@item.Id">@item.Nome</option>
+                    }
                 </select>
                 <span asp-validation-for="EditoraId" class="text-danger"></span>
             </div>
@@ -62,8 +61,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label">Categoria</label>
-                <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.Categorias">
+                <select asp-for="CategoriaId" class="form-control"  >
                     <option value="">Selecione...</option>
+                    @foreach (var item in Model.Categorias)
+                    {
+                        <option value="@item.Id">@item.Nome</option>
+                    }
                 </select>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
@@ -97,9 +100,7 @@
                     Adicionar imagens
                     <input id="Imagens" name="Imagens" type="file" multiple class="d-none" accept="image/x-png" />
                 </label>
-                <div id="imagens-container">
-
-                </div>
+                <div id="imagens-container"></div>
             </fieldset> <hr />
         </div>
 

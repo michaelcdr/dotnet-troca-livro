@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -31,7 +32,7 @@ namespace WebApp.Controllers
             return View();
         }
 
-        public IActionResult Index() => View(new ContaModel());
+        
 
         public IActionResult _Logar() => View(new LogarUsuarioModel()); 
 
@@ -52,13 +53,22 @@ namespace WebApp.Controllers
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, model.Usuario),
+                        new Claim(ClaimTypes.NameIdentifier, model.Usuario),
                         new Claim("Token", resultado.Dados.Token)
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
+                    var authProp = new AuthenticationProperties
+                    {
+                        IssuedUtc = DateTime.UtcNow,
+                        //configurar expiração do cookie para um valor menor que a expiração do token
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(25),
+                        IsPersistent = true
+                    };
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProp);
                     return RedirectToAction("Index","Home");
                 }
             }
@@ -92,6 +102,12 @@ namespace WebApp.Controllers
         public IActionResult AprovarTrocas()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Sair()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
