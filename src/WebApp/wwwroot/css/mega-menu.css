@@ -15,11 +15,11 @@
         }
 
         /* makes the dropdown full width  */
-        .navbar .dropdown {
+        .navbar .dropdown.teste-mega-dropdown {
             position: static;
         }
 
-        .navbar .dropdown-menu {
+        .navbar .dropdown-menu.teste-mega-dropdown {
             /*width: 100%;*/
             left: 0;
             right: 0;
@@ -28,11 +28,12 @@
         }
 
         /* shows the dropdown menu on hover */
-        .navbar .dropdown:hover .dropdown-menu, .navbar .dropdown .dropdown-menu:hover {
+        .navbar .dropdown.teste-mega-dropdown:hover .dropdown-menu,
+        .navbar .dropdown.teste-mega-dropdown .dropdown-menu:hover {
             display: block !important;
         }
 
-        .navbar .dropdown-menu {
+        .navbar .dropdown-menu.teste-mega-dropdown {
             border-radius: 0px;
             border-top: 1px solid rgba(0,0,0,.15);
             opacity: 0.99;

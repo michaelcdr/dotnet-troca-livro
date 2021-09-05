@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
 using System.Linq;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Dominio.Entidades;
 
@@ -11,6 +11,7 @@ namespace TrocaLivro.Aplicacao.Mapping
         public LivroProfile()
         {
             CreateMap<CadastrarLivroViewModel, CadastrarLivroCommand>();
+            
             CreateMap<CadastrarLivroCommand, Livro>()
                 .ForMember(dest => dest.Autores, 
                            opt => opt.MapFrom(
@@ -20,6 +21,8 @@ namespace TrocaLivro.Aplicacao.Mapping
 
             CreateMap<Livro, CadastrarLivroResultado>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<ObterDadosDashboardResultado, ObterDadosDashboardViewModel>();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.DTO;
@@ -15,6 +16,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
     {
         private readonly HttpClient httpClient;
         private readonly IMapper mapper;
+
         private const string APICONTROLLER_LIVRO = "livros";
 
         public LivroApClient(HttpClient httpClient, IMapper mapper)
@@ -23,12 +25,15 @@ namespace TrocaLivro.Aplicacao.HttpClients
             this.mapper = mapper;
         }
 
-        public async Task<IndexViewModel> ObterInformacoesHome()
+        public async Task<ObterDadosDashboardViewModel> ObterInformacoesHome()
         {
-            var resposta = await httpClient.GetAsync(APICONTROLLER_LIVRO);
+            var resposta = await httpClient.GetAsync(string.Concat(APICONTROLLER_LIVRO,"/dashboard"));
             resposta.EnsureSuccessStatusCode();
 
-            return new IndexViewModel();
+            var dashboard = await resposta.Content.ReadFromJsonAsync<ObterDadosDashboardResultado>();
+            ObterDadosDashboardViewModel indexViewModel = mapper.Map<ObterDadosDashboardViewModel>(dashboard);
+
+            return indexViewModel;
         }
 
         public async Task<List<LivroDTO>> ObterLivrosAdicionadosRecentemente()
@@ -68,7 +73,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<AppResponse<CadastrarLivroResultado>> CadastrarLivro(CadastrarLivroViewModel request)
         {
-            CadastrarLivroCommand comando = mapper.Map<CadastrarLivroCommand>(request);
+            CadastrarLivroCommand comando = mapper.Map<CadastrarLivroCommand>(request); 
             HttpContent content = CriarMultipartFormDataParaLivro(comando);
             HttpResponseMessage resposta = await httpClient.PostAsync(APICONTROLLER_LIVRO, content);
 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
-using TrocaLivro.Aplicacao.ViewModels;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -17,7 +17,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IndexViewModel model = await _api.ObterInformacoesHome();
+            ObterDadosDashboardViewModel model = await _api.ObterInformacoesHome();
 
             return View(model);
         }

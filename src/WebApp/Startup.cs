@@ -45,6 +45,7 @@ namespace WebApp
             services.AddHttpClient<LivroApClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddAutoMapper(typeof(UsuarioProfile));
+            services.AddAutoMapper(typeof(LivroProfile));
 
             services.AddMvc().AddRazorOptions(options =>
             {

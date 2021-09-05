@@ -104,6 +104,7 @@ namespace TrocaLivro.Api
             services.AddMediatR(assembly);
             
             services.AddAutoMapper(typeof(UsuarioProfile));
+            services.AddAutoMapper(typeof(LivroProfile));
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUsuariosRepositorio, UsuariosRepositorio>();
