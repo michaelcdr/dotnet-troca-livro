@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using TrocaLivro.Dominio.Helpers;
 using TrocaLivro.Dominio;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 {
@@ -54,6 +55,11 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 
             if (commando.Imagens != null && commando.Imagens.Count > 0)
             {
+                bool contemImagensNaoJpg = commando.Imagens.Any(e => Path.GetExtension(e.FileName).ToLower() != ".jpg");
+                
+                if (contemImagensNaoJpg)
+                    return new AppResponse<CadastrarLivroResultado>(false, "As imagens devem estar no formato JPG");
+
                 foreach (IFormFile imagemFormFile in commando.Imagens)
                 {
                     //string extensao = Path.GetExtension(imagemFormFile.FileName);
