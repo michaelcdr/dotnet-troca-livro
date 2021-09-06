@@ -11,6 +11,8 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using TrocaLivro.Dominio.Helpers;
+using TrocaLivro.Dominio;
+using System.Collections.Generic;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 {
@@ -37,6 +39,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
             if (!livro.TaValido())
                 return new AppResponse<CadastrarLivroResultado>("Erro.", false, livro.ObterErros());
 
+            if (await uow.Livros.VerificarExistencia(livro.ISBN)) 
+                return new AppResponse<CadastrarLivroResultado>("Não foi possível cadastrar o livro.", false, 
+                    new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
+
             uow.Livros.Add(livro);
             await uow.CommitAsync();
 
@@ -50,11 +56,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
             {
                 foreach (IFormFile imagemFormFile in commando.Imagens)
                 {
-                    ///string extensao = Path.GetExtension(imagemFormFile.FileName);
+                    //string extensao = Path.GetExtension(imagemFormFile.FileName);
                     //string novoNome = Guid.NewGuid() + extensao;
                     //string diretorioImg = Path.Combine(diretorio, imagemFormFile.FileName);
                     //string diretorioImgComNomeNovo = Path.Combine(diretorio, novoNome);
-
                     livro.AdicionarImagem(new Imagem(livroCriado.Id, FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
                 }
                 await uow.CommitAsync();

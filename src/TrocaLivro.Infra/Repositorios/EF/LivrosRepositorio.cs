@@ -66,5 +66,10 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Where(predicado).OrderByDescending(e => e.DataCadastro)
                 .ToListAsync();
         }
+
+        public async Task<bool> VerificarExistencia(string iSBN)
+        {
+            return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN);
+        }
     }
 }

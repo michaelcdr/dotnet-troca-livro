@@ -14,5 +14,6 @@ namespace TrocaLivro.Dominio.Repositorios
         Task<int> ObterTotal();
         Task<int> ObterTotalDeTrocas();
         Task<int> ObterTotalLivrosDisponiveisParaTroca();
+        Task<bool> VerificarExistencia(string iSBN);
     }
 }

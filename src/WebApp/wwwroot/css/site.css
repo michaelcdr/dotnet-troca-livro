@@ -80,6 +80,7 @@ body {
 }
     .customize .card .img-container{
         text-align:center;
+        height:170px;
         padding:20px 10px 0px 10px;
     }
     .customize .card .img-container img {

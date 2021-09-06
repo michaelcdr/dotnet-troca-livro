@@ -28,8 +28,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<ObterDadosDashboardViewModel> ObterInformacoesHome()
         {
             var resposta = await httpClient.GetAsync(string.Concat(APICONTROLLER_LIVRO,"/dashboard"));
-            resposta.EnsureSuccessStatusCode();
-
             var dashboard = await resposta.Content.ReadFromJsonAsync<ObterDadosDashboardResultado>();
             ObterDadosDashboardViewModel indexViewModel = mapper.Map<ObterDadosDashboardViewModel>(dashboard);
 
@@ -39,8 +37,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<List<LivroDTO>> ObterLivrosAdicionadosRecentemente()
         {
             var resposta = await httpClient.GetAsync(APICONTROLLER_LIVRO);
-            resposta.EnsureSuccessStatusCode();
-
             var livros = await resposta.Content.ReadFromJsonAsync<List<LivroDTO>>();
             return livros;
         }
@@ -84,8 +80,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<List<LivroDTO>> ObterListaLivros(string termoPesquisa)
         {
             var resposta = await httpClient.GetAsync($"${APICONTROLLER_LIVRO}?TermoPesquisa={termoPesquisa}");
-            resposta.EnsureSuccessStatusCode();
-
             var livros = await resposta.Content.ReadFromJsonAsync<List<LivroDTO>>();
             return livros;
         }
@@ -102,8 +96,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<LivroDTO> ObterLivros(int id)
         {
             HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/{id}");
-            resposta.EnsureSuccessStatusCode();
-
             LivroDTO livros = await resposta.Content.ReadFromJsonAsync<LivroDTO>();
             return livros;
         }
@@ -111,8 +103,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<List<AutorDTO>> ObterAutores()
         {
             HttpResponseMessage resposta = await httpClient.GetAsync("Autor");
-            resposta.EnsureSuccessStatusCode();
-
             var dados = await resposta.Content.ReadFromJsonAsync<List<AutorDTO>>();
             return dados;
         }
@@ -120,8 +110,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<List<CategoriaDTO>> ObterCategorias()
         {
             HttpResponseMessage resposta = await httpClient.GetAsync("Categoria");
-            resposta.EnsureSuccessStatusCode();
-
             var dados = await resposta.Content.ReadFromJsonAsync<List<CategoriaDTO>>();
             return dados;
         }

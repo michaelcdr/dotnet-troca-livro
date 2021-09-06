@@ -17,7 +17,10 @@ namespace TrocaLivro.Aplicacao.Mapping
                            opt => opt.MapFrom(
                                     source => source.AutorId.Select(autorId => new LivroAutor { AutorId = autorId }).ToList()
                                )
-                           );
+                           )
+                .ForMember(dest => dest.Imagens,
+                           opt => opt.MapFrom(
+                                        source => source.Imagens.Select(img => new Imagem())));
 
             CreateMap<Livro, CadastrarLivroResultado>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
