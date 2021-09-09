@@ -69,7 +69,7 @@ namespace TrocaLivro.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost,DisableRequestSizeLimit]
+        [HttpPost, DisableRequestSizeLimit]
         public async Task<IActionResult> Post([FromForm] CadastrarLivroCommand comando)
         {
             AppResponse<CadastrarLivroResultado> resultado = await _mediator.Send(comando);

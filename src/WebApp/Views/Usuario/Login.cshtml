@@ -1,12 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
-<div class="row">
-    <div class="col-md-5">
-        <vc:login></vc:login>
-    </div>
+<div class="col-md-12">
+    <form class="form-signin mt-5" id="form-login" method="post" asp-action="Logar" asp-controller="Usuario">
+        <div class="card p-3">
+            <h1 class="h4 mb-3 font-weight-normal text-center ">
+                Olá! Para continuar, digite o seu login e senha
+            </h1>
+            <label for="login" class="sr-only">Login</label>
+            <input type="text" id="login" name="login" class="form-control"
+                   placeholder="Informe seu login" required="" autofocus="">
+
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control"
+                   placeholder="Informe sua senha" required="">
+
+            <button class="btn btn-lg btn-block mt-3 btn-outline-dark"
+                    data-loading-text="Processando, aguarde <i class='fa fa-circle-o-notch fa-spin'></i>"
+                    type="submit">
+                Entrar
+            </button>
+        </div>
+    </form>
 </div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

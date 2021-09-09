@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/login.css">
-    @*<link rel="stylesheet" href="/libs/sweetAlert2/sweetalert2.min.css">*@
+    <link rel="stylesheet" href="/lib/sweetAlert2/sweetalert2.min.css">
 </head>
 <body>
     <!-- cabeçalho e navegação -->
@@ -35,7 +35,16 @@
     <footer class="mt-3 text-light"></footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/login.js" asp-append-version="true"></script>
+    <script src="~/lib/sweetAlert2/sweetalert2.min.js"></script>
+    <script src="~/js/sweet-alert-helper.js"></script>
+    <script src="~/js/bs4-extensions.js"></script>
+    <script src="~/js/usuario/LoginUsuario.js" asp-append-version="true"></script>
+    <script>
+        let loginUsuario = null;
+        $(function () {
+            loginUsuario = new LoginUsuario();
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

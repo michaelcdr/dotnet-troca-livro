@@ -8,6 +8,8 @@ namespace TrocaLivro.Dominio.Responses
         public bool Sucesso { get; set; }
         public string Mensagem { get;  set; }
         public T Dados { get;  set; }
+        
+
         public AppResponse(string mensagem, bool sucesso, List<Notificacao> erros)
         {
             this.Sucesso = sucesso;

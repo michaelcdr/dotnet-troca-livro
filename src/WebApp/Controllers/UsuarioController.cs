@@ -22,7 +22,7 @@ namespace WebApp.Controllers
             this.contaApi = contaApiClient;
         }
 
-        public IActionResult Login2() => View();
+        public IActionResult LoginOld() => View();
 
         public IActionResult Login()
         {
@@ -32,12 +32,10 @@ namespace WebApp.Controllers
             return View();
         }
 
-        
-
         public IActionResult _Logar() => View(new LogarUsuarioModel()); 
 
         [HttpPost]
-        public async Task<IActionResult> Logar(LogarUsuarioModel model)
+        public async Task<JsonResult> Logar(LogarUsuarioModel model)
         {
             if (ModelState.IsValid)
             {
@@ -45,8 +43,12 @@ namespace WebApp.Controllers
 
                 if (!resultado.Sucesso)
                 {
-                    foreach (var item in resultado.Erros)
-                        ModelState.AddModelError("", item.Mensagem);
+                    string mensagem = resultado.Mensagem;
+
+                    if (resultado.Erros != null)
+                        mensagem = "<br />" + string.Join("<br/>", resultado.Erros.Select(e => e.Mensagem).ToArray());
+
+                    return Json(new { Sucesso = false, Mensagem = mensagem });
                 }
                 else
                 {
@@ -64,15 +66,15 @@ namespace WebApp.Controllers
                     var authProp = new AuthenticationProperties
                     {
                         IssuedUtc = DateTime.UtcNow,
-                        //configurar expiração do cookie para um valor menor que a expiração do token
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(25),
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(25), //configurar expiração do cookie para um valor menor que a expiração do token
                         IsPersistent = true
                     };
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProp);
-                    return RedirectToAction("Index","Home");
+                    
+                    return Json(new { sucesso = true, urlDestino = Url.Action("Index", "Home") });
                 }
             }
-            return View("~/Views/Usuario/Login.cshtml",model);
+            return Json(new { Sucesso = false, Mensagem = "Informe os campos usuário e senha" }) ;
         }
 
         public IActionResult Registrar() => View(new RegistrarUsuarioModel());
