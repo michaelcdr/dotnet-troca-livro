@@ -7,7 +7,7 @@ namespace TrocaLivro.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/subcategorias")]
     public class SubCategoriaController : Controller
     {
         private readonly IMediator _mediator;
@@ -17,10 +17,11 @@ namespace TrocaLivro.Api.Controllers
             this._mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("{categoriaId}")]
+        public async Task<IActionResult> Get(int categoriaId)
         {
-            return Ok(await _mediator.Send(new ObterSubCategoriasQuery()));
+            ObterSubCategoriasResultado resultado = await _mediator.Send(new ObterSubCategoriasQuery(categoriaId));
+            return Ok(resultado.SubCategorias);
         }
     }
 }

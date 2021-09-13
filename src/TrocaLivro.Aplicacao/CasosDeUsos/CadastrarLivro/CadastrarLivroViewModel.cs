@@ -40,6 +40,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
         [Required(ErrorMessage = "Informe o campo {0}")]
         public int? CategoriaId { get; set; }
 
+        [Display(Name = "SubCategoria")]
+        [Required(ErrorMessage = "Informe o campo {0}")]
+        public int? SubCategoriaId { get; set; }
+
         public List<IFormFile> Imagens { get; set; }
 
         public List<AutorDTO> Autores { get; set; }
@@ -51,6 +55,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
         {
 
         }
+
         public CadastrarLivroViewModel(List<EditoraDTO> editoras, List<AutorDTO> autores, List<CategoriaDTO> categorias)
         {
             this.Editoras = editoras;

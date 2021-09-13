@@ -80,7 +80,7 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resultado);
         }
 
-        [HttpPost, DisableRequestSizeLimit]
+        [HttpPut, DisableRequestSizeLimit]
         public async Task<IActionResult> Put([FromForm] EditarLivroCommand comando)
         {
             AppResponse<EditarLivroResultado> resultado = await _mediator.Send(comando);

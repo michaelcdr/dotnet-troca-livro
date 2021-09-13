@@ -35,7 +35,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="AutorId" class="control-label">Autor</label>
-                <select asp-for="AutorId" multiple class="form-control" style="height:150px"  >
+                <select asp-for="AutorId" multiple class="form-control" style="height:150px">
                     @foreach (var item in Model.Autores)
                     {
                         <option value="@item.Id">@item.Nome</option>
@@ -47,7 +47,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EditoraId" class="control-label">Editora</label>
-                <select asp-for="EditoraId" class="form-control"  >
+                <select asp-for="EditoraId" class="form-control">
                     <option value="">Selecione...</option>
                     @foreach (var item in Model.Editoras)
                     {
@@ -61,7 +61,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label">Categoria</label>
-                <select asp-for="CategoriaId" class="form-control"  >
+                <select asp-for="CategoriaId" class="form-control">
                     <option value="">Selecione...</option>
                     @foreach (var item in Model.Categorias)
                     {
@@ -71,6 +71,17 @@
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="SubCategoriaId" class="control-label">SubCategoria</label>
+                <select asp-for="SubCategoriaId" class="form-control" disabled="disabled">
+                    <option value="">Selecione...</option>
+                </select>
+                <span asp-validation-for="SubCategoriaId" class="text-danger"></span>
+            </div>
+        </div>
+
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="ISBN" class="control-label"></label>
@@ -133,6 +144,24 @@
                     }
                     reader.readAsDataURL(input.files[i]);
                 }
+            }
+        });
+
+        $("#CategoriaId").change(function () {
+            if ($(this).val() !== "") {
+                let categoriaId = parseInt($(this).val());
+                $.getJSON("/Livro/ObterSubCategorias/", { categoriaId: categoriaId }, function (subCategorias) {
+                    if (subCategorias) {
+                        let options = subCategorias.map(subCategoria => {
+                            return `<option value="${subCategoria.subCategoriaId}">${subCategoria.nome}</option>`;
+                        });
+
+                        $("#SubCategoriaId").html(options.join(''));
+                    }
+
+                }).fail(function () {
+
+                });
             }
         });
     </script>

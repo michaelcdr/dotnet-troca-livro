@@ -61,8 +61,8 @@ namespace TrocaLivro.Aplicacao.HttpClients
             foreach (var imagem in requisicao.Imagens)
             {
                 var imagemBytes = new ByteArrayContent(FileHelper.ConvertToBytes(imagem));
-                imagemBytes.Headers.Add("content-type", "image/png");
-                content.Add(imagemBytes, BotarAspas("imagens"), BotarAspas("imagem-atual.png"));
+                imagemBytes.Headers.Add("content-type", "image/jpg");
+                content.Add(imagemBytes, BotarAspas("imagens"), BotarAspas("imagem-atual.jpg"));
             }
 
             return content;

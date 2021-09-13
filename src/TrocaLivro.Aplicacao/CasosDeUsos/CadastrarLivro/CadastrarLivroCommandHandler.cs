@@ -19,6 +19,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 {
     public class CadastrarLivroCommandHandler : IRequestHandler<CadastrarLivroCommand, AppResponse<CadastrarLivroResultado>>
     {
+        private const string ERRO_EXTENSAO = "As imagens devem estar no formato JPG";
         private readonly IMapper mapper;
         private readonly IUnitOfWork uow;
         private readonly IHostingEnvironment environment;
@@ -40,9 +41,22 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
             if (!livro.TaValido())
                 return new AppResponse<CadastrarLivroResultado>("Erro.", false, livro.ObterErros());
 
-            if (await uow.Livros.VerificarExistencia(livro.ISBN)) 
-                return new AppResponse<CadastrarLivroResultado>("Não foi possível cadastrar o livro.", false, 
-                    new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
+            if (await uow.Livros.VerificarExistencia(livro.ISBN))
+                livro.AdicionarErro("Livro já cadastrado.", "");
+                //return new AppResponse<CadastrarLivroResultado>("Não foi possível cadastrar o livro.", false, 
+                    //new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
+            
+            if (commando.Imagens.Count > 0) 
+            { 
+                bool contemImagensNaoJpg = commando.Imagens.Any(e => Path.GetExtension(e.FileName).ToLower() != ".jpg");
+
+                if (contemImagensNaoJpg)
+                    livro.AdicionarErro(ERRO_EXTENSAO,"Imagem");
+                    //return new AppResponse<CadastrarLivroResultado>(false, ERRO_EXTENSAO);
+            }
+            
+            if (livro.ObterErros().Count > 0)
+                return new AppResponse<CadastrarLivroResultado>("Não foi possível cadastrar o livro.", false, livro.ObterErros());
 
             uow.Livros.Add(livro);
             await uow.CommitAsync();
@@ -51,15 +65,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
             CadastrarLivroResultado resultado = mapper.Map<CadastrarLivroResultado>(livro);
 
             //string diretorio = Path.Combine(environment.WebRootPath, "img", "livro");
-            //var imagens = new Imagem();
 
             if (commando.Imagens != null && commando.Imagens.Count > 0)
             {
-                bool contemImagensNaoJpg = commando.Imagens.Any(e => Path.GetExtension(e.FileName).ToLower() != ".jpg");
-                
-                if (contemImagensNaoJpg)
-                    return new AppResponse<CadastrarLivroResultado>(false, "As imagens devem estar no formato JPG");
-
                 foreach (IFormFile imagemFormFile in commando.Imagens)
                 {
                     //string extensao = Path.GetExtension(imagemFormFile.FileName);
