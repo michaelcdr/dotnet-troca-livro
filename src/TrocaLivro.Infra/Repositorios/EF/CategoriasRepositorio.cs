@@ -21,5 +21,12 @@ namespace TrocaLivro.Infra.Repositorios.EF
         {
             return await ApplicationDbContext.Categorias.OrderBy(e => e.Nome).ToListAsync();
         }
+
+        public async Task<IList<SubCategoria>> ObterSubCategorias(int categoriaId)
+        {
+            return await ApplicationDbContext.SubCategorias
+                            .Where(subcategoria => subcategoria.CategoriaId == categoriaId)
+                            .OrderBy(subcategoria => subcategoria.Nome).ToListAsync();
+        }
     }
 }

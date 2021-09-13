@@ -23,8 +23,8 @@ namespace TrocaLivro.Dominio.Entidades
         public List<Imagem> Imagens { get; set; }
         public List<Arquivo> Arquivos { get; set; }
         public List<LivroDisponibilizadoParaTroca> Trocas { get; set; }
-        public Categoria Categoria { get; set; }
-        public int CategoriaId { get; set; }
+        public SubCategoria SubCategoria { get; set; }
+        public int SubCategoriaId { get; set; }
 
         public Livro() 
         {
@@ -39,13 +39,13 @@ namespace TrocaLivro.Dominio.Entidades
             int numeroPaginas, int ano, List<int> livrosAutores, 
             int editoraId,
             string subtitulo,
-            int categoriaId)
+            int subCategoriaId)
         {
             this.Imagens = new List<Imagem>();
             this.Arquivos = new List<Arquivo>();
             this.Trocas = new List<LivroDisponibilizadoParaTroca>();
 
-            CategoriaId = categoriaId;
+            SubCategoriaId = subCategoriaId;
             ISBN = iSBN;
             Titulo = titulo;
             Descricao = descricao;

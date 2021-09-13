@@ -6,6 +6,7 @@ namespace TrocaLivro.Dominio.Repositorios
 {
     public interface ICategoriasRepositorio : IRepositorio<Categoria>
     {
+        Task<IList<SubCategoria>> ObterSubCategorias(int categoriaId);
         Task<IList<Categoria>> ObterTodas();
     }
 }

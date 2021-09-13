@@ -1,34 +1,34 @@
 ﻿
 /* breakpoint and up - mega dropdown styles */
-@media screen and (min-width: 992px) {
+/*@media screen and (min-width: 992px) {*/
 
     /* remove the padding from the navbar so the dropdown hover state is not broken */
-    .navbar {
+    /*.navbar {
         padding-top: 0px;
         padding-bottom: 0px;
-    }
+    }*/
 
         /* remove the padding from the nav-item and add some margin to give some breathing room on hovers */
-        .navbar .nav-item {
+        /*.navbar .nav-item {
             padding: .5rem .5rem;
             margin: 0 .25rem;
-        }
+        }*/
 
         /* makes the dropdown full width  */
-        .navbar .dropdown.teste-mega-dropdown {
+        /*.navbar .dropdown.teste-mega-dropdown {
             position: static;
         }
 
-        .navbar .dropdown-menu.teste-mega-dropdown {
+        .navbar .dropdown-menu.teste-mega-dropdown {*/
             /*width: 100%;*/
-            left: 0;
-            right: 0;
+            /*left: 0;
+            right: 0;*/
             /*  height of nav-item  */
-            top: 50px;
-        }
+            /*top: 50px;
+        }*/
 
         /* shows the dropdown menu on hover */
-        .navbar .dropdown.teste-mega-dropdown:hover .dropdown-menu,
+        /*.navbar .dropdown.teste-mega-dropdown:hover .dropdown-menu,
         .navbar .dropdown.teste-mega-dropdown .dropdown-menu:hover {
             display: block !important;
         }
@@ -40,4 +40,4 @@
             -webkit-box-shadow: 1px 9px 18px -3px rgba(0,0,0,0.61);
             box-shadow: 1px 9px 18px -3px rgba(0,0,0,0.61);
         }
-}
+}*/

@@ -26,7 +26,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Include(e => e.Editora)
                 .Include(e => e.Imagens)
                 .Include(e => e.Arquivos)
-                .Include(e => e.Categoria)
+                .Include(e => e.SubCategoria)
                 .SingleAsync();
         }
 
@@ -67,9 +67,12 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .ToListAsync();
         }
 
-        public async Task<bool> VerificarExistencia(string iSBN)
+        public async Task<bool> VerificarExistencia(string iSBN, int? idLivroAtual = null)
         {
-            return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN);
+            if (idLivroAtual != null)
+                return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN && livro.Id != (int)idLivroAtual);
+            else
+                return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN);
         }
     }
 }

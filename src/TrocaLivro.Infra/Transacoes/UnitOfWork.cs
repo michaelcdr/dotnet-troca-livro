@@ -13,6 +13,7 @@ namespace TrocaLivro.Infra.Transacoes
         public IAutoresRepositorio Autores { get; private set; }
         public IEditorasRepositorio Editoras { get; private set; }
         public ICategoriasRepositorio Categorias { get; private set; }
+        
         public  async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

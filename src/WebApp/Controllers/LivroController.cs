@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
+using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Responses;
@@ -31,7 +32,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Detalhes(int id)
         {
-            LivroDTO livro = await api.ObterLivros(id);
+            LivroDTO livro = await api.ObterLivro(id);
             LivroDetalhes model = LivroDetalhes.CriarUsandoLivro(livro);
             return View(model);
         }
@@ -65,6 +66,40 @@ namespace WebApp.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        [AuthorizeCustomizado]
+        public async Task<IActionResult> Editar(int id)
+        {
+            LivroDTO livroDto = await api.ObterLivro(id);
 
+            var model = new EditarLivroViewModel(
+                livroDto,
+                await api.ObterEditoras(),
+                await api.ObterAutores(),
+                await api.ObterCategorias(),
+                await api.ObterSubCategorias(livroDto.CategoriaId)
+            );
+            return View(model);
+        }
+
+        [AuthorizeCustomizado, HttpPost]
+        public async Task<IActionResult> Editar(EditarLivroViewModel model)
+        {
+            model.Usuario = User.Identity.Name;
+
+            AppResponse<EditarLivroResultado> resposta = await api.EditarLivro(model);
+
+            if (!resposta.Sucesso)
+            {
+                ModelState.AddModelError("", string.Join("<br/>", resposta.Erros.Select(e => e.Mensagem).ToList()));
+
+                model.Autores = await api.ObterAutores();
+                model.Editoras = await api.ObterEditoras();
+                model.Categorias = await api.ObterCategorias();
+                model.SubCategorias = await api.ObterSubCategorias((int)model.CategoriaId);
+
+                return View(model);
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

@@ -1,23 +1,65 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+﻿<div class=" container-nav">
     <div class="container">
-        <a class="navbar-brand" href="#">BookExchange</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " asp-area="" asp-controller="Livro" asp-action="Cadastrar">Cadastrar</a>
-                </li>
-            </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar" aria-label="Pesquisar">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Pesquisar</button>
-            </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2">
+                        <a class="navbar-brand" href="/">
+                            <span class="logo-strong">B</span>ook<span class="logo-strong">E</span>xchange
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <form id="form-pesquisa" action="/pesquisa" method="GET">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group mr-3">
+                                        <input type="text" class="form-control" id="s" name="s" placeholder="Pesquisar produto" aria-label="Pesquisar produto" aria-describedby="button-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-light" type="submit" id="button-addon2">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span class="login-nav text-light">
+                                <i class="fa fa-user"></i> Olá,
+                                <a href="" class="a-primary">@User.Identity.Name</a> clique em
+                                <a asp-action="Sair" asp-controller="Usuario" class="a-primary" title="Sair no sistema" data-container="body" data-toggle="tooltip" data-placement="body">Sair</a> para fazer seu logout.
+                            </span>
+                        }
+                        else 
+                        { 
+                            <span class="login-nav text-light">
+                                <i class="fa fa-user"></i> Olá , Faça seu
+                                <a asp-action="Login" asp-controller="Usuario" class="a-primary" data-container="body" title="Entrar no sistema" data-toggle="tooltip" data-placement="body">Login</a>
+                                <br /> ou
+                                <a asp-action="Registrar" asp-controller="Usuario" class="a-primary" title="Entrar no sistema" data-container="body">
+                                    Cadastre-se
+                                </a>.
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <ul class="menu">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categorias
+                        </a>                        
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="">Categoria 1</a>
+                        </div>
+                    </li>
+                    <li><a asp-action="Cadastrar" asp-controller="Livro">Cadastrar livro</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</nav>
+</div>

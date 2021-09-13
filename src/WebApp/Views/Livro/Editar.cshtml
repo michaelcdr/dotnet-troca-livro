@@ -1,15 +1,16 @@
-﻿@model CadastrarLivroViewModel
+﻿@model EditarLivroViewModel
 
 @{
-    ViewData["Title"] = "Cadastrar";
+    ViewData["Title"] = "Editando livro " + Model.Titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
 } 
-<h1>Cadastrar » <small>Livro</small></h1>
+<h1>Editando » <small>Livro: @Model.Titulo</small></h1>
 
 <hr />
 
 <form asp-action="Cadastrar" role="form" enctype="multipart/form-data" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="Id" class="form-control" />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -35,10 +36,16 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="AutorId" class="control-label">Autor</label>
-                <select asp-for="AutorId" multiple class="form-control" style="height:150px"  >
+                <select asp-for="AutorId" multiple class="form-control" style="height:150px">
                     @foreach (var item in Model.Autores)
                     {
-                        <option value="@item.Id">@item.Nome</option>
+                        if (Model.AutorId.Any(autorId => item.Id == autorId))
+                        {
+                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                        }
+                        else { 
+                            <option value="@item.Id">@item.Nome</option>
+                        }
                     }
                 </select>
                 <span asp-validation-for="AutorId" class="text-danger"></span>
@@ -47,11 +54,17 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EditoraId" class="control-label">Editora</label>
-                <select asp-for="EditoraId" class="form-control"  >
+                <select asp-for="EditoraId" class="form-control">
                     <option value="">Selecione...</option>
                     @foreach (var item in Model.Editoras)
                     {
-                        <option value="@item.Id">@item.Nome</option>
+                        if (item.Id == Model.EditoraId)
+                        {
+                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                        }
+                        else { 
+                            <option value="@item.Id">@item.Nome</option>
+                        }
                     }
                 </select>
                 <span asp-validation-for="EditoraId" class="text-danger"></span>
@@ -61,11 +74,18 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label">Categoria</label>
-                <select asp-for="CategoriaId" class="form-control"  >
+                <select asp-for="CategoriaId" class="form-control">
                     <option value="">Selecione...</option>
                     @foreach (var item in Model.Categorias)
                     {
-                        <option value="@item.Id">@item.Nome</option>
+                        if (item.Id == Model.CategoriaId)
+                        {
+                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Nome</option>
+                        }
                     }
                 </select>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>

@@ -8,6 +8,7 @@ namespace TrocaLivro.Dominio.DTO
     public class LivroDTO
     {
         public string Titulo { get; set; }
+        public string Subtitulo { get; set; }
         public string Descricao { get; set; }
         public string ISBN { get; set; }
         public int NumeroPaginas { get; set; }
@@ -17,7 +18,8 @@ namespace TrocaLivro.Dominio.DTO
         public int Id { get; set; }
         public string NomeEditora { get; set; }
         public byte[] Capa { get; set; }
-
+        public int CategoriaId { get; set; }
+        public int SubCategoriaId { get; set; }
         public string CapaBase64 { get; set; }
         public LivroDTO()
         {
@@ -32,6 +34,8 @@ namespace TrocaLivro.Dominio.DTO
             ISBN = livro.ISBN; 
             NumeroPaginas = livro.NumeroPaginas;
             Titulo = livro.Titulo;
+            Subtitulo = livro.Subtitulo;
+
             if (livro.Editora != null )
                 NomeEditora = livro.Editora.Nome;
             

@@ -16,7 +16,7 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
             builder.HasMany(e => e.Autores).WithOne(e => e.Livro);
             builder.HasMany(e => e.Imagens).WithOne(e => e.Livro);
             builder.HasMany(e => e.Arquivos).WithOne(e => e.Livro);
-            builder.HasOne(e => e.Categoria).WithMany(e => e.Livros).HasForeignKey(e=>e.CategoriaId);
+            builder.HasOne(e => e.SubCategoria).WithMany(e => e.Livros).HasForeignKey(e=>e.SubCategoriaId);
         }
     }
 
@@ -61,7 +61,17 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
         {
             builder.ToTable("Categorias");
             builder.Property(e => e.Nome).IsRequired();
-            builder.HasMany(e => e.Livros).WithOne(e => e.Categoria);
+            builder.HasMany(e => e.SubCategorias).WithOne(e => e.Categoria);
+        }
+    }
+
+    public class SubCategoriaMap : IEntityTypeConfiguration<SubCategoria>
+    {
+        public void Configure(EntityTypeBuilder<SubCategoria> builder)
+        {
+            builder.ToTable("SubCategorias");
+            builder.Property(e => e.Nome).IsRequired();
+            builder.HasMany(e => e.Livros).WithOne(e => e.SubCategoria);
         }
     }
 }

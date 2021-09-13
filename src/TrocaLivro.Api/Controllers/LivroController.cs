@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
+using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
@@ -76,7 +77,15 @@ namespace TrocaLivro.Api.Controllers
 
             if (!resultado.Sucesso) return BadRequest(resultado);
 
-            var uri = Url.Action("Get", new { id = resultado.Dados.Id });
+            return Ok(resultado);
+        }
+
+        [HttpPost, DisableRequestSizeLimit]
+        public async Task<IActionResult> Put([FromForm] EditarLivroCommand comando)
+        {
+            AppResponse<EditarLivroResultado> resultado = await _mediator.Send(comando);
+
+            if (!resultado.Sucesso) return BadRequest(resultado);
 
             return Ok(resultado);
         }

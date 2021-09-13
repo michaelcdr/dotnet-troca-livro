@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using TrocaLivro.Dominio.Responses;
 
-namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
+namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
 {
-    public class CadastrarLivroCommand : IRequest<AppResponse<CadastrarLivroResultado>>
+    public class EditarLivroCommand : IRequest<AppResponse<EditarLivroResultado>>
     {
         public string Titulo { get; set; }
 

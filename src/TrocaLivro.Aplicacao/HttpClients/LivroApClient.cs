@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
+using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Helpers;
@@ -16,8 +17,8 @@ namespace TrocaLivro.Aplicacao.HttpClients
     {
         private readonly HttpClient httpClient;
         private readonly IMapper mapper;
-
         private const string APICONTROLLER_LIVRO = "livros";
+        private const string APICONTROLLER_SUBCATEGORIA = "subcategorias";
 
         public LivroApClient(HttpClient httpClient, IMapper mapper)
         {
@@ -48,7 +49,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
             content.Add(new StringContent(requisicao.Subtitulo), BotarAspas("subtitulo"));
             content.Add(new StringContent(requisicao.Descricao), BotarAspas("descricao"));
             content.Add(new StringContent(requisicao.ISBN), BotarAspas("isbn"));
-            content.Add(new StringContent(requisicao.CategoriaId.ToString()), BotarAspas("categoriaId"));
+            content.Add(new StringContent(requisicao.SubCategoriaId.ToString()), BotarAspas("subCategoriaId"));
 
             foreach (var item in requisicao.AutorId)
                 content.Add(new StringContent(item.ToString()), BotarAspas("autorId"));
@@ -65,6 +66,11 @@ namespace TrocaLivro.Aplicacao.HttpClients
             }
 
             return content;
+        }
+
+        public Task<AppResponse<EditarLivroResultado>> EditarLivro(EditarLivroViewModel model)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<AppResponse<CadastrarLivroResultado>> CadastrarLivro(CadastrarLivroViewModel request)
@@ -93,9 +99,9 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return dados;
         }
 
-        public async Task<LivroDTO> ObterLivros(int id)
+        public async Task<LivroDTO> ObterLivro(int livroId)
         {
-            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/{id}");
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/{livroId}");
             LivroDTO livros = await resposta.Content.ReadFromJsonAsync<LivroDTO>();
             return livros;
         }
@@ -111,6 +117,13 @@ namespace TrocaLivro.Aplicacao.HttpClients
         {
             HttpResponseMessage resposta = await httpClient.GetAsync("Categoria");
             var dados = await resposta.Content.ReadFromJsonAsync<List<CategoriaDTO>>();
+            return dados;
+        }
+
+        public async Task<List<SubCategoriaDTO>> ObterSubCategorias(int categoriaId)
+        {
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_SUBCATEGORIA}/{categoriaId}");
+            var dados = await resposta.Content.ReadFromJsonAsync<List<SubCategoriaDTO>>();
             return dados;
         }
 

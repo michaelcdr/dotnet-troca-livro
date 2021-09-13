@@ -15,7 +15,10 @@ namespace TrocaLivro.Aplicacao.Services
         private readonly ApplicationDbContext context;
         private const string ROLE_ADM = "admin";
         private const string ROLE_COMUN = "comum";
-        public GeradorDadosPadroesDaAplicacao(UserManager<Usuario> userManager, RoleManager<TipoUsuario> roleManager,
+
+        public GeradorDadosPadroesDaAplicacao(
+            UserManager<Usuario> userManager, 
+            RoleManager<TipoUsuario> roleManager,
             ApplicationDbContext context)
         {
             _userManager = userManager;
@@ -66,13 +69,74 @@ namespace TrocaLivro.Aplicacao.Services
                 this.context.Editoras.Add(new Editora("Prentice Hall PTR"));
                 this.context.Editoras.Add(new Editora("Alta Books"));
             }
+            
+            await this.context.SaveChangesAsync();
 
             if (await this.context.Categorias.CountAsync() == 0)
             {
-                this.context.Categorias.Add(new Categoria("Livros de Computação, Informática e Mídias Digitais"));
+                this.context.Categorias.AddRange(
+                    new List<Categoria>
+                    {
+                        new Categoria("Administração"),
+                        new Categoria("Agropecuária"),
+                        new Categoria("Artes"),
+                        new Categoria("Autoajuda"),
+                        new Categoria("Ciências Biológicas"),
+                        new Categoria("Ciências Exatas"),
+                        new Categoria("Ciências Humanas e Sociais"),
+                        new Categoria("Contabilidade"),
+                        new Categoria("Gastronomia"),
+                        new Categoria("Cursos e Idiomas"),
+                        new Categoria("Didáticos"),
+                        new Categoria("Dicionários e Manuais de Conversação"),
+                        new Categoria("Direito"),
+                        new Categoria("Economia"),
+                        new Categoria("Engenharia e Tecnologia"),
+                        new Categoria("Esoterismo"),
+                        new Categoria("Espiritismo"),
+                        new Categoria("Esportes e Lazer"),
+                        new Categoria("Geografia e Historia"),
+                        new Categoria("Informática"),
+                        new Categoria("Linguística"),
+                        new Categoria("Literatura Estrangeira"),
+                        new Categoria("Literatura Infantojuvenil"),
+                        new Categoria("Literatura Brasileira"),
+                        new Categoria("Medicina"),
+                        new Categoria("Pocket Books"),
+                        new Categoria("Psicologia e Psicanálise"),
+                        new Categoria("Religião"),
+                        new Categoria("Turismo"),
+                        new Categoria("Audiolivro"),
+                        new Categoria("Diversos"),
+                        new Categoria("Produtos Descontinuados"),
+                        new Categoria("Hqs")
+                    }
+                );
+                await this.context.SaveChangesAsync();
+
+                Categoria categoriaInformatica = await this.context.Categorias.SingleAsync(e => e.Nome == "Informática");
+
+                categoriaInformatica.AdicionarSubCategorias(
+                    new List<SubCategoria>()
+                    {
+                        new SubCategoria("Analise de Sistemas"),
+                        new SubCategoria("Banco de Dados"),
+                        new SubCategoria("Computação Gráfica"),
+                        new SubCategoria("Hardware"),
+                        new SubCategoria("Jogos"),
+                        new SubCategoria("Linguagens"),
+                        new SubCategoria("Multimídia"),
+                        new SubCategoria("Planilhas"),
+                        new SubCategoria("Processadores de Textos"),
+                        new SubCategoria("Programas"),
+                        new SubCategoria("Realidade Virtual"),
+                        new SubCategoria("Redes"),
+                        new SubCategoria("Sistemas Operacionais")
+                    }
+                );
+
+                await this.context.SaveChangesAsync();
             }
-            
-            await this.context.SaveChangesAsync();
         }
     }
 }

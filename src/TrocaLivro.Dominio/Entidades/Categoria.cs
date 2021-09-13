@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TrocaLivro.Dominio.Entidades
 {
@@ -6,8 +7,8 @@ namespace TrocaLivro.Dominio.Entidades
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+        public List<SubCategoria> SubCategorias { get; set; }
 
-        public List<Livro> Livros { get; set; }
 
         public override bool TaValido()
         {
@@ -16,12 +17,20 @@ namespace TrocaLivro.Dominio.Entidades
 
         public Categoria()
         {
-
+            this.SubCategorias = new List<SubCategoria>();
         }
 
         public Categoria(string nome)
         {
             this.Nome = nome;
+            this.SubCategorias = new List<SubCategoria>();
+        }
+
+        public void AdicionarSubCategorias(List<SubCategoria> subCategorias)
+        {
+            if (this.SubCategorias == null) this.SubCategorias = new List<SubCategoria>();
+
+            this.SubCategorias.AddRange(subCategorias);
         }
     }
 }

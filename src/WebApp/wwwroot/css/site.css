@@ -1,7 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
+﻿a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
@@ -61,10 +58,9 @@ html {
 }
 
 body {
-    /* Margin bottom by footer height */
     padding-top: 4rem;
     color: #283c86;
-    margin-bottom: 60px;
+    margin-bottom: 200px;
     background-color:#ebebeb;
 } 
 .footer {
@@ -137,3 +133,9 @@ body {
     border:1px solid #dc3545;
 
 }
+
+
+
+
+
+
