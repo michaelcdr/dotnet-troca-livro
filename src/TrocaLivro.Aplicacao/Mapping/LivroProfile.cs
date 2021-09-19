@@ -3,10 +3,19 @@ using System.Linq;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
+using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Entidades;
 
 namespace TrocaLivro.Aplicacao.Mapping
 {
+    public class SubCategoriaProfile : Profile
+    {
+        public SubCategoriaProfile()
+        {
+            CreateMap<SubCategoria, SubCategoriaDTO>();
+        }
+    }
+
     public class LivroProfile : Profile
     {
         public LivroProfile()

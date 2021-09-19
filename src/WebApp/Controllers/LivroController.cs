@@ -65,6 +65,12 @@ namespace WebApp.Controllers
             }
             return RedirectToAction("Index","Home");
         }
+        
+        public async Task<JsonResult> ObterSubCategorias(int categoriaId)
+        {
+            var sub = await api.ObterSubCategorias(categoriaId);
+            return Json(sub);
+        }
 
         [AuthorizeCustomizado]
         public async Task<IActionResult> Editar(int id)

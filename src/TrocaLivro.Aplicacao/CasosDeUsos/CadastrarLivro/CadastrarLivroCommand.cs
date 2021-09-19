@@ -26,5 +26,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
         public string Usuario { get; set; }
 
         public List<IFormFile> Imagens { get; set; }
+        public CadastrarLivroCommand()
+        {
+            Imagens = new List<IFormFile>();
+        }
     }
 }
