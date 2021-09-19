@@ -80,10 +80,20 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resultado);
         }
 
-        [HttpPost, DisableRequestSizeLimit]
+        [HttpPut, DisableRequestSizeLimit]
         public async Task<IActionResult> Put([FromForm] EditarLivroCommand comando)
         {
             AppResponse<EditarLivroResultado> resultado = await _mediator.Send(comando);
+
+            if (!resultado.Sucesso) return BadRequest(resultado);
+
+            return Ok(resultado);
+        }
+
+        [HttpDelete("{livroId}")]
+        public async Task<IActionResult> Delete(int livroId)
+        {
+            AppResponse<DeletarLivroResultado> resultado = await _mediator.Send(new DeletarLivroCommand(livroId));
 
             if (!resultado.Sucesso) return BadRequest(resultado);
 

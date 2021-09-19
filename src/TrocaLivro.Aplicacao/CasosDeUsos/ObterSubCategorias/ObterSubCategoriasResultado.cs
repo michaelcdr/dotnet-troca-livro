@@ -7,9 +7,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
     {
         public ObterSubCategoriasResultado(List<SubCategoriaDTO> subCategoriaDTOs)
         {
-            SubCategoriaDTOs = subCategoriaDTOs;
+            SubCategorias = subCategoriaDTOs;
         }
 
-        public List<SubCategoriaDTO> SubCategoriaDTOs { get; private set; }
+        public List<SubCategoriaDTO> SubCategorias { get; private set; }
     }
 }

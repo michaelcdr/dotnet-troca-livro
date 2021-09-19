@@ -17,6 +17,12 @@ namespace TrocaLivro.Api.Controllers
             this._mediator = mediator;
         }
 
+        [HttpGet("ObterTodasDaCategoria/{idCategoria}")]
+        public async Task<IActionResult> ObterTodasDaCategoria(int idCategoria)
+        {
+            return Ok(await _mediator.Send(new ObterSubCategoriasQuery(idCategoria)));
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {

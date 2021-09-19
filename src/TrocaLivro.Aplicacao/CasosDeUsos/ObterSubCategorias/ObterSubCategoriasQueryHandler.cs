@@ -24,7 +24,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         
         public async Task<ObterSubCategoriasResultado> Handle(ObterSubCategoriasQuery request, CancellationToken cancellationToken)
         {
-            IList<SubCategoria> subCategorias = await _uow.Categorias.ObterSubCategorias(request.CategoriaId);
+            IList<SubCategoria> subCategorias = request.CategoriaId == null
+                ? await _uow.Categorias.ObterTodasSubCategorias()
+                : await _uow.Categorias.ObterSubCategorias((int)request.CategoriaId);
 
             var subCategoriaDTOs = new List<SubCategoriaDTO>();
 
