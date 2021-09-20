@@ -10,7 +10,7 @@
 
 <form asp-action="Cadastrar" role="form" enctype="multipart/form-data" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input asp-for="Id" class="form-control" />
+    <input asp-for="Id" type="hidden" class="form-control" />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -43,7 +43,8 @@
                         {
                             <option value="@item.Id" selected="selected">@item.Nome</option>
                         }
-                        else { 
+                        else
+                        {
                             <option value="@item.Id">@item.Nome</option>
                         }
                     }
@@ -51,7 +52,7 @@
                 <span asp-validation-for="AutorId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="EditoraId" class="control-label">Editora</label>
                 <select asp-for="EditoraId" class="form-control">
@@ -62,7 +63,8 @@
                         {
                             <option value="@item.Id" selected="selected">@item.Nome</option>
                         }
-                        else { 
+                        else
+                        {
                             <option value="@item.Id">@item.Nome</option>
                         }
                     }
@@ -71,10 +73,10 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label">Categoria</label>
-                <select asp-for="CategoriaId" class="form-control">
+                <select asp-for="CategoriaId" class="form-control" data-id="@Model.CategoriaId">
                     <option value="">Selecione...</option>
                     @foreach (var item in Model.Categorias)
                     {
@@ -91,6 +93,27 @@
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SubCategoriaId" class="control-label">SubCategoria</label>
+                <select asp-for="SubCategoriaId" class="form-control">
+                    <option value="">Selecione...</option>
+                    @foreach (var item in Model.SubCategorias)
+                    {
+                        if (item.Id == Model.SubCategoriaId)
+                        {
+                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Nome</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="SubCategoriaId" class="text-danger"></span>
+            </div>
+        </div>
+
         <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="ISBN" class="control-label"></label>
@@ -129,8 +152,7 @@
                 <i class="fa fa-chevron-left"></i>
             </a>
             <button type="submit" class="btn btn-dark ">
-                <i class="fa fa-save"></i>
-                Cadastrar
+                <i class="fa fa-save"></i> Atualizar
             </button>
         </div>
     </div>

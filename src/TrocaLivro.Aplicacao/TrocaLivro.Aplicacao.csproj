@@ -15,4 +15,8 @@
     <ProjectReference Include="..\TrocaLivro.Infra\TrocaLivro.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

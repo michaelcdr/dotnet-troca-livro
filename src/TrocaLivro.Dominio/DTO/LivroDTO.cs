@@ -21,10 +21,12 @@ namespace TrocaLivro.Dominio.DTO
         public int CategoriaId { get; set; }
         public int SubCategoriaId { get; set; }
         public string CapaBase64 { get; set; }
+
         public LivroDTO()
         {
 
         }
+
         public LivroDTO(Livro livro)
         {
             Id = livro.Id; 
@@ -36,19 +38,24 @@ namespace TrocaLivro.Dominio.DTO
             Titulo = livro.Titulo;
             Subtitulo = livro.Subtitulo;
 
+            if (livro.SubCategoria != null)
+                CategoriaId = livro.SubCategoria.CategoriaId;
+
+            SubCategoriaId = livro.SubCategoriaId;
+
             if (livro.Editora != null )
                 NomeEditora = livro.Editora.Nome;
             
             if (livro.Autores != null)
-            {
                 Autores = livro.Autores.Select(e => new LivroAutorDTO { AutorId = e.AutorId, Nome = e.Autor.Nome }).ToList();
-            }
 
             if (livro.Imagens.Count > 0)
             {
-                string base64String = "data:image/png;base64," + Convert.ToBase64String(
-                    livro.Imagens.First().Nome, 0, livro.Imagens.First().Nome.Length
-                );
+                Imagem img = livro.Imagens.Where(e => e.Nome != null).First();
+                int imgLength = img.Nome.Length;
+                var imgData = img.Nome;
+                string base64String = "data:image/jpg;base64," + Convert.ToBase64String(imgData, 0, imgLength);
+
                 this.CapaBase64 = base64String;
             }
         }

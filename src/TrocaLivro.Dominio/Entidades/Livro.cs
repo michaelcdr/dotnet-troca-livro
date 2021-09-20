@@ -18,6 +18,12 @@ namespace TrocaLivro.Dominio.Entidades
         public DateTime? DataAlteracao { get; set; }
         public string AlteradoPor { get; set; }
         public Editora Editora { get; private set; }
+
+        public void Deletar(object usuario)
+        {
+            throw new NotImplementedException();
+        }
+
         public int EditoraId { get; private set; }
         public string Tags { get; set; }
         public List<Imagem> Imagens { get; set; }
@@ -25,6 +31,10 @@ namespace TrocaLivro.Dominio.Entidades
         public List<LivroDisponibilizadoParaTroca> Trocas { get; set; }
         public SubCategoria SubCategoria { get; set; }
         public int SubCategoriaId { get; set; }
+
+        public bool Deletado { get; private set; }
+        public string DeletadoPor { get; private set; }
+        public DateTime? DataDaDelecao { get; private set; }
 
         public Livro() 
         {
@@ -34,29 +44,13 @@ namespace TrocaLivro.Dominio.Entidades
             this.Trocas = new List<LivroDisponibilizadoParaTroca>();
         }
 
-        public Livro(
-            string iSBN, string titulo, string descricao, 
-            int numeroPaginas, int ano, List<int> livrosAutores, 
-            int editoraId,
-            string subtitulo,
-            int subCategoriaId)
+        public void Deletar(string usuario)
         {
-            this.Imagens = new List<Imagem>();
-            this.Arquivos = new List<Arquivo>();
-            this.Trocas = new List<LivroDisponibilizadoParaTroca>();
-
-            SubCategoriaId = subCategoriaId;
-            ISBN = iSBN;
-            Titulo = titulo;
-            Descricao = descricao;
-            NumeroPaginas = numeroPaginas;
-            Ano = ano;            
-            EditoraId = editoraId;
-            Subtitulo = subtitulo;
-            CadastradoPor = "michael";
-            
-            foreach (var idAutor in livrosAutores)
-                AdicionarAutor(idAutor);
+            this.Deletado = true;
+            this.DeletadoPor = usuario;
+            this.DataDaDelecao = DateTime.Now;
+            this.DataAlteracao = DateTime.Now;
+            this.AlteradoPor = usuario;
         }
 
         private void AdicionarAutor(int idAutor)
@@ -80,6 +74,9 @@ namespace TrocaLivro.Dominio.Entidades
 
             if (string.IsNullOrEmpty(this.Descricao))
                 this.AdicionarErro("Informe o descrição", "Descricao");
+            
+            if (this.Imagens == null || this.Imagens.Count == 0)
+                this.AdicionarErro("Você deve conter ao menos uma imagem.", "");
 
             return this._erros.Count == 0;
         }

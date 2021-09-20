@@ -1,19 +1,16 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TrocaLivro.Dominio.Entidades;
-using TrocaLivro.Dominio.Responses;
-using TrocaLivro.Dominio.Extensions;
-using AutoMapper;
-using TrocaLivro.Dominio.Transacoes;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using TrocaLivro.Dominio.Helpers;
-using TrocaLivro.Dominio;
-using System.Collections.Generic;
-using System.Linq;
+using TrocaLivro.Dominio.Responses;
+using TrocaLivro.Dominio.Transacoes;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 {
@@ -43,8 +40,6 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 
             if (await uow.Livros.VerificarExistencia(livro.ISBN))
                 livro.AdicionarErro("Livro já cadastrado.", "");
-                //return new AppResponse<CadastrarLivroResultado>("Não foi possível cadastrar o livro.", false, 
-                    //new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
             
             if (commando.Imagens.Count > 0) 
             { 
@@ -52,7 +47,6 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 
                 if (contemImagensNaoJpg)
                     livro.AdicionarErro(ERRO_EXTENSAO,"Imagem");
-                    //return new AppResponse<CadastrarLivroResultado>(false, ERRO_EXTENSAO);
             }
             
             if (livro.ObterErros().Count > 0)

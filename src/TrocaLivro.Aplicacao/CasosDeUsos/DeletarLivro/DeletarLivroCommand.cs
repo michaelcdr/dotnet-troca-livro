@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.DeletarLivro
 {
-    class DeletarLivroCommand
+    public class DeletarLivroCommand : IRequest<AppResponse<DeletarLivroResultado>>
     {
+        public int LivroId { get; set; }
+        public string Usuario { get; set; }
+        public DeletarLivroCommand(int livroId,string usuario)
+        {
+            this.LivroId = livroId;
+            this.Usuario = usuario;
+        }
     }
 }

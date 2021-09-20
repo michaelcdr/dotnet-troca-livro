@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.DeletarLivro
 {
-    class DeletarLivroResultado
+    public class DeletarLivroResultado
     {
     }
 }

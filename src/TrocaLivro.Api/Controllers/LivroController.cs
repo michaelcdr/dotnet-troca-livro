@@ -1,9 +1,13 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
+using TrocaLivro.Aplicacao.CasosDeUsos.DeletarLivro;
 using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Requests;
@@ -31,6 +35,7 @@ namespace TrocaLivro.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get([FromQuery] ObterTodosLivrosRequest request)
         {
             AppResponse<IList<LivroDTO>> resposta = await _livroService.ObterTodos(request);
@@ -71,6 +76,7 @@ namespace TrocaLivro.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost, DisableRequestSizeLimit]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Post([FromForm] CadastrarLivroCommand comando)
         {
             AppResponse<CadastrarLivroResultado> resultado = await _mediator.Send(comando);
@@ -91,12 +97,15 @@ namespace TrocaLivro.Api.Controllers
         }
 
         [HttpDelete("{livroId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Delete(int livroId)
         {
-            AppResponse<DeletarLivroResultado> resultado = await _mediator.Send(new DeletarLivroCommand(livroId));
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            AppResponse<DeletarLivroResultado> resultado = await _mediator.Send(new DeletarLivroCommand(livroId, userId));
 
             if (!resultado.Sucesso) return BadRequest(resultado);
-
+           
             return Ok(resultado);
         }
     }

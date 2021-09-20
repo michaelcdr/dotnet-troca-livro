@@ -42,8 +42,6 @@ namespace TrocaLivro.Api
         {
             services.Configure<JwtConfiguracao>(Configuration.GetSection("JwtConfig"));
 
-            services.AddCors();
-            services.AddControllers();
 
             string connStr = Configuration.GetConnectionString("ContextConnection");
 
@@ -68,7 +66,7 @@ namespace TrocaLivro.Api
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer("JwtBearer", options => {
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
                 var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
 
                 options.SaveToken = true;
@@ -99,7 +97,11 @@ namespace TrocaLivro.Api
               .AddEntityFrameworkStores<ApplicationDbContext>()
               .AddRoleManager<RoleManager<TipoUsuario>>()
               .AddDefaultTokenProviders();
-            
+
+
+            services.AddCors();
+            services.AddControllers();
+
             var assembly = AppDomain.CurrentDomain.Load("TrocaLivro.Aplicacao");
             services.AddMediatR(assembly);
             
@@ -142,7 +144,7 @@ namespace TrocaLivro.Api
               .AllowCredentials()); // allow credentials
 
             app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             var gerador = new GeradorDadosPadroesDaAplicacao(userManager, roleManager,context);
             gerador.Gerar().GetAwaiter().GetResult();

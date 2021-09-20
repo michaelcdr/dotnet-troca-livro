@@ -152,11 +152,14 @@
                 let categoriaId = parseInt($(this).val());
                 $.getJSON("/Livro/ObterSubCategorias/", { categoriaId: categoriaId }, function (subCategorias) {
                     if (subCategorias) {
-                        let options = subCategorias.map(subCategoria => {
-                            return `<option value="${subCategoria.subCategoriaId}">${subCategoria.nome}</option>`;
+                        let options = ['<option value="">Selecione</option>'];
+
+                        subCategorias.forEach(subCategoria => {
+                            options.push(`<option value="${subCategoria.id}">${subCategoria.nome}</option>`);
                         });
 
                         $("#SubCategoriaId").html(options.join(''));
+                        $("#SubCategoriaId").prop("disabled",false)
                     }
 
                 }).fail(function () {

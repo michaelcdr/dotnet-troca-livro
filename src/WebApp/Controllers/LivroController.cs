@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,15 +18,22 @@ namespace WebApp.Controllers
     public class LivroController : Controller
     {
         private readonly LivroApClient api;
-
+       
         public LivroController(LivroApClient livroApClient)
         {
-            this.api = livroApClient;
+            this.api = livroApClient; 
         } 
+
+        private void AtualizarToken() 
+        {
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+                this.api.AtualizarToken(HttpContext.User.Claims.FirstOrDefault(e => e.Type == "Token"));
+        }
 
         public async Task<IActionResult> _ListAdicionadosRecentemente()
         {
-            var claimToken = HttpContext.User.Claims.FirstOrDefault(e => e.Type == "Token");
+            Console.WriteLine("_ListAdicionadosRecentemente");
+            AtualizarToken();
             List<LivroDTO> livrosDTO = await api.ObterLivrosAdicionadosRecentemente();
             List<LivroCard> cards = livrosDTO.Select(livroDto => livroDto.ToModel()).ToList();
             return PartialView(cards);
@@ -40,6 +49,7 @@ namespace WebApp.Controllers
         [AuthorizeCustomizado]
         public async Task<IActionResult> Cadastrar()
         {
+            Console.WriteLine("Cadastrar");
             return View(new CadastrarLivroViewModel(
                 await api.ObterEditoras(),
                 await api.ObterAutores(),
@@ -50,8 +60,10 @@ namespace WebApp.Controllers
         [AuthorizeCustomizado, HttpPost]
         public async Task<IActionResult> Cadastrar(CadastrarLivroViewModel model)
         {
-            model.Usuario = User.Identity.Name;
+            AtualizarToken();
 
+            model.Usuario = User.Identity.Name;
+            
             AppResponse<CadastrarLivroResultado> resposta = await api.CadastrarLivro(model);
             
             if (!resposta.Sucesso)
@@ -90,6 +102,8 @@ namespace WebApp.Controllers
         [AuthorizeCustomizado, HttpPost]
         public async Task<IActionResult> Editar(EditarLivroViewModel model)
         {
+            AtualizarToken();
+
             model.Usuario = User.Identity.Name;
 
             AppResponse<EditarLivroResultado> resposta = await api.EditarLivro(model);

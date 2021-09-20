@@ -17,16 +17,26 @@ namespace TrocaLivro.Api.Controllers
             this._mediator = mediator;
         }
 
+        /// <summary>
+        /// Retorna todas subcategorias de uma categoria especifica.
+        /// </summary>
+        /// <param name="idCategoria"></param>
+        /// <returns></returns>
         [HttpGet("ObterTodasDaCategoria/{idCategoria}")]
         public async Task<IActionResult> ObterTodasDaCategoria(int idCategoria)
         {
-            return Ok(await _mediator.Send(new ObterSubCategoriasQuery(idCategoria)));
+            ObterSubCategoriasResultado resultado = await _mediator.Send(new ObterSubCategoriasQuery(idCategoria));
+            return Ok(resultado.SubCategorias);
         }
 
+        /// <summary>
+        /// Retorna todas subcategorias.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            ObterSubCategoriasResultado resultado = await _mediator.Send(new ObterSubCategoriasQuery(categoriaId));
+            ObterSubCategoriasResultado resultado = await _mediator.Send(new ObterSubCategoriasQuery());
             return Ok(resultado.SubCategorias);
         }
     }

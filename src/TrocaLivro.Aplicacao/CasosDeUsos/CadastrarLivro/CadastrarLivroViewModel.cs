@@ -50,6 +50,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
         public List<EditoraDTO> Editoras { get; set; }
         public List<CategoriaDTO> Categorias { get; set; }
         public string Usuario { get; set; }
+        public string Token { get; set; }
 
         public CadastrarLivroViewModel()
         {

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
-using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.DTO;
 using TrocaLivro.Dominio.Helpers;
 using TrocaLivro.Dominio.Responses;
@@ -19,11 +21,19 @@ namespace TrocaLivro.Aplicacao.HttpClients
         private readonly IMapper mapper;
         private const string APICONTROLLER_LIVRO = "livros";
         private const string APICONTROLLER_SUBCATEGORIA = "subcategorias";
+        private string admToken = string.Empty;
+        private string token = string.Empty;
 
-        public LivroApClient(HttpClient httpClient, IMapper mapper)
+        public void AtualizarToken(Claim claimComToken)
+        {
+            this.token = claimComToken.Value;
+        }
+
+        public LivroApClient(HttpClient httpClient, IMapper mapper, IMemoryCache memoryCache)
         {
             this.httpClient = httpClient;
-            this.mapper = mapper;
+            this.mapper = mapper; 
+            this.admToken = memoryCache.Get("ADM_TOKEN").ToString();
         }
 
         public async Task<ObterDadosDashboardViewModel> ObterInformacoesHome()
@@ -37,6 +47,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<List<LivroDTO>> ObterLivrosAdicionadosRecentemente()
         {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
             var resposta = await httpClient.GetAsync(APICONTROLLER_LIVRO);
             var livros = await resposta.Content.ReadFromJsonAsync<List<LivroDTO>>();
             return livros;
@@ -76,7 +87,10 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<AppResponse<CadastrarLivroResultado>> CadastrarLivro(CadastrarLivroViewModel request)
         {
             CadastrarLivroCommand comando = mapper.Map<CadastrarLivroCommand>(request); 
+
             HttpContent content = CriarMultipartFormDataParaLivro(comando);
+            
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             HttpResponseMessage resposta = await httpClient.PostAsync(APICONTROLLER_LIVRO, content);
 
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<CadastrarLivroResultado>>();
@@ -108,6 +122,8 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<List<AutorDTO>> ObterAutores()
         {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
+
             HttpResponseMessage resposta = await httpClient.GetAsync("Autor");
             var dados = await resposta.Content.ReadFromJsonAsync<List<AutorDTO>>();
             return dados;
@@ -115,6 +131,8 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<List<CategoriaDTO>> ObterCategorias()
         {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
+
             HttpResponseMessage resposta = await httpClient.GetAsync("Categoria");
             var dados = await resposta.Content.ReadFromJsonAsync<List<CategoriaDTO>>();
             return dados;
@@ -122,7 +140,9 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<List<SubCategoriaDTO>> ObterSubCategorias(int categoriaId)
         {
-            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_SUBCATEGORIA}/{categoriaId}");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
+
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_SUBCATEGORIA}/ObterTodasDaCategoria/{categoriaId}");
             var dados = await resposta.Content.ReadFromJsonAsync<List<SubCategoriaDTO>>();
             return dados;
         }

@@ -2,13 +2,20 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos;
+using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.Mapping;
+using TrocaLivro.Dominio.Responses;
+using TrocaLivro.Infra.Services;
 
 namespace WebApp
 {
@@ -45,15 +52,14 @@ namespace WebApp
             services.AddHttpClient<LivroApClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddAutoMapper(typeof(UsuarioProfile));
-            services.AddAutoMapper(typeof(LivroProfile));
-
+            services.AddAutoMapper(typeof(LivroProfile)); 
             services.AddMvc().AddRazorOptions(options =>
             {
                 options.ViewLocationFormats.Add("/{0}.cshtml");
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env , IMemoryCache memoryCache)
         {
             if (env.IsDevelopment())
             {
@@ -65,7 +71,13 @@ namespace WebApp
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            HttpClient httpClient = new HttpClient() { BaseAddress = new Uri(API_URL) };
+            var resposta = httpClient.PostAsJsonAsync("Usuario/Logar", new LogarUsuarioModel { Usuario = "michael", Senha = "123456" }).GetAwaiter().GetResult();            
+            var appResponse = resposta.Content.ReadFromJsonAsync<AppResponse<LogarUsuarioResultado>>().GetAwaiter().GetResult();
+
+            var memoryCacheOptions = new MemoryCacheEntryOptions();
+            memoryCache.Set("ADM_TOKEN", appResponse.Dados.Token, memoryCacheOptions); 
+
             app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthorization();

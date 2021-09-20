@@ -57,7 +57,10 @@
                             <a class="dropdown-item" href="">Categoria 1</a>
                         </div>
                     </li>
-                    <li><a asp-action="Cadastrar" asp-controller="Livro">Cadastrar livro</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-action="Cadastrar" asp-controller="Livro">Cadastrar livro</a></li>
+                    }
                 </ul>
             </div>
         </div>
