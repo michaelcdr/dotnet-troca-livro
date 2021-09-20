@@ -6,10 +6,10 @@ using TrocaLivro.Infra.Services;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario
 {
-    public class LogarUsuarioHandler : IRequestHandler<LogarUsuarioCommand, AppResponse<LogarUsuarioResultado>>
+    public class LogarUsuarioCommandHandler : IRequestHandler<LogarUsuarioCommand, AppResponse<LogarUsuarioResultado>>
     {
         private readonly IGeradorToken _geradorToken;
-        public LogarUsuarioHandler(IGeradorToken geradorToken)
+        public LogarUsuarioCommandHandler(IGeradorToken geradorToken)
         {
             this._geradorToken = geradorToken;
         }

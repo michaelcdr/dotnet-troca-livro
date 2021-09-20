@@ -53,20 +53,20 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta.Dados);
         }
 
-        ///// <summary>
-        ///// Obtem uma lista de nivel. Quando nada for informado no termo de pesquisa todos livros são retornados.
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <returns></returns>
-        //[HttpGet("{livroId}")]
-        //public async Task<IActionResult> Get(int livroId)
-        //{
-        //    AppResponse<LivroDTO> resposta = await _livroService.Obter(livroId);
+        /// <summary>
+        /// Obtem uma lista de nivel. Quando nada for informado no termo de pesquisa todos livros são retornados.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet("{livroId}")]
+        public async Task<IActionResult> Get(int livroId)
+        {
+            AppResponse<LivroDTO> resposta = await _livroService.Obter(livroId);
 
-        //    if (!resposta.Sucesso) return BadRequest(resposta.Erros);
+            if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
-        //    return Ok(resposta.Dados);
-        //}
+            return Ok(resposta.Dados);
+        }
 
         /// <summary>
         /// Cadastra um novo livro
