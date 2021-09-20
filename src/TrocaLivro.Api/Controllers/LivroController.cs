@@ -21,11 +21,9 @@ namespace TrocaLivro.Api.Controllers
     [Route("api/v{version:apiVersion}/livros")]
     public class LivroController : Controller
     {
-        private readonly ILivroService _livroService;
         private IMediator _mediator;
-        public LivroController(IMediator mediator, ILivroService livroService)
+        public LivroController(IMediator mediator)
         {
-            this._livroService = livroService;
             this._mediator = mediator;
         }
 
@@ -36,9 +34,9 @@ namespace TrocaLivro.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Get([FromQuery] ObterTodosLivrosRequest request)
+        public async Task<IActionResult> Get([FromQuery] ObterLivrosAdicionadosRecentementeQuery query)
         {
-            AppResponse<IList<LivroDTO>> resposta = await _livroService.ObterTodos(request);
+            AppResponse<ObterLivrosAdicionadosRecentementeResultado> resposta = await _mediator.Send(query);
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
@@ -55,20 +53,20 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta.Dados);
         }
 
-        /// <summary>
-        /// Obtem uma lista de nivel. Quando nada for informado no termo de pesquisa todos livros são retornados.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [HttpGet("{livroId}")]
-        public async Task<IActionResult> Get(int livroId)
-        {
-            AppResponse<LivroDTO> resposta = await _livroService.Obter(livroId);
+        ///// <summary>
+        ///// Obtem uma lista de nivel. Quando nada for informado no termo de pesquisa todos livros são retornados.
+        ///// </summary>
+        ///// <param name="request"></param>
+        ///// <returns></returns>
+        //[HttpGet("{livroId}")]
+        //public async Task<IActionResult> Get(int livroId)
+        //{
+        //    AppResponse<LivroDTO> resposta = await _livroService.Obter(livroId);
 
-            if (!resposta.Sucesso) return BadRequest(resposta.Erros);
+        //    if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
-            return Ok(resposta.Dados);
-        }
+        //    return Ok(resposta.Dados);
+        //}
 
         /// <summary>
         /// Cadastra um novo livro

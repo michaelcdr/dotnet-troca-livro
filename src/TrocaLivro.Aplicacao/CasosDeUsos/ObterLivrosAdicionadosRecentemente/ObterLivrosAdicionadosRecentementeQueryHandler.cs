@@ -11,7 +11,7 @@ using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Dominio.Transacoes;
 
-namespace TrocaLivro.Aplicacao.CasosDeUsos.ObterLivrosAdicionadosRecentemente
+namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
     public class ObterLivrosAdicionadosRecentementeQueryHandler : IRequestHandler<ObterLivrosAdicionadosRecentementeQuery, AppResponse<ObterLivrosAdicionadosRecentementeResultado>>
     {
