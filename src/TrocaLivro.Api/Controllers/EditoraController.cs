@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.CasosDeUsos;
+using TrocaLivro.Aplicacao.CasosDeUsos.CriarEditora;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
-using TrocaLivro.Dominio.Services;
 
 namespace TrocaLivro.Api.Controllers
 {
@@ -14,21 +15,21 @@ namespace TrocaLivro.Api.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class EditoraController : Controller
     {
-        private IEditoraService _editoraService;
+        private readonly IMediator _mediator;
 
-        public EditoraController(IEditoraService editoraService)
+        public EditoraController(IMediator mediator)
         {
-            this._editoraService = editoraService;
+            this._mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            AppResponse<IList<EditoraDTO>> resposta = await _editoraService.ObterTodas();
+            AppResponse<ObterTodasEditorasResultado> resposta = await _mediator.Send(new ObterTodasEditorasQuery());
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
-            return Ok(resposta.Dados);
+            return Ok(resposta.Dados.Editoras);
         }
 
         /// <summary>
@@ -37,9 +38,9 @@ namespace TrocaLivro.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] EditoraRequest request)
+        public async Task<IActionResult> Post([FromBody] CriarEditoraCommand command)
         {
-            AppResponse<Editora> resposta = await _editoraService.Criar(request);
+            AppResponse<CriarEditoraResultado> resposta = await _mediator.Send(command);
 
             if (!resposta.Sucesso) return BadRequest(resposta);
 

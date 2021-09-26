@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -56,12 +57,12 @@ namespace WebApp.Controllers
                     {
                         new Claim(ClaimTypes.Name, model.Usuario),
                         new Claim(ClaimTypes.NameIdentifier, model.Usuario),
-                        new Claim("Token", resultado.Dados.Token)
+                        new Claim("Token", resultado.Dados.Token),
+                        new Claim(ClaimTypes.Role,resultado.Dados.Role)
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
 
                     var authProp = new AuthenticationProperties
                     {

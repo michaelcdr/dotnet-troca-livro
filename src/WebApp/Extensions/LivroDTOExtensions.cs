@@ -1,4 +1,4 @@
-﻿using TrocaLivro.Dominio.DTO;
+﻿using TrocaLivro.Aplicacao.DTO;
 using WebApp.Models;
 
 namespace WebApp.Extensions

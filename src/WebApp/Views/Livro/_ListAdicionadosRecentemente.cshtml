@@ -1,14 +1,14 @@
-﻿@model List<LivroCard>
+﻿@model List<LivroCardModel>
 
 <div class="row d-flex">
-    @foreach (var livroDTO in Model)
+    @foreach (var livro in Model)
     {
         <div class="flex-fill col-md-3 mb-3">
-            <div class="card" >
+            <div class="card card-produto" >
                 <div class="img-container">
-                    @if (livroDTO.Capa != null)
+                    @if (livro.Imagem != null)
                     {
-                        <img src="@livroDTO.Capa" class="" alt="...">
+                        <img src="@livro.Imagem" class="" alt="...">
                     }
                     else
                     {
@@ -19,9 +19,10 @@
                     }
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">@livroDTO.Titulo</h5>
-                    <p class="card-text">@livroDTO.Descricao</p>
-                    <a asp-action="Detalhes" asp-controller="Livro" asp-route-id="@livroDTO.Id" class="btn btn-outline-dark btn-block">Ver detalhes</a>
+                    <h5 class="card-title">@livro.Titulo</h5>
+                    <p class="card-text">@livro.DescricaoFormatadaParaCard</p>
+                    <a asp-action="Detalhes" asp-controller="Livro" asp-route-id="@livro.Id" 
+                       class="btn btn-outline-dark btn-block">Ver detalhes</a>
                 </div>
             </div>
         </div>

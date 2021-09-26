@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.IO;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
 using TrocaLivro.Dominio.Entidades;
 
-namespace TrocaLivro.Dominio.Extensions
+namespace TrocaLivro.Aplicacao.Extensions
 {
     public static class LivroExtensions
     {

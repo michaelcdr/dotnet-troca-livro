@@ -19,11 +19,7 @@ namespace TrocaLivro.Dominio.Entidades
         public string AlteradoPor { get; set; }
         public Editora Editora { get; private set; }
 
-        public void Deletar(object usuario)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public int EditoraId { get; private set; }
         public string Tags { get; set; }
         public List<Imagem> Imagens { get; set; }

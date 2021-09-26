@@ -22,7 +22,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
         public async Task<Livro> Obter(int id)
         {
             return await ApplicationDbContext.Livros
-                .Where(e => e.Id == id).Include(e => e.Autores).ThenInclude(e => e.Autor)
+                .Where(e => e.Id == id && !e.Deletado).Include(e => e.Autores).ThenInclude(e => e.Autor)
                 .Include(e => e.Editora)
                 .Include(e => e.Imagens)
                 .Include(e => e.Arquivos)
@@ -34,13 +34,13 @@ namespace TrocaLivro.Infra.Repositorios.EF
         {
             return await ApplicationDbContext.Livros
                 .Include(e => e.Autores).ThenInclude(e => e.Autor)
-                .Include(e => e.Imagens)
-                .Include(e => e.Editora).OrderByDescending(e => e.DataCadastro).ToListAsync();
+                .Include(e => e.Imagens).Include(e => e.Editora)
+                .Where(e => !e.Deletado).OrderByDescending(e => e.DataCadastro).ToListAsync();
         }
 
         public async Task<int> ObterTotal()
         {
-            return await ApplicationDbContext.Livros.AsNoTracking().CountAsync();
+            return await ApplicationDbContext.Livros.AsNoTracking().CountAsync(e => !e.Deletado);
         }
 
         public async Task<int> ObterTotalDeTrocas()

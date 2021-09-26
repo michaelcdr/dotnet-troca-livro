@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {

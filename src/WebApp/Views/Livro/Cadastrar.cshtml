@@ -4,6 +4,12 @@
     ViewData["Title"] = "Cadastrar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 } 
+
+<style>
+    .img-livro-container{
+        height:120px;
+    }
+</style>
 <h1>Cadastrar » <small>Livro</small></h1>
 
 <hr />
@@ -44,19 +50,7 @@
                 <span asp-validation-for="AutorId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="EditoraId" class="control-label">Editora</label>
-                <select asp-for="EditoraId" class="form-control">
-                    <option value="">Selecione...</option>
-                    @foreach (var item in Model.Editoras)
-                    {
-                        <option value="@item.Id">@item.Nome</option>
-                    }
-                </select>
-                <span asp-validation-for="EditoraId" class="text-danger"></span>
-            </div>
-        </div>
+
 
         <div class="col-md-6">
             <div class="form-group">
@@ -81,22 +75,34 @@
                 <span asp-validation-for="SubCategoriaId" class="text-danger"></span>
             </div>
         </div>
-
-        <div class="col-md-4">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EditoraId" class="control-label">Editora</label>
+                <select asp-for="EditoraId" class="form-control">
+                    <option value="">Selecione...</option>
+                    @foreach (var item in Model.Editoras)
+                    {
+                        <option value="@item.Id">@item.Nome</option>
+                    }
+                </select>
+                <span asp-validation-for="EditoraId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="ISBN" class="control-label"></label>
                 <input asp-for="ISBN" class="form-control" />
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="NumeroPaginas" class="control-label"></label>
                 <input asp-for="NumeroPaginas" class="form-control" />
                 <span asp-validation-for="NumeroPaginas" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Ano" class="control-label"></label>
                 <input asp-for="Ano" class="form-control" />
@@ -111,7 +117,7 @@
                     Adicionar imagens
                     <input id="Imagens" name="Imagens" type="file" multiple class="d-none" accept="image/jpeg" />
                 </label>
-                <div id="imagens-container"></div>
+                <div id="imagens-container" class="row"></div>
             </fieldset> <hr />
         </div>
 
@@ -131,17 +137,34 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
+        
         $('#Imagens').change(function () {
             let input = this;
             if (input.files) {
                 for (var i = 0; i < input.files.length; i++) {
                     let reader = new FileReader();
                     reader.onload = function (e) {
-                        let imagemUpada = $(`<img src="${e.target.result}" class='img-livro' />`);
-                        let containerImg = $('<div class="item p-2" />');
-                        containerImg.html(imagemUpada);
-                        $('#imagens-container').append(containerImg);
+                        let imagemId = createGuid();
+                        let cardHtml = `<div class="col-md-2 d-flex m-3 align-items-stretch  card" data-imagem-id="${imagemId}" >
+                            <div class="img-livro-container text-center pt-2 pb-2">
+                                <img src="${e.target.result}" class='img-livro' style='max-width:100px; max-height: 100px' />
+                            </div>
+                            <div class="text-center pb-2">
+                                <button class="btn btn-danger btn-sm btn-remover-img" data-imagem-id="${imagemId}" type="button">Remover</button>
+                            </div>
+                        </div>`;
+                        
+                        $('#imagens-container').append(cardHtml);
+
+                        $('.btn-remover-img').unbind('click');
+                        $('.btn-remover-img').click(function () {
+                            let id = $(this).data('imagemId');
+                            let index = obterIndiceImagem(id);
+                            removerArquivoDoFileList(index);
+                            $('.card[data-imagem-id="' + id+'"]').remove();
+                        });
                     }
+
                     reader.readAsDataURL(input.files[i]);
                 }
             }
@@ -167,5 +190,36 @@
                 });
             }
         });
+
+        function obterIndiceImagem(imagemId) {
+            let indice = -1;
+            $(".card").each(function (index, elemento) {
+                if ($(elemento).data('imagemId') === imagemId) {
+                    indice = index;
+                    return;                   
+                }
+            });
+            return indice;
+        }
+
+        function removerArquivoDoFileList(indiceDoArquivo) {
+            const dt = new DataTransfer();
+            const input = document.querySelector('#Imagens');
+            const { files } = input
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i]
+                if (indiceDoArquivo !== i)
+                    dt.items.add(file);
+            }
+
+            input.files = dt.files;
+        }
+        function createGuid() {
+            let S4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+            let guid = `${S4()}${S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`;
+
+            return guid.toLowerCase();
+        }
     </script>
 }

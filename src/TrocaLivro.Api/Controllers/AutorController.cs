@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.CasosDeUsos;
+using TrocaLivro.Aplicacao.CasosDeUsos.ObterTodosAutores;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
-using TrocaLivro.Dominio.Services;
 
 namespace TrocaLivro.Api.Controllers
 {
@@ -15,20 +15,21 @@ namespace TrocaLivro.Api.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AutorController : Controller
     {
-        private IAutorService _autorService;
-        public AutorController(IAutorService autorService)
+        private readonly IMediator _mediator;
+
+        public AutorController(IMediator mediator)
         {
-            this._autorService = autorService;
+            this._mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            AppResponse<IList<AutorDTO>> resposta = await _autorService.ObterTodas();
+            AppResponse<ObterTodosAutoresResultado> resposta = await _mediator.Send(new ObterTodosAutoresQuery());
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
-            return Ok(resposta.Dados);
+            return Ok(resposta.Dados.Autores);
         }
 
         /// <summary>
@@ -37,9 +38,9 @@ namespace TrocaLivro.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AutorRequest request)
+        public async Task<IActionResult> Post([FromBody] CriarAutorCommand command)
         {
-            AppResponse<Autor> resposta = await _autorService.Criar(request); 
+            AppResponse<CriarAutorResultado> resposta = await _mediator.Send(command); 
 
             if (!resposta.Sucesso) return BadRequest(resposta);
 

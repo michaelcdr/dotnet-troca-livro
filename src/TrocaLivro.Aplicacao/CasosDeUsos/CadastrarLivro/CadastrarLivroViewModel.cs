@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 {

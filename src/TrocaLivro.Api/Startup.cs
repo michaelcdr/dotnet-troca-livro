@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -18,7 +19,6 @@ using TrocaLivro.Aplicacao.Mapping;
 using TrocaLivro.Aplicacao.Services;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Repositorios;
-using TrocaLivro.Dominio.Services;
 using TrocaLivro.Dominio.Transacoes;
 using TrocaLivro.Infra.Configuracoes;
 using TrocaLivro.Infra.Data;
@@ -42,14 +42,43 @@ namespace TrocaLivro.Api
         {
             services.Configure<JwtConfiguracao>(Configuration.GetSection("JwtConfig"));
 
-
             string connStr = Configuration.GetConnectionString("ContextConnection");
 
             services.AddDbContext<ApplicationDbContext>(opt => { opt.UseSqlServer(connStr); });
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrocaLivro.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrocaLivro.Api", Version = "v1", Description = "Documentação da API" });
+
+                var securityScheme = new OpenApiSecurityScheme()
+                {
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Description = "Autenticação Bearer via JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header
+                        },
+                        new List<string>()
+                    }
+                });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -114,11 +143,8 @@ namespace TrocaLivro.Api
             services.AddTransient<IAutoresRepositorio, AutoresRepositorio>();
             services.AddTransient<IEditorasRepositorio, EditorasRepositorio>();
             services.AddTransient<ICategoriasRepositorio, CategoriasRepositorio>();
-
-            services.AddTransient<ILivroService, LivroService>();
-            services.AddTransient<IAutorService, AutorService>();
-            services.AddTransient<IEditoraService, EditoraService>();
-            services.AddTransient<IGeradorToken, GeradorToken>();
+             
+            services.AddTransient<IGerenciadorToken, GerenciadorToken>();
 
             services.AddApiVersioning();
         }

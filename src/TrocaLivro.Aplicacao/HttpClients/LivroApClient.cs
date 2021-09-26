@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Helpers;
 using TrocaLivro.Dominio.Responses;
 
@@ -38,18 +39,19 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<ObterDadosDashboardViewModel> ObterInformacoesHome()
         {
-            var resposta = await httpClient.GetAsync(string.Concat(APICONTROLLER_LIVRO,"/dashboard"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
+            var resposta = await httpClient.GetAsync(string.Concat(APICONTROLLER_LIVRO, "/dashboard"));
             var dashboard = await resposta.Content.ReadFromJsonAsync<ObterDadosDashboardResultado>();
             ObterDadosDashboardViewModel indexViewModel = mapper.Map<ObterDadosDashboardViewModel>(dashboard);
 
             return indexViewModel;
         }
 
-        public async Task<List<LivroDTO>> ObterLivrosAdicionadosRecentemente()
+        public async Task<List<LivroCardModel>> ObterLivrosAdicionadosRecentemente()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
             var resposta = await httpClient.GetAsync(APICONTROLLER_LIVRO);
-            var livros = await resposta.Content.ReadFromJsonAsync<List<LivroDTO>>();
+            var livros = await resposta.Content.ReadFromJsonAsync<List<LivroCardModel>>();
             return livros;
         }
 
@@ -79,7 +81,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return content;
         }
 
-        public Task<AppResponse<EditarLivroResultado>> EditarLivro(EditarLivroViewModel model)
+        public async Task<AppResponse<EditarLivroResultado>> EditarLivro(EditarLivroViewModel model)
         {
             throw new System.NotImplementedException();
         }
@@ -99,25 +101,41 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<List<LivroDTO>> ObterListaLivros(string termoPesquisa)
         {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
+
             var resposta = await httpClient.GetAsync($"${APICONTROLLER_LIVRO}?TermoPesquisa={termoPesquisa}");
             var livros = await resposta.Content.ReadFromJsonAsync<List<LivroDTO>>();
             return livros;
         }
 
+        public async Task<AppResponse<DeletarLivroResultado>> DeletarLivro(int livroId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.DeleteAsync($"{APICONTROLLER_LIVRO}/{livroId}");
+
+            return await resposta.Content.ReadFromJsonAsync<AppResponse<DeletarLivroResultado>>();
+        }
+
         public async Task<List<EditoraDTO>> ObterEditoras()
         {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
+
             HttpResponseMessage resposta = await httpClient.GetAsync("Editora");
             resposta.EnsureSuccessStatusCode();
+            var editoraDTOs = await resposta.Content.ReadFromJsonAsync<List<EditoraDTO>>();
 
-            var dados = await resposta.Content.ReadFromJsonAsync<List<EditoraDTO>>();
-            return dados;
+            return editoraDTOs;
         }
 
         public async Task<LivroDTO> ObterLivro(int livroId)
         {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
+
             HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/{livroId}");
-            LivroDTO livros = await resposta.Content.ReadFromJsonAsync<LivroDTO>();
-            return livros;
+
+            ObterLivroResultado resultado = await resposta.Content.ReadFromJsonAsync<ObterLivroResultado>();
+
+            return resultado.Livro;
         }
 
         public async Task<List<AutorDTO>> ObterAutores()

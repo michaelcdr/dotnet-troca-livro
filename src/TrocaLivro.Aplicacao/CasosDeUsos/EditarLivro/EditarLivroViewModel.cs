@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
 {

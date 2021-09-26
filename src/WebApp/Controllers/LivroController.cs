@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
 using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
+using TrocaLivro.Aplicacao.DTO;
 using TrocaLivro.Aplicacao.HttpClients;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
-using WebApp.Extensions;
 using WebApp.Filtros;
 using WebApp.Models;
 
@@ -32,17 +32,23 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> _ListAdicionadosRecentemente()
         {
-            Console.WriteLine("_ListAdicionadosRecentemente");
             AtualizarToken();
-            List<LivroDTO> livrosDTO = await api.ObterLivrosAdicionadosRecentemente();
-            List<LivroCard> cards = livrosDTO.Select(livroDto => livroDto.ToModel()).ToList();
-            return PartialView(cards);
+            List<LivroCardModel> livros = await api.ObterLivrosAdicionadosRecentemente(); 
+            return PartialView(livros);
         }
 
         public async Task<IActionResult> Detalhes(int id)
         {
+            AtualizarToken();
+
             LivroDTO livro = await api.ObterLivro(id);
-            LivroDetalhes model = LivroDetalhes.CriarUsandoLivro(livro);
+            LivroDetalhes model = LivroDetalhes.GerarPorLivroDTO(livro);
+            
+            if (User.Identity.IsAuthenticated)
+            {
+                model.PodeEditar = User.IsInRole("admin");
+            }
+
             return View(model);
         }
 
@@ -121,5 +127,15 @@ namespace WebApp.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        [AuthorizeCustomizado, HttpPost]
+        public async Task<IActionResult> Deletar(int id)
+        {
+            AtualizarToken();
+
+            AppResponse<DeletarLivroResultado> resposta = await api.DeletarLivro(id);
+
+            return Json(resposta);
+        } 
     }
 }

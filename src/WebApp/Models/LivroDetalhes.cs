@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
 
 namespace WebApp.Models
 {
@@ -11,7 +11,12 @@ namespace WebApp.Models
         public string Descricao { get; set; }
         public int NumeroPagina { get;  set; }
 
-        public static LivroDetalhes CriarUsandoLivro(LivroDTO livro)
+        /// <summary>
+        /// Gera um objeto LivroDetalhes usando um objeto LivroDTO
+        /// </summary>
+        /// <param name="livro">Objeto do tipo LivroDTO</param>
+        /// <returns></returns>
+        public static LivroDetalhes GerarPorLivroDTO(LivroDTO livro)
         {
             return new LivroDetalhes
             {
@@ -34,6 +39,7 @@ namespace WebApp.Models
         public List<UsuarioOfertando> Usuarios { get; set; }
         public int Ano { get;  set; }
         public string Capa { get;  set; }
+        public bool PodeEditar { get; set; }
 
         public LivroDetalhes()
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TrocaLivro.Dominio.Entidades;
 
-namespace TrocaLivro.Dominio.DTO
+namespace TrocaLivro.Aplicacao.DTO
 {
     public class LivroDTO
     {

@@ -4,11 +4,11 @@ namespace TrocaLivro.Dominio.Responses
 {
     public class AppResponse<T>
     {
-        public List<Notificacao> Erros { get; set; }
-        public bool Sucesso { get; set; }
+        public List<Notificacao> Erros { get;  set; }
+        public bool Sucesso { get;  set; }
         public string Mensagem { get;  set; }
         public T Dados { get;  set; }
-        
+        public int StatusCode { get; set; }
 
         public AppResponse(string mensagem, bool sucesso, List<Notificacao> erros)
         {

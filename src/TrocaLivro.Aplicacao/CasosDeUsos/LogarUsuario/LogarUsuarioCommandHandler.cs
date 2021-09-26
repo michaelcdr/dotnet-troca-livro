@@ -8,8 +8,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario
 {
     public class LogarUsuarioCommandHandler : IRequestHandler<LogarUsuarioCommand, AppResponse<LogarUsuarioResultado>>
     {
-        private readonly IGeradorToken _geradorToken;
-        public LogarUsuarioCommandHandler(IGeradorToken geradorToken)
+        private readonly IGerenciadorToken _geradorToken;
+        public LogarUsuarioCommandHandler(IGerenciadorToken geradorToken)
         {
             this._geradorToken = geradorToken;
         }
@@ -21,7 +21,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario
             if (!tokenResultado.Sucesso)
                 return new AppResponse<LogarUsuarioResultado>(tokenResultado.Mensagem, false, tokenResultado.Erros);
 
-            var resultado = new LogarUsuarioResultado(tokenResultado.Dados.Token);
+            var resultado = new LogarUsuarioResultado(tokenResultado.Dados.Token,tokenResultado.Dados.Role);
 
             return new AppResponse<LogarUsuarioResultado>(true, "Logado com sucesso. ",resultado);
         }

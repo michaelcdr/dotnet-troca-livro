@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
 using TrocaLivro.Dominio.Entidades;
 
 namespace TrocaLivro.Aplicacao.Mapping

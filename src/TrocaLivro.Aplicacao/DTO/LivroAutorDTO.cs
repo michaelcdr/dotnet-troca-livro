@@ -1,4 +1,4 @@
-﻿namespace TrocaLivro.Dominio.DTO
+﻿namespace TrocaLivro.Aplicacao.DTO
 {
     public class LivroAutorDTO
     {

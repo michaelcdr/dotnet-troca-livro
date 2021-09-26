@@ -52,28 +52,7 @@
                 <span asp-validation-for="AutorId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="EditoraId" class="control-label">Editora</label>
-                <select asp-for="EditoraId" class="form-control">
-                    <option value="">Selecione...</option>
-                    @foreach (var item in Model.Editoras)
-                    {
-                        if (item.Id == Model.EditoraId)
-                        {
-                            <option value="@item.Id" selected="selected">@item.Nome</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Id">@item.Nome</option>
-                        }
-                    }
-                </select>
-                <span asp-validation-for="EditoraId" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label">Categoria</label>
                 <select asp-for="CategoriaId" class="form-control" data-id="@Model.CategoriaId">
@@ -93,7 +72,7 @@
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="SubCategoriaId" class="control-label">SubCategoria</label>
                 <select asp-for="SubCategoriaId" class="form-control">
@@ -114,21 +93,41 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EditoraId" class="control-label">Editora</label>
+                <select asp-for="EditoraId" class="form-control">
+                    <option value="">Selecione...</option>
+                    @foreach (var item in Model.Editoras)
+                    {
+                        if (item.Id == Model.EditoraId)
+                        {
+                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Nome</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="EditoraId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="ISBN" class="control-label"></label>
                 <input asp-for="ISBN" class="form-control" />
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="NumeroPaginas" class="control-label"></label>
                 <input asp-for="NumeroPaginas" class="form-control" />
                 <span asp-validation-for="NumeroPaginas" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Ano" class="control-label"></label>
                 <input asp-for="Ano" class="form-control" />
@@ -144,7 +143,8 @@
                     <input id="Imagens" name="Imagens" type="file" multiple class="d-none" accept="image/jpeg" />
                 </label>
                 <div id="imagens-container"></div>
-            </fieldset> <hr />
+            </fieldset>
+            <hr />
         </div>
 
         <div class="col-md-12">

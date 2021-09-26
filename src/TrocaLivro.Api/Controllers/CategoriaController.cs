@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TrocaLivro.Dominio.DTO;
+using TrocaLivro.Aplicacao.DTO;
 using TrocaLivro.Dominio.Entidades;
-using TrocaLivro.Dominio.Extensions;
 using TrocaLivro.Dominio.Transacoes;
 
 namespace TrocaLivro.Api.Controllers
@@ -27,7 +26,7 @@ namespace TrocaLivro.Api.Controllers
 
             List<CategoriaDTO> categoriaDTOs = categorias == null 
                 ? new List<CategoriaDTO>()
-                : categorias.Select(e => e.ToDTO()).OrderBy(e => e.Nome).ToList();
+                : categorias.Select(e => new CategoriaDTO(e.Id,e.Nome)).OrderBy(e => e.Nome).ToList();
 
             return Ok(categoriaDTOs);
         }

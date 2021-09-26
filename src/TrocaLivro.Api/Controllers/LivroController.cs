@@ -2,17 +2,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro;
-using TrocaLivro.Aplicacao.CasosDeUsos.DeletarLivro;
 using TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro;
-using TrocaLivro.Dominio.DTO;
-using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
-using TrocaLivro.Dominio.Services;
+using TrocaLivro.Infra.Services;
 
 namespace TrocaLivro.Api.Controllers
 {
@@ -22,9 +18,11 @@ namespace TrocaLivro.Api.Controllers
     public class LivroController : Controller
     {
         private IMediator _mediator;
-        public LivroController(IMediator mediator)
+        private readonly IGerenciadorToken _tokenHandler;
+        public LivroController(IMediator mediator, IGerenciadorToken tokenHandler)
         {
             this._mediator = mediator;
+            this._tokenHandler = tokenHandler;
         }
 
         /// <summary>
@@ -40,13 +38,14 @@ namespace TrocaLivro.Api.Controllers
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
-            return Ok(resposta.Dados);
+            return Ok(resposta.Dados.Livros);
         }
 
         [HttpGet("dashboard")]
-        public async Task<IActionResult> Dashboard([FromQuery] ObterDadosDashboardQuery query)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Dashboard()
         {
-            AppResponse<ObterDadosDashboardResultado> resposta = await _mediator.Send(query);
+            AppResponse<ObterDadosDashboardResultado> resposta = await _mediator.Send(new ObterDadosDashboardQuery());
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
@@ -59,9 +58,10 @@ namespace TrocaLivro.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet("{livroId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(int livroId)
         {
-            AppResponse<LivroDTO> resposta = await _livroService.Obter(livroId);
+            AppResponse<ObterLivroResultado> resposta = await _mediator.Send(new ObterLivroQuery(livroId));
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 
@@ -69,7 +69,7 @@ namespace TrocaLivro.Api.Controllers
         }
 
         /// <summary>
-        /// Cadastra um novo livro
+        /// Cadastra um novo livro.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -77,6 +77,8 @@ namespace TrocaLivro.Api.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Post([FromForm] CadastrarLivroCommand comando)
         {
+            comando.Usuario = User.Identity.Name;
+
             AppResponse<CadastrarLivroResultado> resultado = await _mediator.Send(comando);
 
             if (!resultado.Sucesso) return BadRequest(resultado);
@@ -84,9 +86,18 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resultado);
         }
 
+        /// <summary>
+        /// Atualiza um livro atual
+        /// </summary>
+        /// <param name="comando"></param>
+        /// <returns></returns>
         [HttpPut, DisableRequestSizeLimit]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Put([FromForm] EditarLivroCommand comando)
         {
+            string token = HttpContext.Request.Headers["Authorization"];
+            comando.Usuario = _tokenHandler.ObterNomeUsuario(token);
+
             AppResponse<EditarLivroResultado> resultado = await _mediator.Send(comando);
 
             if (!resultado.Sucesso) return BadRequest(resultado);
@@ -98,9 +109,12 @@ namespace TrocaLivro.Api.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Delete(int livroId)
         {
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string token = HttpContext.Request.Headers["Authorization"];
+            var comando = new DeletarLivroCommand(livroId, _tokenHandler.ObterNomeUsuario(token));
+            
+            AppResponse<DeletarLivroResultado> resultado = await _mediator.Send(comando);
 
-            AppResponse<DeletarLivroResultado> resultado = await _mediator.Send(new DeletarLivroCommand(livroId, userId));
+            if (resultado.StatusCode == 404) return NotFound(resultado);
 
             if (!resultado.Sucesso) return BadRequest(resultado);
            

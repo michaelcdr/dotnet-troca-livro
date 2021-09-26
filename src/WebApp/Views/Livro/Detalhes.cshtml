@@ -5,18 +5,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
  
-<div class="row">
+<div class="row mt-2">
     <div class="col-md-3">
         <img src="@Model.Capa" style="max-width:100%" />
     </div>
-    <div class="col-md-6">
+    <div class="col-md-9">
         <h1>@Model.Titulo</h1>
         <div class="ator pb-2">@Model.Autores </div>
         <div class="isbn pb-2">@Model.ISBN - @Model.NumeroPagina páginas - @Model.Ano</div>
         <p>@Html.Raw(Model.Descricao)</p>
-    </div>
-
-    
+    </div> 
+    @if (Model.PodeEditar)
+    {
+    <div class="col-md-12 pt-2">
+        <a asp-action="Editar" asp-controller="Livro" asp-route-id="@Model.Id" class="btn btn-outline-dark">Editar livro</a>
+        <button type="button" class="btn btn-outline-danger" id="btn-deletar" data-id="@Model.Id">Deletar livro</button>
+    </div>}
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -25,7 +29,7 @@
         <table class="table table-striped" width="100%">
             @foreach (var item in Model.Usuarios)
             {
-                <tr >
+                <tr>
                     <td class="text-center" width="10px" valign="middle">
                         <img src="~/img/usuario/2.png" width="50" />
                     </td>
@@ -33,8 +37,8 @@
                         <div>@item.Nome</div>
                         <div>@item.LivrosEnviados Livros enviados</div>
                     </td>
-                    <td class=" text-right " valign="middle" >
-                        <button class="btn btn-outline-dark">Solicitar troca</button>
+                    <td class=" text-right " valign="middle">
+                        <button type="button" class="btn btn-outline-dark">Solicitar troca</button>
                     </td>
                 </tr>
             }
@@ -48,8 +52,7 @@
         <div class="form-group">
             <label class="control-label">Título</label>
             <input class="form-control" />
-        </div>
-        
+        </div> 
         
         <div class="form-group">
             <label id="descritivo" class="control-label">Descrição</label>
@@ -58,6 +61,7 @@
 
         <button class="btn btn-block btn-outline-dark">Cadastrar</button>
     </div>
+
     <div class="col-md-12">
         <h3>Últimas questões feitas</h3>
 
@@ -86,4 +90,54 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function DetalhesLivro() {
+
+            this._aplicarEventos();
+           
+        }
+
+        DetalhesLivro.prototype._aplicarEventos = function () {
+            let _self = this;
+            let btnDeletar = document.querySelector('#btn-deletar');
+            btnDeletar.addEventListener('click', function () {
+                return _self.deletarLivro(btnDeletar.dataset.id);
+            });
+        };
+
+        DetalhesLivro.prototype.deletarLivro = function (id) {
+            let callback = function () {
+
+                let parametros = new URLSearchParams({ id: id });
+                const myRequest = new Request('/Livro/Deletar?' + parametros, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                fetch(myRequest)
+                    .then(response => { return response.json(); })
+                    .then(dados => {
+                        if (dados.sucesso) {
+                            document.location = '/Home/Index';
+                        }
+                        
+                    }).catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                    });
+            };
+
+            let options = {
+                text: 'Essa ação não pode ser desfeita.',
+                cancelButtonText:'Cancelar',
+                title: 'Atenção, você esta prestes a remover o livro, deseja continuar?'
+            };
+
+            alertConfirm(options, callback);
+        };
+
+        let detalhes = new DetalhesLivro();
+    </script>
 }

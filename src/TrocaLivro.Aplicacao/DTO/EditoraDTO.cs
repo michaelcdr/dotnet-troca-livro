@@ -1,6 +1,6 @@
-﻿namespace TrocaLivro.Dominio.DTO
+﻿namespace TrocaLivro.Aplicacao.DTO
 {
-    public class AutorDTO
+    public class EditoraDTO
     {
         public int Id { get; set; }
         public string Nome { get; set; }

@@ -13,12 +13,12 @@ using TrocaLivro.Infra.Configuracoes;
 
 namespace TrocaLivro.Infra.Services
 {
-    public class GeradorToken : IGeradorToken
+    public class GerenciadorToken : IGerenciadorToken
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly JwtConfiguracao _jwtConfig;
 
-        public GeradorToken(UserManager<Usuario> userManager, IOptionsMonitor<JwtConfiguracao> optionsMonitor)
+        public GerenciadorToken(UserManager<Usuario> userManager, IOptionsMonitor<JwtConfiguracao> optionsMonitor)
         {
             _userManager = userManager;
             _jwtConfig = optionsMonitor.CurrentValue;
@@ -56,35 +56,28 @@ namespace TrocaLivro.Infra.Services
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = tokenHandler.WriteToken(token);
 
-            return new AppResponse<TokenResultado>(true, "Token gerado com sucesso", new TokenResultado(jwtToken));
+            return new AppResponse<TokenResultado>(true, "Token gerado com sucesso", new TokenResultado(jwtToken,role));
         }
 
-        public async Task<AppResponse<TokenResultado>> GerarSimples(string login)
+        public string ObterNomeUsuario(string token)
         {
-            Usuario usuario = await _userManager.FindByNameAsync(login);
+            if (token.Contains("Bearer "))
+                token = token.Replace("Bearer ", "");
 
-            if (usuario == null) return new AppResponse<TokenResultado>(false, $"O usuario {login} não foi encontrado.");
-
-            var direitos = new[]
+            string secret = _jwtConfig.Secret;
+            var key = Encoding.ASCII.GetBytes(secret);
+            var handler = new JwtSecurityTokenHandler();
+            var validations = new TokenValidationParameters
             {
-                new Claim(JwtRegisteredClaimNames.Sub, login),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
             };
-
-            var chave = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret));
-            var credenciais = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: "WebApp",
-                audience: "Postman",
-                claims: direitos,
-                signingCredentials: credenciais,
-                expires: DateTime.Now.AddMinutes(30)
-            );
-
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return new AppResponse<TokenResultado>(true, "Token gerado com sucesso", new TokenResultado(tokenString));
-        }
+            
+            var claims = handler.ValidateToken(token, validations, out var tokenSecure);
+            var nomeUsuario = claims.Claims.Single(e => e.Type == ClaimTypes.NameIdentifier).Value;
+            return nomeUsuario;
+        } 
     }
 }

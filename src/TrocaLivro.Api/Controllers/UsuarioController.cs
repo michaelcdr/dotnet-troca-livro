@@ -30,7 +30,7 @@ namespace TrocaLivro.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var logarResultado = await _mediator.Send(new LogarUsuarioCommand(model.Usuario, model.Senha));
+                AppResponse<LogarUsuarioResultado> logarResultado = await _mediator.Send(new LogarUsuarioCommand(model.Usuario, model.Senha));
 
                 if (!logarResultado.Sucesso)
                     return BadRequest(new AppResponse<object>(false, logarResultado.Mensagem));

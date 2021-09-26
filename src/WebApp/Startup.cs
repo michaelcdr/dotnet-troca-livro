@@ -72,7 +72,11 @@ namespace WebApp
             }
 
             HttpClient httpClient = new HttpClient() { BaseAddress = new Uri(API_URL) };
-            var resposta = httpClient.PostAsJsonAsync("Usuario/Logar", new LogarUsuarioModel { Usuario = "michael", Senha = "123456" }).GetAwaiter().GetResult();            
+
+            var resposta = httpClient
+                .PostAsJsonAsync("Usuario/Logar", new LogarUsuarioModel { Usuario = "michael", Senha = "123456" })
+                .GetAwaiter().GetResult();            
+
             var appResponse = resposta.Content.ReadFromJsonAsync<AppResponse<LogarUsuarioResultado>>().GetAwaiter().GetResult();
 
             var memoryCacheOptions = new MemoryCacheEntryOptions();

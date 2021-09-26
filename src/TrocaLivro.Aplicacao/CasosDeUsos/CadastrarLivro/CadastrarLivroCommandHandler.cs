@@ -35,6 +35,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
             livro.DataCadastro = DateTime.Now;
             livro.CadastradoPor = commando.Usuario;
 
+            if (commando.Imagens != null && commando.Imagens.Count > 0)
+                foreach (IFormFile imagemFormFile in commando.Imagens)
+                    livro.AdicionarImagem(new Imagem(FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
+
             if (!livro.TaValido())
                 return new AppResponse<CadastrarLivroResultado>("Erro.", false, livro.ObterErros());
 
@@ -46,7 +50,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
                 bool contemImagensNaoJpg = commando.Imagens.Any(e => Path.GetExtension(e.FileName).ToLower() != ".jpg");
 
                 if (contemImagensNaoJpg)
-                    livro.AdicionarErro(ERRO_EXTENSAO,"Imagem");
+                    livro.AdicionarErro(ERRO_EXTENSAO, "Imagem");
             }
             
             if (livro.ObterErros().Count > 0)
@@ -57,21 +61,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 
             Livro livroCriado = await uow.Livros.Obter(livro.Id);
             CadastrarLivroResultado resultado = mapper.Map<CadastrarLivroResultado>(livro);
-
-            //string diretorio = Path.Combine(environment.WebRootPath, "img", "livro");
-
-            if (commando.Imagens != null && commando.Imagens.Count > 0)
-            {
-                foreach (IFormFile imagemFormFile in commando.Imagens)
-                {
-                    //string extensao = Path.GetExtension(imagemFormFile.FileName);
-                    //string novoNome = Guid.NewGuid() + extensao;
-                    //string diretorioImg = Path.Combine(diretorio, imagemFormFile.FileName);
-                    //string diretorioImgComNomeNovo = Path.Combine(diretorio, novoNome);
-                    livro.AdicionarImagem(new Imagem(livroCriado.Id, FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
-                }
-                await uow.CommitAsync();
-            }
+            
             return new AppResponse<CadastrarLivroResultado>(true, msgSuccess, resultado);
         }
     }
