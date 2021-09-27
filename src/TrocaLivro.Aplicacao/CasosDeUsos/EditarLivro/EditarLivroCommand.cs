@@ -7,6 +7,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
 {
     public class EditarLivroCommand : IRequest<AppResponse<EditarLivroResultado>>
     {
+        public int Id { get; set; }
         public string Titulo { get; set; }
 
         public string Descricao { get; set; }

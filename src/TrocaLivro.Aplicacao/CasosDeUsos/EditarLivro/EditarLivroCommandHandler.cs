@@ -41,35 +41,28 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
                 return new AppResponse<EditarLivroResultado>("Erro.", false, livro.ObterErros());
 
             if (await uow.Livros.VerificarExistencia(livro.ISBN,livro.Id)) 
-                return new AppResponse<EditarLivroResultado>(msgErro, false, 
-                    new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
-
-            uow.Livros.Add(livro);
-            await uow.CommitAsync();
-
-            Livro livroCriado = await uow.Livros.Obter(livro.Id);
-            EditarLivroResultado resultado = mapper.Map<EditarLivroResultado>(livro);
-
-            //string diretorio = Path.Combine(environment.WebRootPath, "img", "livro");
-            //var imagens = new Imagem();
+                return new AppResponse<EditarLivroResultado>(msgErro, false, new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
 
             if (commando.Imagens != null && commando.Imagens.Count > 0)
             {
                 bool contemImagensNaoJpg = commando.Imagens.Any(e => Path.GetExtension(e.FileName).ToLower() != ".jpg");
-                
+
                 if (contemImagensNaoJpg)
                     return new AppResponse<EditarLivroResultado>(false, "As imagens devem estar no formato JPG");
 
                 foreach (IFormFile imagemFormFile in commando.Imagens)
                 {
-                    //string extensao = Path.GetExtension(imagemFormFile.FileName);
-                    //string novoNome = Guid.NewGuid() + extensao;
-                    //string diretorioImg = Path.Combine(diretorio, imagemFormFile.FileName);
-                    //string diretorioImgComNomeNovo = Path.Combine(diretorio, novoNome);
-                    livro.AdicionarImagem(new Imagem(livroCriado.Id, FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
+                    livro.AdicionarImagem(new Imagem(commando., FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
                 }
                 await uow.CommitAsync();
             }
+
+            await uow.CommitAsync();
+
+            Livro livroCriado = await uow.Livros.Obter(livro.Id);
+            EditarLivroResultado resultado = mapper.Map<EditarLivroResultado>(livro);
+
+            
             return new AppResponse<EditarLivroResultado>(true, msgSuccess, resultado);
         }
     }
