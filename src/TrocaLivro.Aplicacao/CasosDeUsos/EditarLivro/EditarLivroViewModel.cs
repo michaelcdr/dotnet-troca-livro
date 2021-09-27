@@ -50,12 +50,13 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
 
         public List<IFormFile> Imagens { get; set; }
 
+        public List<ImagemDTO> ImagensAtuais { get; set; }
         public List<AutorDTO> Autores { get; set; }
         public List<EditoraDTO> Editoras { get; set; }
         public List<CategoriaDTO> Categorias { get; set; }
         public List<SubCategoriaDTO> SubCategorias { get; set; }
         public string Usuario { get; set; }
-
+        public string ImagensAtuaisId { get; set; }
         public EditarLivroViewModel()
         {
 
@@ -76,10 +77,11 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
             this.SubCategorias = subCategorias;
             this.NumeroPaginas = livro.NumeroPaginas;
             this.Ano = livro.Ano;
-            
+            this.ImagensAtuaisId = string.Join(",", livro.Imagens.Select(e => e.Id).ToList());
             this.Editoras = editoras;
             this.Autores = autores;
             this.Categorias = categorias;
+            this.ImagensAtuais = livro.Imagens.Select(e => new ImagemDTO { Id = e.Id, ImagemBase64 = e.ImagemBase64 }).ToList();
         }
     }
 }

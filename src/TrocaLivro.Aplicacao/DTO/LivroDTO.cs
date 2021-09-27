@@ -5,6 +5,12 @@ using TrocaLivro.Dominio.Entidades;
 
 namespace TrocaLivro.Aplicacao.DTO
 {
+    public class ImagemDTO
+    {
+        public int Id { get; set; }
+        public string ImagemBase64 { get; set; }
+    }
+
     public class LivroDTO
     {
         public string Titulo { get; set; }
@@ -17,18 +23,20 @@ namespace TrocaLivro.Aplicacao.DTO
         public List<LivroAutorDTO> Autores { get; set; }
         public int Id { get; set; }
         public string NomeEditora { get; set; }
-        public byte[] Capa { get; set; }
         public int CategoriaId { get; set; }
         public int SubCategoriaId { get; set; }
         public string CapaBase64 { get; set; }
+        public List<ImagemDTO> Imagens { get; set; }
 
         public LivroDTO()
         {
-
+            Imagens = new List<ImagemDTO>();
         }
 
         public LivroDTO(Livro livro)
         {
+            Imagens = new List<ImagemDTO>();
+
             Id = livro.Id; 
             Ano = livro.Ano; 
             Descricao = livro.Descricao; 
@@ -57,6 +65,13 @@ namespace TrocaLivro.Aplicacao.DTO
                 string base64String = "data:image/jpg;base64," + Convert.ToBase64String(imgData, 0, imgLength);
 
                 this.CapaBase64 = base64String;
+
+                foreach (var imagem in livro.Imagens)
+                { 
+                    string base64Imagem = "data:image/jpg;base64," + Convert.ToBase64String(imagem.Nome, 0, imagem.Nome.Length);
+
+                    this.Imagens.Add(new ImagemDTO { ImagemBase64 = base64Imagem, Id = imagem.Id });
+                }
             }
         }
     }

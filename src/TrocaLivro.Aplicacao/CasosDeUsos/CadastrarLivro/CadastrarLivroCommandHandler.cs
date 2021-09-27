@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -28,6 +29,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
             this.uow = uow;
             this.environment = env;
         }
+
+
 
         public async Task<AppResponse<CadastrarLivroResultado>> Handle(CadastrarLivroCommand commando, CancellationToken cancellationToken)
         {

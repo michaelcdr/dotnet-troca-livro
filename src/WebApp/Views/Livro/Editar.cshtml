@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Editando livro " + Model.Titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
-} 
+}
 <h1>Editando » <small>Livro: @Model.Titulo</small></h1>
 
 <hr />
@@ -11,6 +11,9 @@
 <form asp-action="Cadastrar" role="form" enctype="multipart/form-data" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input asp-for="Id" type="hidden" class="form-control" />
+   
+    <input asp-for="ImagensAtuaisId"   type="hidden" class="form-control" />
+    
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -137,11 +140,29 @@
 
         <div class="col-md-12">
             <fieldset>
+                <legend>Imagens atuais</legend>
+                <div class="row" id="imgs-atuais-container">
+                    @foreach (var item in Model.ImagensAtuais)
+                    {
+                        <div class="col-md-2 d-flex m-3 align-items-stretch img-atual  card" data-imagem-id="@item.Id">
+                            <div class="img-livro-container text-center pt-2 pb-2">
+                                <img src="@item.ImagemBase64" class='img-livro' style='max-width:100px; max-height: 100px' />
+                            </div>
+                            <div class="text-center pb-2">
+                                <button class="btn btn-danger btn-sm btn-remover-img-atual" data-imagem-id="@item.Id" type="button">Remover</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </fieldset>
+            <hr />
+            <fieldset>
                 <legend>Imagens:</legend>
                 <label class="btn btn-outline-dark">
                     Adicionar imagens
                     <input id="Imagens" name="Imagens" type="file" multiple class="d-none" accept="image/jpeg" />
                 </label>
+                <div></div>
                 <div id="imagens-container"></div>
             </fieldset>
             <hr />
@@ -151,31 +172,14 @@
             <a asp-action="Index" class="btn btn-warning">
                 <i class="fa fa-chevron-left"></i>
             </a>
-            <button type="submit" class="btn btn-dark ">
+            <button type="submit" class="btn btn-dark " id="btn-atualizar">
                 <i class="fa fa-save"></i> Atualizar
             </button>
         </div>
     </div>
-</form> 
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-        $('#Imagens').change(function () {
-            let input = this;
-            if (input.files) {
-                for (var i = 0; i < input.files.length; i++) {
-                    let reader = new FileReader();
-                    reader.onload = function (e) {
-                        let imagemUpada = $(`<img src="${e.target.result}" class='img-livro' />`);
-                        let containerImg = $('<div class="item p-2" />');
-                        containerImg.html(imagemUpada);
-                        $('#imagens-container').append(containerImg);
-                    }
-                    reader.readAsDataURL(input.files[i]);
-                }
-            }
-        });
-    </script>
+    <script src="~/js/livro/cadastro-edicao.js"></script>
 }
