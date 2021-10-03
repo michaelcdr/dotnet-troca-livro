@@ -1,26 +1,11 @@
 ﻿@model RegistrarUsuarioModel
-<h5>Registrar » <small>É novo na plataforma? Informe seus dados e registre-se já ;)</small></h5>
+
+<h1>Registrar » <small>É novo na plataforma? Informe seus dados e registre-se já ;)</small></h1>
 
 <hr />
 
 <form asp-action="Registrar" id="form-registrar">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
-    @*@if (!string.IsNullOrEmpty(ViewBag.Mensagem))
-    { 
-        <div class="alert @((bool)ViewBag.Sucesso ? "alert-success" : "alert-danger") ">
-            <span>@ViewBag.Mensagem</span>
-            @if (!(bool)ViewBag.Sucesso)
-            {
-                <ul class="mb-0">
-                    @foreach (string erroOcorrido in (List<string>)ViewBag.Erros)
-                    {
-                        <li>@erroOcorrido</li>
-                    }
-                </ul>
-            }
-        </div>
-    }*@
 
     <div class="row">
         <div class="col-md-6">
@@ -68,7 +53,7 @@
         </div>
 
         <div class="col-md-12">
-            <button class="btn btn-outline-dark btn-block" type="submit">
+            <button class="btn btn-outline-dark btn-block" type="submit" data-loading-text="Processando, aguarde...">
                 Registrar
             </button>
         </div>

@@ -52,7 +52,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
 
                 foreach (IFormFile imagemFormFile in commando.Imagens)
                 {
-                    livro.AdicionarImagem(new Imagem(commando., FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
+                    livro.AdicionarImagem(new Imagem(commando.Id, FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
                 }
                 await uow.CommitAsync();
             }

@@ -9,4 +9,23 @@
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            let btnSubmit = $("#form-registrar").find('button[type=submit]');
+
+            btnSubmit.button('reset');
+
+            $("#form-registrar").submit(function () {
+                console.log('entrou registrar');
+                let taValido = $(this).validate().form();
+                if (taValido) {
+                    btnSubmit.button('loading');
+                    return true;
+                }
+
+                return false;
+            });
+        });
+    </script>
 }

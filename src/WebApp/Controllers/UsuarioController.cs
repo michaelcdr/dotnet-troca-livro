@@ -53,29 +53,34 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, model.Usuario),
-                        new Claim(ClaimTypes.NameIdentifier, model.Usuario),
-                        new Claim("Token", resultado.Dados.Token),
-                        new Claim(ClaimTypes.Role,resultado.Dados.Role)
-                    };
+                    await AutenticarRegistrandoClaimns(model.Usuario, resultado);
 
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                    var authProp = new AuthenticationProperties
-                    {
-                        IssuedUtc = DateTime.UtcNow,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(25), //configurar expiração do cookie para um valor menor que a expiração do token
-                        IsPersistent = true
-                    };
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProp);
-                    
                     return Json(new { sucesso = true, urlDestino = Url.Action("Index", "Home") });
                 }
             }
             return Json(new { Sucesso = false, Mensagem = "Informe os campos usuário e senha" }) ;
+        }
+
+        private async Task AutenticarRegistrandoClaimns(string username, AppResponse<LogarUsuarioResultado> logarUsuarioResultado)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.NameIdentifier, username),
+                new Claim("Token", logarUsuarioResultado.Dados.Token),
+                new Claim(ClaimTypes.Role,logarUsuarioResultado.Dados.Role)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            var authProp = new AuthenticationProperties
+            {
+                IssuedUtc = DateTime.UtcNow,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(25), //configurar expiração do cookie para um valor menor que a expiração do token
+                IsPersistent = true
+            };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProp);
         }
 
         public IActionResult Registrar() => View(new RegistrarUsuarioModel());
@@ -83,7 +88,6 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Registrar(RegistrarUsuarioModel model)
         {
-            
             if (ModelState.IsValid)
             {
                 AppResponse<RegistrarUsuarioResultado> resultado = await contaApi.Registrar(model);
@@ -95,17 +99,17 @@ namespace WebApp.Controllers
                 }
                 else
                 {
+                    AppResponse<LogarUsuarioResultado> logarUsuarioResultado = await contaApi.Logar(new LogarUsuarioModel { Senha = model.Senha, Usuario = model.Usuario });
 
+                    await AutenticarRegistrandoClaimns(model.Usuario, logarUsuarioResultado);
+
+                    return RedirectToAction("Index", "Home");
                 }
             }
-
             return View(model);
         }
 
-        public IActionResult AprovarTrocas()
-        {
-            return View();
-        }
+        public IActionResult AprovarTrocas() => View();
 
         public async Task<IActionResult> Sair()
         {
