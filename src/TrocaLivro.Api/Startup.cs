@@ -175,18 +175,10 @@ namespace TrocaLivro.Api
             var gerador = new GeradorDadosPadroesDaAplicacao(userManager, roleManager,context);
             gerador.Gerar().GetAwaiter().GetResult();
 
-            //app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),@"Resources")),
-            //    RequestPath = new PathString("/Resources")
-            //});
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

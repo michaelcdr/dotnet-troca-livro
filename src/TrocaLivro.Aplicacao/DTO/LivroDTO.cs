@@ -27,6 +27,7 @@ namespace TrocaLivro.Aplicacao.DTO
         public int SubCategoriaId { get; set; }
         public string CapaBase64 { get; set; }
         public List<ImagemDTO> Imagens { get; set; }
+        public string CadastradoPor { get; set; }
 
         public LivroDTO()
         {
@@ -45,6 +46,7 @@ namespace TrocaLivro.Aplicacao.DTO
             NumeroPaginas = livro.NumeroPaginas;
             Titulo = livro.Titulo;
             Subtitulo = livro.Subtitulo;
+            CadastradoPor = livro.CadastradoPor;
 
             if (livro.SubCategoria != null)
                 CategoriaId = livro.SubCategoria.CategoriaId;

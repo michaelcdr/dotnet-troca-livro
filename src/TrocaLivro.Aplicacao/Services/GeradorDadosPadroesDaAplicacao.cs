@@ -62,6 +62,9 @@ namespace TrocaLivro.Aplicacao.Services
                 this.context.Autores.Add(new Autor("George Martin"));
                 this.context.Autores.Add(new Autor("Andrei Fernandes"));
                 this.context.Autores.Add(new Autor("Martin Fowler"));
+                this.context.Autores.Add(new Autor("H.P. Lovecraft"));
+                this.context.Autores.Add(new Autor("Neil Gaiman"));
+                this.context.Autores.Add(new Autor("J.R.R. Tolkien"));
             }
 
             if (await this.context.Editoras.CountAsync() == 0)

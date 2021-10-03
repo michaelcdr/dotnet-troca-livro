@@ -30,6 +30,20 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .SingleAsync();
         }
 
+        public void Atualizar(Livro livro)
+        {
+            ApplicationDbContext.Livros.Update(livro);
+        }
+
+        public void RemoverImagens(List<int> idsImagens)
+        {
+            ApplicationDbContext.Imagens.RemoveRange(ApplicationDbContext.Imagens.Where(e => idsImagens.Contains(e.Id)));
+        }
+
+        public async Task<List<int>> ObterIdsImagens(int id)
+            => await ApplicationDbContext.Imagens.AsNoTracking()
+                                         .Where(e => e.LivroId == id).Select(e => e.Id).ToListAsync();
+
         public async Task<List<Livro>> ObterLivrosComAutores()
         {
             return await ApplicationDbContext.Livros

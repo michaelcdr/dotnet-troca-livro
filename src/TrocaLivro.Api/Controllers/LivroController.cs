@@ -17,7 +17,7 @@ namespace TrocaLivro.Api.Controllers
     [Route("api/v{version:apiVersion}/livros")]
     public class LivroController : Controller
     {
-        private IMediator _mediator;
+        private readonly IMediator _mediator;
         private readonly IGerenciadorToken _tokenHandler;
         public LivroController(IMediator mediator, IGerenciadorToken tokenHandler)
         {
@@ -77,7 +77,8 @@ namespace TrocaLivro.Api.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Post([FromForm] CadastrarLivroCommand comando)
         {
-            comando.Usuario = User.Identity.Name;
+            string token = HttpContext.Request.Headers["Authorization"];
+            comando.Usuario = _tokenHandler.ObterNomeUsuario(token);
 
             AppResponse<CadastrarLivroResultado> resultado = await _mediator.Send(comando);
 

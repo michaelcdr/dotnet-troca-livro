@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
-{
-    public class EditarLivroCommand : IRequest<AppResponse<EditarLivroResultado>>
+{ 
+    public class EditarLivroCommand : IRequest<AppResponse<EditarLivroResultado>>, IEdicaoCadastroLivroCommand
     {
         public int Id { get; set; }
         public string Titulo { get; set; }
@@ -27,5 +27,6 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
         public string Usuario { get; set; }
 
         public List<IFormFile> Imagens { get; set; }
+        public string ImagensAtuaisId { get; set; }
     }
 }

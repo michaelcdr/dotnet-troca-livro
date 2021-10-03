@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -20,17 +18,14 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
         private const string ERRO_EXTENSAO = "As imagens devem estar no formato JPG";
         private readonly IMapper mapper;
         private readonly IUnitOfWork uow;
-        private readonly IHostingEnvironment environment;
-        private string msgSuccess = "Livro criado com sucesso.";
+        private readonly string msgSuccess = "Livro criado com sucesso.";
+        private readonly string msgErro = "Não foi possível cadastrar o livro.";
 
-        public CadastrarLivroCommandHandler(IMapper mapper, IUnitOfWork uow, IHostingEnvironment env )
+        public CadastrarLivroCommandHandler(IMapper mapper, IUnitOfWork uow)
         {
             this.mapper = mapper;
             this.uow = uow;
-            this.environment = env;
         }
-
-
 
         public async Task<AppResponse<CadastrarLivroResultado>> Handle(CadastrarLivroCommand commando, CancellationToken cancellationToken)
         {
@@ -57,7 +52,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
             }
             
             if (livro.ObterErros().Count > 0)
-                return new AppResponse<CadastrarLivroResultado>("Não foi possível cadastrar o livro.", false, livro.ObterErros());
+                return new AppResponse<CadastrarLivroResultado>(msgErro, false, livro.ObterErros());
 
             uow.Livros.Add(livro);
             await uow.CommitAsync();

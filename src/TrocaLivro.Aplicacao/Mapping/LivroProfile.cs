@@ -39,17 +39,7 @@ namespace TrocaLivro.Aplicacao.Mapping
 
             CreateMap<Livro, EditarLivroResultado>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
-
-            CreateMap<EditarLivroCommand, Livro>()
-                .ForMember(dest => dest.Autores,
-                           opt => opt.MapFrom(
-                                    source => source.AutorId.Select(autorId => new LivroAutor { AutorId = autorId }).ToList()
-                               )
-                           )
-                .ForMember(dest => dest.Imagens,
-                           opt => opt.MapFrom(
-                                        source => source.Imagens.Select(img => new Imagem())));
-            
+             
 
             CreateMap<ObterDadosDashboardResultado, ObterDadosDashboardViewModel>();
         }

@@ -48,11 +48,5 @@ namespace TrocaLivro.Api.Controllers
 
             return Created(uri, resposta);
         }
-
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody] AutorRequest request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

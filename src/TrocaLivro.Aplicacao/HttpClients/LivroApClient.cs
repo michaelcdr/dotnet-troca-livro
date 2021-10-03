@@ -22,8 +22,8 @@ namespace TrocaLivro.Aplicacao.HttpClients
         private readonly IMapper mapper;
         private const string APICONTROLLER_LIVRO = "livros";
         private const string APICONTROLLER_SUBCATEGORIA = "subcategorias";
-        private string admToken = string.Empty;
-        private string token = string.Empty;
+        private string admToken;
+        private string token;
 
         public void AtualizarToken(Claim claimComToken)
         {
@@ -55,14 +55,16 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return livros;
         }
 
-        private HttpContent CriarMultipartFormDataParaLivro(CadastrarLivroCommand requisicao)
+        private MultipartFormDataContent CriarFormDataContentParaCamposDoLivro(IEdicaoCadastroLivroCommand requisicao)
         {
-            var content = new MultipartFormDataContent();
-            content.Add(new StringContent(requisicao.Titulo), "\"titulo\"");
-            content.Add(new StringContent(requisicao.Subtitulo), BotarAspas("subtitulo"));
-            content.Add(new StringContent(requisicao.Descricao), BotarAspas("descricao"));
-            content.Add(new StringContent(requisicao.ISBN), BotarAspas("isbn"));
-            content.Add(new StringContent(requisicao.SubCategoriaId.ToString()), BotarAspas("subCategoriaId"));
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(requisicao.Titulo), "\"titulo\"" },
+                { new StringContent(requisicao.Subtitulo), BotarAspas("subtitulo") },
+                { new StringContent(requisicao.Descricao), BotarAspas("descricao") },
+                { new StringContent(requisicao.ISBN), BotarAspas("isbn") },
+                { new StringContent(requisicao.SubCategoriaId.ToString()), BotarAspas("subCategoriaId") }
+            };
 
             foreach (var item in requisicao.AutorId)
                 content.Add(new StringContent(item.ToString()), BotarAspas("autorId"));
@@ -70,6 +72,27 @@ namespace TrocaLivro.Aplicacao.HttpClients
             content.Add(new StringContent(requisicao.EditoraId.ToString()), BotarAspas("editoraId"));
             content.Add(new StringContent(requisicao.Ano.ToString()), BotarAspas("ano"));
             content.Add(new StringContent(requisicao.NumeroPaginas.ToString()), BotarAspas("numeroPaginas"));
+            return content;
+        }
+
+        private HttpContent CriarMultipartFormDataParaEdicaoLivro(EditarLivroCommand requisicao)
+        {
+            var content = CriarFormDataContentParaCamposDoLivro(requisicao);
+            content.Add(new StringContent(requisicao.Id.ToString()), "\"id\"");
+            content.Add(new StringContent(requisicao.ImagensAtuaisId ?? string.Empty), "\"imagensAtuaisId\"");
+            foreach (var imagem in requisicao.Imagens)
+            {
+                var imagemBytes = new ByteArrayContent(FileHelper.ConvertToBytes(imagem));
+                imagemBytes.Headers.Add("content-type", "image/jpg");
+                content.Add(imagemBytes, BotarAspas("imagens"), BotarAspas("imagem-atual.jpg"));
+            }
+
+            return content;
+        } 
+
+        private HttpContent CriarMultipartFormDataParaLivro(CadastrarLivroCommand requisicao)
+        {
+            MultipartFormDataContent content = CriarFormDataContentParaCamposDoLivro(requisicao);
 
             foreach (var imagem in requisicao.Imagens)
             {
@@ -81,17 +104,21 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return content;
         }
 
-        public async Task<AppResponse<EditarLivroResultado>> EditarLivro(EditarLivroViewModel model)
+        public async Task<AppResponse<EditarLivroResultado>> EditarLivro(EditarLivroViewModel request)
         {
-            throw new System.NotImplementedException();
+            var comando = mapper.Map<EditarLivroCommand>(request);
+            HttpContent content = CriarMultipartFormDataParaEdicaoLivro(comando);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.PutAsync(APICONTROLLER_LIVRO, content);
+
+            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<EditarLivroResultado>>();
+            return conteudoResposta;
         }
 
         public async Task<AppResponse<CadastrarLivroResultado>> CadastrarLivro(CadastrarLivroViewModel request)
         {
             CadastrarLivroCommand comando = mapper.Map<CadastrarLivroCommand>(request); 
-
             HttpContent content = CriarMultipartFormDataParaLivro(comando);
-            
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             HttpResponseMessage resposta = await httpClient.PostAsync(APICONTROLLER_LIVRO, content);
 

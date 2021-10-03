@@ -77,7 +77,7 @@ namespace WebApp.Controllers
             var authProp = new AuthenticationProperties
             {
                 IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(25), //configurar expiração do cookie para um valor menor que a expiração do token
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(2), //configurar expiração do cookie para um valor menor que a expiração do token
                 IsPersistent = true
             };
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProp);

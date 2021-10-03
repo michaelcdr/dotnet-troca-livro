@@ -8,7 +8,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
     public class CadastrarLivroViewModel
     {
         [Display(Name = "Titulo")]
-        [Required(ErrorMessage = "Informe o campo {0}")]
+        [Required(ErrorMessage = "Informe o campo {0}"),StringLength(100,ErrorMessage ="Limite de 100 caracteres")]
         public string Titulo { get; set; }
 
         [Display(Name = "Descrição")]

@@ -90,8 +90,13 @@ body {
         height: 120px;
         text-align: center;
     }
-.isbn {
-    
+.card.card-produto .card-body {
+    position: relative;
+}
+.card.card-produto .btn-block {
+    width: calc(100% - 40px);
+    position: absolute;
+    bottom:20px;
 }
 .ator {
     font-weight: bold;

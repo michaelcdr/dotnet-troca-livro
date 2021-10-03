@@ -13,6 +13,7 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
             builder.Property(e => e.Descricao).IsRequired();
             builder.Property(e => e.Titulo).HasMaxLength(100).IsRequired();
             builder.Property(e => e.ISBN).IsRequired();
+            builder.Property(e => e.CadastradoPor).IsRequired();
             builder.HasMany(e => e.Autores).WithOne(e => e.Livro);
             builder.HasMany(e => e.Imagens).WithOne(e => e.Livro);
             builder.HasMany(e => e.Arquivos).WithOne(e => e.Livro);
@@ -38,7 +39,7 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
         public void Configure(EntityTypeBuilder<Imagem> builder)
         {
             builder.ToTable("Imagens");
-            //builder.Property(e => e.Nome).IsRequired();
+            builder.Property(e => e.Nome).IsRequired();
             builder.Property(e => e.Altura).IsRequired();
             builder.Property(e => e.Largura).IsRequired();
             builder.HasOne(e => e.Livro).WithMany(e => e.Imagens);

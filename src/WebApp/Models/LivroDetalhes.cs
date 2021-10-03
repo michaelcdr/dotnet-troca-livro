@@ -24,7 +24,7 @@ namespace WebApp.Models
                 Titulo = livro.Titulo,
                 Ano = livro.Ano,
                 Autores = string.Join(", ", livro.Autores.Select(e => e.Nome).ToList()),
-                Descricao = livro.Descricao,
+                Descricao = livro.Descricao.Replace("\n","<br />"),
                 NumeroPagina = livro.NumeroPaginas,
                 ISBN = livro.ISBN,
                 Editora = livro.NomeEditora,

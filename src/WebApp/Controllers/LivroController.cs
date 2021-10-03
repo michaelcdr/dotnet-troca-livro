@@ -22,11 +22,11 @@ namespace WebApp.Controllers
     public class LivroController : Controller
     {
         private readonly LivroApClient api;
-        private IHostingEnvironment _env;
-        public LivroController(LivroApClient livroApClient,  IHostingEnvironment env)
+        //private IHostingEnvironment _env;
+        public LivroController(LivroApClient livroApClient/*,  IHostingEnvironment env*/)
         {
             this.api = livroApClient;
-            this._env = env;
+            //this._env = env;
         } 
 
         private void AtualizarToken() 
@@ -63,7 +63,7 @@ namespace WebApp.Controllers
             
             if (User.Identity.IsAuthenticated)
             {
-                model.PodeEditar = User.IsInRole("admin");
+                model.PodeEditar = User.IsInRole("admin") || livro.CadastradoPor == User.Identity.Name;
             }
 
             return View(model);

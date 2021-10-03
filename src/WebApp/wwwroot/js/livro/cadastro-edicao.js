@@ -7,13 +7,13 @@
                 reader.onload = function (e) {
                     let imagemId = createGuid();
                     let cardHtml = `<div class="col-md-2 d-flex m-3 align-items-stretch  card" data-imagem-id="${imagemId}" >
-                            <div class="img-livro-container text-center pt-2 pb-2">
-                                <img src="${e.target.result}" class='img-livro' style='max-width:100px; max-height: 100px' />
-                            </div>
-                            <div class="text-center pb-2">
-                                <button class="btn btn-danger btn-sm btn-remover-img" data-imagem-id="${imagemId}" type="button">Remover</button>
-                            </div>
-                        </div>`;
+                        <div class="img-livro-container text-center pt-2 pb-2">
+                            <img src="${e.target.result}" class='img-livro' style='max-width:100px; max-height: 100px' />
+                        </div>
+                        <div class="text-center pb-2">
+                            <button class="btn btn-danger btn-sm btn-remover-img" data-imagem-id="${imagemId}" type="button">Remover</button>
+                        </div>
+                    </div>`;
 
                     $('#imagens-container').append(cardHtml);
 
