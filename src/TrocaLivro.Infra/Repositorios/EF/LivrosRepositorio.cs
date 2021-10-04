@@ -44,12 +44,16 @@ namespace TrocaLivro.Infra.Repositorios.EF
             => await ApplicationDbContext.Imagens.AsNoTracking()
                                          .Where(e => e.LivroId == id).Select(e => e.Id).ToListAsync();
 
-        public async Task<List<Livro>> ObterLivrosComAutores()
+        public async Task<List<Livro>> ObterLivrosComAutores(int tamanhoPagina, int qtdRegistrosAPular,  string termoPesquisa)
         {
             return await ApplicationDbContext.Livros
                 .Include(e => e.Autores).ThenInclude(e => e.Autor)
                 .Include(e => e.Imagens).Include(e => e.Editora)
-                .Where(e => !e.Deletado).OrderByDescending(e => e.DataCadastro).ToListAsync();
+                .Where(e => termoPesquisa != null && termoPesquisa != string.Empty 
+                                ? e.Titulo.Contains(termoPesquisa) || e.Descricao.Contains(termoPesquisa) || e.Subtitulo.Contains(termoPesquisa)
+                                : true)
+                .Where(e => !e.Deletado).Take(tamanhoPagina)
+                .OrderByDescending(e => e.DataCadastro).ToListAsync();
         }
 
         public async Task<int> ObterTotal()

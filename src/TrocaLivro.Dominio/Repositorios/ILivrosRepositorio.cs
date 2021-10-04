@@ -9,7 +9,7 @@ namespace TrocaLivro.Dominio.Repositorios
     public interface ILivrosRepositorio : IRepositorio<Livro>
     {
         Task<List<Livro>> PesquisarLivrosComAutores(Expression<Func<Livro, bool>> predicado);
-        Task<List<Livro>> ObterLivrosComAutores();
+        Task<List<Livro>> ObterLivrosComAutores(int tamanhoPagina, int quantidadeRegistrosAPular, string termoPesquisa = null);
         Task<Livro> Obter(int id);
         Task<int> ObterTotal();
         Task<int> ObterTotalDeTrocas();

@@ -32,9 +32,9 @@ namespace TrocaLivro.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Get([FromQuery] ObterLivrosAdicionadosRecentementeQuery query)
+        public async Task<IActionResult> Get([FromQuery] ObterLivrosQuery query)
         {
-            AppResponse<ObterLivrosAdicionadosRecentementeResultado> resposta = await _mediator.Send(query);
+            AppResponse<ObterLivrosResultado> resposta = await _mediator.Send(query);
 
             if (!resposta.Sucesso) return BadRequest(resposta.Erros);
 

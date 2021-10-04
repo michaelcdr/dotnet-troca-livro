@@ -47,13 +47,7 @@ namespace WebApp.Controllers
         //    img.Save(diretorioCliente,ImageFormat.Jpeg);
         //}
 
-        public async Task<IActionResult> _ListAdicionadosRecentemente()
-        {
-            AtualizarToken();
-            List<LivroCardModel> livros = await api.ObterLivrosAdicionadosRecentemente(); 
-            return PartialView(livros);
-        }
-
+       
         public async Task<IActionResult> Detalhes(int id)
         {
             AtualizarToken();
@@ -154,5 +148,22 @@ namespace WebApp.Controllers
 
             return Json(resposta);
         } 
+
+        public async Task<IActionResult> Pesquisa(string termoPesquisa)
+        {
+            AtualizarToken();
+
+            ViewBag.TermoPesquisa = termoPesquisa;
+            List<LivroCardModel> livros = await api.ObterLivros(termoPesquisa);
+            return View(livros);
+        }
+
+        public async Task<IActionResult> _ListAdicionadosRecentemente()
+        {
+            AtualizarToken();
+            List<LivroCardModel> livros = await api.ObterLivrosAdicionadosRecentemente();
+            return PartialView(livros);
+        }
+
     }
 }

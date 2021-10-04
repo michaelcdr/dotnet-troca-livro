@@ -13,26 +13,29 @@ using TrocaLivro.Dominio.Transacoes;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
-    public class ObterLivrosAdicionadosRecentementeQueryHandler : IRequestHandler<ObterLivrosAdicionadosRecentementeQuery, AppResponse<ObterLivrosAdicionadosRecentementeResultado>>
+    public class ObterLivrosQueryHandler : IRequestHandler<ObterLivrosQuery, AppResponse<ObterLivrosResultado>>
     {
         private readonly IUnitOfWork uow;
         private const string MSG_SUCCESS = "Livros obtidos com sucesso.";
         private readonly IMapper mapper;
-        public ObterLivrosAdicionadosRecentementeQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ObterLivrosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.uow = unitOfWork;
             this.mapper = mapper;
         }
 
-        public async Task<AppResponse<ObterLivrosAdicionadosRecentementeResultado>> Handle(ObterLivrosAdicionadosRecentementeQuery request, CancellationToken cancellationToken)
+        public async Task<AppResponse<ObterLivrosResultado>> Handle(ObterLivrosQuery request, CancellationToken cancellationToken)
         {
-            List<Livro> livros = await uow.Livros.ObterLivrosComAutores();
+            List<Livro> livros = await uow.Livros.ObterLivrosComAutores(
+                request.TamanhoPagina,
+                request.QuantidadeRegistrosAPular, 
+                request.TermoPesquisa);
 
             List<LivroCardModel> livrosCards = this.mapper.Map<List<Livro>, List<LivroCardModel>>(livros);
 
-            var resultado = new ObterLivrosAdicionadosRecentementeResultado(livrosCards);
+            var resultado = new ObterLivrosResultado(livrosCards);
 
-            return new AppResponse<ObterLivrosAdicionadosRecentementeResultado>(true, MSG_SUCCESS, resultado);
+            return new AppResponse<ObterLivrosResultado>(true, MSG_SUCCESS, resultado);
         }
     }
 }

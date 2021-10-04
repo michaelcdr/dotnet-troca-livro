@@ -9,11 +9,11 @@
                         </a>
                     </div>
                     <div class="col-md-8">
-                        <form id="form-pesquisa" action="/pesquisa" method="GET">
+                        <form id="form-pesquisa" asp-controller="livro" asp-action="pesquisa" method="GET">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="input-group mr-3">
-                                        <input type="text" class="form-control" id="s" name="s" placeholder="Pesquisar produto" aria-label="Pesquisar produto" aria-describedby="button-addon2">
+                                        <input type="text" class="form-control" id="termoPesquisa" name="termoPesquisa" placeholder="Pesquisar produto" aria-label="Pesquisar produto" aria-describedby="button-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-light" type="submit" id="button-addon2">
                                                 <i class="fa fa-search"></i>

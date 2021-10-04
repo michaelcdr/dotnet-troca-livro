@@ -47,13 +47,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return indexViewModel;
         }
 
-        public async Task<List<LivroCardModel>> ObterLivrosAdicionadosRecentemente()
-        {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
-            var resposta = await httpClient.GetAsync(APICONTROLLER_LIVRO);
-            var livros = await resposta.Content.ReadFromJsonAsync<List<LivroCardModel>>();
-            return livros;
-        }
 
         private MultipartFormDataContent CriarFormDataContentParaCamposDoLivro(IEdicaoCadastroLivroCommand requisicao)
         {
@@ -192,6 +185,33 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return dados;
         }
 
-        private string BotarAspas(string valor) => $"\"{valor}\"";        
+        private string BotarAspas(string valor) => $"\"{valor}\"";
+
+        public async Task<List<LivroCardModel>> ObterLivrosAdicionadosRecentemente()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
+            var resposta = await httpClient.GetAsync(
+                $"{APICONTROLLER_LIVRO}?TamanhoPagina={4}&" +
+                $"QuantidadeRegistrosAPular=0&" +
+                $"TermoPesquisa=");
+            var livros = await resposta.Content.ReadFromJsonAsync<List<LivroCardModel>>();
+            return livros;
+        }
+
+        public async Task<List<LivroCardModel>> ObterLivros(string termoPesquisa)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
+
+            const int tamPagina = 4;
+            const int quantidadeRegistrosAPular = 0;
+            var resposta = await httpClient.GetAsync(
+                $"{APICONTROLLER_LIVRO}?TamanhoPagina={tamPagina}&"+
+                $"QuantidadeRegistrosAPular={quantidadeRegistrosAPular}&"+
+                $"TermoPesquisa={termoPesquisa}"
+            );
+            
+            var livros = await resposta.Content.ReadFromJsonAsync<List<LivroCardModel>>();
+            return livros;
+        }
     }
 }

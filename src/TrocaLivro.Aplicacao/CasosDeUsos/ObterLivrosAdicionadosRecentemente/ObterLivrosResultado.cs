@@ -3,9 +3,9 @@ using TrocaLivro.Aplicacao.ViewModels;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
-    public class ObterLivrosAdicionadosRecentementeResultado
+    public class ObterLivrosResultado
     {
-        public ObterLivrosAdicionadosRecentementeResultado(List<LivroCardModel> livros)
+        public ObterLivrosResultado(List<LivroCardModel> livros)
         {
             Livros = livros ?? new List<LivroCardModel>();
         }
