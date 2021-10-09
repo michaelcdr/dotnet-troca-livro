@@ -18,9 +18,14 @@
     @if (Model.PodeEditar)
     {
     <div class="col-md-12 pt-2">
+        <a asp-action="DisponibilizarParaTroca" asp-controller="Livro" asp-route-id="@Model.Id" class="btn btn-outline-dark">
+            Disponibilizar para troca
+        </a>
         <a asp-action="Editar" asp-controller="Livro" asp-route-id="@Model.Id" class="btn btn-outline-dark">Editar livro</a>
+
         <button type="button" class="btn btn-outline-danger" id="btn-deletar" data-id="@Model.Id">Deletar livro</button>
-    </div>}
+    </div>
+    }
 </div>
 <div class="row">
     <div class="col-md-12">

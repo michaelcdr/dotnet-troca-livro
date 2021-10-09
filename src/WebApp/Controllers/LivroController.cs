@@ -165,5 +165,10 @@ namespace WebApp.Controllers
             return PartialView(livros);
         }
 
+        public async Task<IActionResult> DisponibilizarParaTroca(int id)
+        {
+            LivroDTO livro = await api.ObterLivro(id);
+            return View(new DisponibilizarLivroParaTrocaViewModel(livro));
+        }
     }
 }

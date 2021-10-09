@@ -50,8 +50,9 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Include(e => e.Autores).ThenInclude(e => e.Autor)
                 .Include(e => e.Imagens).Include(e => e.Editora)
                 .Where(e => termoPesquisa != null && termoPesquisa != string.Empty 
-                                ? e.Titulo.Contains(termoPesquisa) || e.Descricao.Contains(termoPesquisa) || e.Subtitulo.Contains(termoPesquisa)
-                                : true)
+                    ?   e.Titulo.Contains(termoPesquisa) || e.Descricao.Contains(termoPesquisa) || 
+                        e.Subtitulo.Contains(termoPesquisa)
+                    : true)
                 .Where(e => !e.Deletado).Take(tamanhoPagina)
                 .OrderByDescending(e => e.DataCadastro).ToListAsync();
         }

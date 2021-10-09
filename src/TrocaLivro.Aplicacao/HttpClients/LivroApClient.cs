@@ -202,7 +202,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
 
-            const int tamPagina = 4;
+            const int tamPagina = 40;
             const int quantidadeRegistrosAPular = 0;
             var resposta = await httpClient.GetAsync(
                 $"{APICONTROLLER_LIVRO}?TamanhoPagina={tamPagina}&"+
