@@ -11,21 +11,16 @@ using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Filtros;
-using WebApp.Models;
-using System.Drawing;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using System.Drawing.Imaging;
 
 namespace WebApp.Controllers
 {
     public class LivroController : Controller
     {
-        private readonly LivroApClient api;
+        private readonly LivroApiClient api;
         //private IHostingEnvironment _env;
-        public LivroController(LivroApClient livroApClient/*,  IHostingEnvironment env*/)
+        public LivroController(LivroApiClient livroApiClient/*,  IHostingEnvironment env*/)
         {
-            this.api = livroApClient;
+            this.api = livroApiClient;
             //this._env = env;
         } 
 
@@ -58,9 +53,15 @@ namespace WebApp.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 model.PodeEditar = User.IsInRole("admin") || livro.CadastradoPor == User.Identity.Name;
+                model.DisponibilizarParaTroca = true;
             }
 
             return View(model);
+        }
+
+        public PartialViewResult Avaliar(int id, string tituloLivro)
+        {
+            return PartialView(new AvaliarLivroViewModel(id, tituloLivro));
         }
 
         [AuthorizeCustomizado]
@@ -169,6 +170,14 @@ namespace WebApp.Controllers
         {
             LivroDTO livro = await api.ObterLivro(id);
             return View(new DisponibilizarLivroParaTrocaViewModel(livro));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DisponibilizarParaTroca(DisponibilizarLivroParaTrocaCommand comando)
+        {
+            AtualizarToken();
+            AppResponse<DisponibilizarLivroParaTrocaResultado> resposta = await api.DisponibilizarParaTroca(comando);
+            return Json(resposta);
         }
     }
 }

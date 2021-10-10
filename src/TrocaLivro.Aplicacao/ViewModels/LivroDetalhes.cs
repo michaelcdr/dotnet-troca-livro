@@ -2,7 +2,7 @@
 using System.Linq;
 using TrocaLivro.Aplicacao.DTO;
 
-namespace WebApp.Models
+namespace TrocaLivro.Aplicacao.ViewModels
 {
     public class LivroDetalhes
     {
@@ -10,7 +10,7 @@ namespace WebApp.Models
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public int NumeroPagina { get;  set; }
-
+        public bool DisponibilizarParaTroca { get; set; }
         /// <summary>
         /// Gera um objeto LivroDetalhes usando um objeto LivroDTO
         /// </summary>
@@ -28,7 +28,9 @@ namespace WebApp.Models
                 NumeroPagina = livro.NumeroPaginas,
                 ISBN = livro.ISBN,
                 Editora = livro.NomeEditora,
-                Capa = livro.CapaBase64
+                Capa = livro.CapaBase64,
+                DisponibilizarParaTroca = false,
+                Usuarios = livro.UsuariosOfertando ?? new List<UsuarioOfertando>()
             };
         }
 
@@ -43,12 +45,7 @@ namespace WebApp.Models
 
         public LivroDetalhes()
         {
-            Usuarios = new List<UsuarioOfertando>()
-            {
-                new UsuarioOfertando(){ Nome = "Fulano", LivrosEnviados = 10 },
-                new UsuarioOfertando(){ Nome = "Fulana", LivrosEnviados = 20 },
-                new UsuarioOfertando(){ Nome = "Ciclano", LivrosEnviados = 10 },
-            };
+            
         }
     }
 }

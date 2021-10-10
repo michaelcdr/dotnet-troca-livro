@@ -26,11 +26,11 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
         public void Configure(EntityTypeBuilder<LivroDisponibilizadoParaTroca> builder)
         {
             builder.ToTable("LivrosDisponibilizadosParaTrocas");
-            builder.HasOne(e => e.Livro).WithMany(e => e.Trocas);
+            builder.HasOne(e => e.Livro).WithMany(e => e.DiponibilizacaoParaTrocas);
             builder.Property(e => e.Descritivo).IsRequired(true).HasMaxLength(500);
             builder.HasOne(e => e.UsuarioQueDisponibilizouParaTroca)
                 .WithMany(e => e.Trocas)
-                .HasForeignKey(e => e.DisponibilizadoPor);
+                .HasForeignKey(e => e.UsuarioQueDisponibilizouParaTrocaId);
         }
     }
 

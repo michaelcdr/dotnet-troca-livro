@@ -1,0 +1,31 @@
+﻿class AvaliadorLivro {
+    constructor() {
+
+        this.iniciarEventos();
+        
+    }
+
+    iniciarEventos() {
+        let _self = this;
+        document.querySelector('.nota-componente')
+            .addEventListener('click', function (ev) {
+                console.log(ev.target);
+                console.log(ev.target.dataset)
+                _self.avaliar(ev.target)
+            });
+    }
+
+    avaliar(target) {
+        let indice = target.dataset.indice;
+
+        for (var i = 1; i < 6; i++) {
+            document.querySelector('.nota-componente .fa-star[data-indice="' + i + '"]')
+                .classList.add('deselecionada');
+        }
+
+        for (var i = 1; i <= indice; i++) {
+            document.querySelector('.nota-componente .fa-star[data-indice="' + i + '"]')
+                .classList.remove('deselecionada');
+        }
+    }
+}

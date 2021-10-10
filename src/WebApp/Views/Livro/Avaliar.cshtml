@@ -1,0 +1,34 @@
+﻿@model TrocaLivro.Aplicacao.CasosDeUsos.AvaliarLivroViewModel
+
+<div class="cabecalho">
+    Avalie o livro: <small>@Model.TituloLivro</small>
+</div>
+<div class="corpo">
+    <div class="form-group">
+        <label class="control-label">Título</label>
+        <input class="form-control" asp-for="Titulo" />
+    </div> 
+    <div class="form-group">
+        <label id="descritivo" class="control-label">Descrição</label>
+        <textarea asp-for="Descricao" class="form-control" style="height:150px"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Nota" class="control-label">Nota:</label>
+        <input asp-for="Nota" type="hidden" />
+        <div class="nota-componente">
+            <span class="fa fa-star deselecionada" data-indice="1"></span>
+            <span class="fa fa-star deselecionada" data-indice="2"></span>
+            <span class="fa fa-star deselecionada" data-indice="3"></span>
+            <span class="fa fa-star deselecionada" data-indice="4"></span>
+            <span class="fa fa-star deselecionada" data-indice="5"></span>
+        </div>
+    </div>
+</div>
+<div class="rodape"></div>
+<script>
+    
+    if (detalhes.avaliador !== undefined && detalhes.avaliador !== null)
+        detalhes.avaliador = null;
+
+    detalhes.avaliador = new AvaliadorLivro();
+</script>

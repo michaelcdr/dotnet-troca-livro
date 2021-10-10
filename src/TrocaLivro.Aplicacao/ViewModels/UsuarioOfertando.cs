@@ -1,4 +1,4 @@
-﻿namespace WebApp.Models
+﻿namespace TrocaLivro.Aplicacao.ViewModels
 {
     public class UsuarioOfertando
     {

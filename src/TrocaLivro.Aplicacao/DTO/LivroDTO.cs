@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Entidades;
 
 namespace TrocaLivro.Aplicacao.DTO
 {
-    public class ImagemDTO
-    {
-        public int Id { get; set; }
-        public string ImagemBase64 { get; set; }
-    }
-
     public class LivroDTO
     {
         public string Titulo { get; set; }
@@ -28,6 +23,7 @@ namespace TrocaLivro.Aplicacao.DTO
         public string CapaBase64 { get; set; }
         public List<ImagemDTO> Imagens { get; set; }
         public string CadastradoPor { get; set; }
+        public List<UsuarioOfertando> UsuariosOfertando { get; set; }
 
         public LivroDTO()
         {
@@ -74,6 +70,15 @@ namespace TrocaLivro.Aplicacao.DTO
 
                     this.Imagens.Add(new ImagemDTO { ImagemBase64 = base64Imagem, Id = imagem.Id });
                 }
+            }
+
+            if (livro.DiponibilizacaoParaTrocas.Count > 0)
+            {
+                this.UsuariosOfertando = livro.DiponibilizacaoParaTrocas.Select(e => new UsuarioOfertando
+                {
+                    Nome = e.UsuarioQueDisponibilizouParaTroca.Nome,
+                    LivrosEnviados = 0
+                }).ToList();
             }
         }
     }

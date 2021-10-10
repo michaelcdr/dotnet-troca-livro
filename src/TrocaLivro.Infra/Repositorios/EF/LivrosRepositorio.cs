@@ -27,6 +27,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Include(e => e.Imagens)
                 .Include(e => e.Arquivos)
                 .Include(e => e.SubCategoria)
+                .Include(e => e.DiponibilizacaoParaTrocas).ThenInclude(e => e.UsuarioQueDisponibilizouParaTroca)
                 .SingleAsync();
         }
 
@@ -47,14 +48,12 @@ namespace TrocaLivro.Infra.Repositorios.EF
         public async Task<List<Livro>> ObterLivrosComAutores(int tamanhoPagina, int qtdRegistrosAPular,  string termoPesquisa)
         {
             return await ApplicationDbContext.Livros
-                .Include(e => e.Autores).ThenInclude(e => e.Autor)
-                .Include(e => e.Imagens).Include(e => e.Editora)
                 .Where(e => termoPesquisa != null && termoPesquisa != string.Empty 
                     ?   e.Titulo.Contains(termoPesquisa) || e.Descricao.Contains(termoPesquisa) || 
                         e.Subtitulo.Contains(termoPesquisa)
                     : true)
-                .Where(e => !e.Deletado).Take(tamanhoPagina)
-                .OrderByDescending(e => e.DataCadastro).ToListAsync();
+                .Where(e => !e.Deletado)
+                .OrderByDescending(e => e.DataCadastro).Take(tamanhoPagina).ToListAsync();
         }
 
         public async Task<int> ObterTotal()
@@ -92,6 +91,16 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN && livro.Id != (int)idLivroAtual);
             else
                 return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN);
+        }
+
+        public async Task<List<Imagem>> ObterImagens(List<int> livrosIds)
+        {
+            return await ApplicationDbContext.Imagens.Where(imagemAtual => livrosIds.Contains(imagemAtual.LivroId)).ToListAsync();
+        }
+
+        public async Task DisponibilizarParaTroca(LivroDisponibilizadoParaTroca disponibilizacao)
+        {
+            await ApplicationDbContext.LivrosDisponibilizadosParaTrocas.AddAsync(disponibilizacao);
         }
     }
 }

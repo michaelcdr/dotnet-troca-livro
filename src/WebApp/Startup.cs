@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,9 +13,11 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
+using TrocaLivro.Aplicacao.CasosDeUsos.DisponibilizarLivroParaTroca;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.Mapping;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Infra.Services;
 
@@ -32,7 +36,8 @@ namespace WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation();
+
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -49,10 +54,12 @@ namespace WebApp
                 });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddHttpClient<LivroApClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            services.AddHttpClient<LivroApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddAutoMapper(typeof(UsuarioProfile));
-            services.AddAutoMapper(typeof(LivroProfile)); 
+            services.AddAutoMapper(typeof(LivroProfile));
+            services.AddTransient<IValidator<DisponibilizarLivroParaTrocaViewModel>, DisponibilizarLivroParaTrocaValidator>();
+
             services.AddMvc().AddRazorOptions(options =>
             {
                 options.ViewLocationFormats.Add("/{0}.cshtml");

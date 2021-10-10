@@ -9,8 +9,8 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly LivroApClient _api;
-        public HomeController(LivroApClient api)
+        private readonly LivroApiClient _api;
+        public HomeController(LivroApiClient api)
         {
             this._api = api;
         }

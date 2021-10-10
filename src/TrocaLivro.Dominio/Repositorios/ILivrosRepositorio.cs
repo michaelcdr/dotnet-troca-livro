@@ -18,5 +18,7 @@ namespace TrocaLivro.Dominio.Repositorios
         Task<List<int>> ObterIdsImagens(int id);
         void RemoverImagens(List<int> idsImagens);
         void Atualizar(Livro livro);
+        Task<List<Imagem>> ObterImagens(List<int> livrosIds);
+        Task DisponibilizarParaTroca(LivroDisponibilizadoParaTroca disponibilizacao);
     }
 }

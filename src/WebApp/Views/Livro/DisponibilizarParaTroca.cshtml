@@ -6,7 +6,7 @@
 }
  
 <div class="row mt-3">
-    
+    <div class=col-md-12>
     <h2>Você está disponibilizando o livro abaixo para troca.</h2>
     
     <div class="card p-3 col-md-12">
@@ -22,33 +22,47 @@
         </div>
         <div class="row">
             <div class="col-md-12 p-3">
-                <div class="form-group">
-                    <label for="Descritivo">Descritivo:</label>
-                    <textarea class="form-control" id="Descritivo" rows="3"></textarea>
-                    <small class="text-muted">
-                        * Faça uma breve descrição do estado em que se encontra o livro que você está oferecendo para troca.
-                    </small>
-                </div>
+                <form id="form-disponibilizacao" method="post" asp-action="DisponibilizarParaTroca" asp-controller="Livro">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <label for="Pontos">Selecione quantos pontos deseja receber por esse livro:</label>
-                    <select id="Pontos" name="Pontos" class="form-control">
-                       @for (var i = 1; i <= Model.MaximoDePontos; i++)
-                       {
-                           <option value="@i">@i</option>
-                       }
-                    </select>
-                </div>
+                    <input type="hidden" asp-for="LivroId" />
 
-                <button class="btn btn-block btn-primary" type="button"> 
-                    Disponibilizar
-                </button>
+                    <div class="form-group">
+                        <label for="Descritivo">Descritivo:</label>
+                        <textarea class="form-control" asp-for="Descritivo" rows="5"></textarea>
+                        <span asp-validation-for="Descritivo"  class="text-danger"></span>
+                        <div>
+                        <small class="text-muted">
+                            * Faça uma breve descrição do estado em que se encontra o livro que você está oferecendo para troca.
+                        </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Pontos">Selecione quantos pontos deseja receber por esse livro:</label>
+                        <select asp-for="Pontos" class="form-control">
+                            <option value="">Selecione...</option>
+                            @for (var i = 1; i <= Model.MaximoDePontos; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Pontos"  class="text-danger"></span>
+                    </div>
+
+                    <button class="btn btn-block btn-success" type="button" id="btn-disponibilizar-troca" data-loading-text="Processando, aguarde..."> 
+                        Disponibilizar
+                    </button>
+                </form>
             </div>
         </div>
+    </div>
     </div>
 </div> 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/livro/disponibilizar-para-troca.js"></script>
+    <script src="~/js/livro/DisponibilizarLivroParaTroca.js"></script>
+    <script>
+        var disponibilizarLivroParaTroca = new DisponibilizarLivroParaTroca();
+    </script>
 }

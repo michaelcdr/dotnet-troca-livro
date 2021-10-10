@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.ViewModels;
@@ -27,6 +28,25 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                 request.TamanhoPagina,
                 request.QuantidadeRegistrosAPular, 
                 request.TermoPesquisa);
+
+            List<int> livrosIds = livros.Select(livro => livro.Id).ToList();
+
+            List<LivroAutor> livrosAutores = await uow.Autores.ObterParaLivros(livrosIds);
+
+            List<int> editorasIds = livros.Select(livros => livros.EditoraId).Distinct().ToList();
+
+            List<Editora> editoras = await uow.Editoras.ObterPorIds(editorasIds);
+
+            List<Imagem> imagens = await uow.Livros.ObterImagens(livrosIds);
+
+            foreach (Livro livro in livros)
+            {
+                livro.AdicionarAutores(livrosAutores.Where(livroAutor => livroAutor.LivroId == livro.Id).ToList());
+
+                livro.AdicionarEditora(editoras.Single(editoraAtual => editoraAtual.Id == livro.EditoraId));
+
+                livro.AdicionarImagens(imagens.Where(imagemAtual => imagemAtual.LivroId == livro.Id).ToList());
+            }
 
             List<LivroCardModel> livrosCards = this.mapper.Map<List<Livro>, List<LivroCardModel>>(livros);
 

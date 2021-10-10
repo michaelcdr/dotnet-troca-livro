@@ -593,3 +593,10 @@ a.slick-prev.arrow-slider-product-img-details {
     text-align: center;
     display: inline !important;
 }
+
+.nota-componente .fa-star.deselecionada{
+    color:#ccc;
+}
+.nota-componente .fa-star {
+    color: #ffd800;
+}

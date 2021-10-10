@@ -16,11 +16,12 @@ using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.HttpClients
 {
-    public class LivroApClient
+    public class LivroApiClient
     {
         private readonly HttpClient httpClient;
         private readonly IMapper mapper;
         private const string APICONTROLLER_LIVRO = "livros";
+        private const string APICONTROLLER_TROCAS = "trocas";
         private const string APICONTROLLER_SUBCATEGORIA = "subcategorias";
         private string admToken;
         private string token;
@@ -30,7 +31,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
             this.token = claimComToken.Value;
         }
 
-        public LivroApClient(HttpClient httpClient, IMapper mapper, IMemoryCache memoryCache)
+        public LivroApiClient(HttpClient httpClient, IMapper mapper, IMemoryCache memoryCache)
         {
             this.httpClient = httpClient;
             this.mapper = mapper; 
@@ -114,6 +115,9 @@ namespace TrocaLivro.Aplicacao.HttpClients
             HttpContent content = CriarMultipartFormDataParaLivro(comando);
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             HttpResponseMessage resposta = await httpClient.PostAsync(APICONTROLLER_LIVRO, content);
+
+            if (resposta.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                return new AppResponse<CadastrarLivroResultado>(false, "Você não tem autorização de acesso ao recurso solicitado.");
 
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<CadastrarLivroResultado>>();
             return conteudoResposta;
@@ -212,6 +216,14 @@ namespace TrocaLivro.Aplicacao.HttpClients
             
             var livros = await resposta.Content.ReadFromJsonAsync<List<LivroCardModel>>();
             return livros;
+        }
+
+        public async Task<AppResponse<DisponibilizarLivroParaTrocaResultado>> DisponibilizarParaTroca(DisponibilizarLivroParaTrocaCommand comando)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"{APICONTROLLER_TROCAS}/Disponibilizar", comando);
+            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<DisponibilizarLivroParaTrocaResultado>>();
+            return conteudoResposta;
         }
     }
 }

@@ -13,6 +13,12 @@ namespace TrocaLivro.Aplicacao.ViewModels
         public int Ano { get; private set; }
         public int NumeroPagina { get; private set; }
         public int MaximoDePontos { get; private set; }
+
+        
+        public string Descritivo { get; set; }
+        public int? Pontos { get; set; }
+
+
         public DisponibilizarLivroParaTrocaViewModel(LivroDTO livroDTO)
         {
             this.Imagem = livroDTO.Imagens.First().ImagemBase64;

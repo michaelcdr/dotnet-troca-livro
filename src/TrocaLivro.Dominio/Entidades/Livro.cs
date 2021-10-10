@@ -27,13 +27,18 @@ namespace TrocaLivro.Dominio.Entidades
         public string Tags { get; set; }
         public List<Imagem> Imagens { get; set; }
         public List<Arquivo> Arquivos { get; set; }
-        public List<LivroDisponibilizadoParaTroca> Trocas { get; set; }
+        public List<LivroDisponibilizadoParaTroca> DiponibilizacaoParaTrocas { get; set; }
         public SubCategoria SubCategoria { get; set; }
         public int SubCategoriaId { get; set; }
 
         public bool Deletado { get; private set; }
         public string DeletadoPor { get; private set; }
         public DateTime? DataDaDelecao { get; private set; }
+
+        public void AdicionarAutores(List<LivroAutor> livroAutors)
+        {
+            this.Autores.AddRange(livroAutors);
+        }
 
         public void Atualizar(
             string titulo, string subtitulo, string descricao, string isbn, int ano, int numeroPaginas, 
@@ -63,12 +68,19 @@ namespace TrocaLivro.Dominio.Entidades
                     this.Autores.Add(new LivroAutor { LivroId = this.Id, AutorId = autorIdSelecionado });
         }
 
+      
+
+        public void AdicionarEditora(Editora editora)
+        {
+            this.Editora = editora;
+        }
+
         public Livro() 
         {
             this.Autores = new List<LivroAutor>();
             this.Imagens = new List<Imagem>();
             this.Arquivos = new List<Arquivo>();
-            this.Trocas = new List<LivroDisponibilizadoParaTroca>();
+            this.DiponibilizacaoParaTrocas = new List<LivroDisponibilizadoParaTroca>();
         }
 
         public void Deletar(string usuario)
@@ -106,6 +118,12 @@ namespace TrocaLivro.Dominio.Entidades
                 this.AdicionarErro("Você deve conter ao menos uma imagem.", "");
 
             return this._erros.Count == 0;
+        }
+
+        public void AdicionarImagens(List<Imagem> imagems)
+        {
+            foreach (Imagem imagem in imagems)
+                AdicionarImagem(imagem);
         }
 
         public void AdicionarImagem(Imagem imagem)
