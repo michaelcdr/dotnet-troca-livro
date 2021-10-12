@@ -48,7 +48,7 @@
                             <div>@item.Nome</div>
                             <div>@item.LivrosEnviados Livros enviados</div>
                         </td>
-                        <td class=" text-right " valign="middle">
+                        <td class="text-right" valign="middle">
                             <button type="button" class="btn btn-outline-dark">Solicitar troca</button>
                         </td>
                     </tr>
@@ -57,51 +57,8 @@
         </div>
     </div>
 }
+<partial name="_Avaliacoes"/>
 
-<div class="row">
-    <div class="col-md-12 mt-3">
-        <h3>Avaliações</h3>
-    </div>
-    <div class="col-md-12">
-        <div class="card col-md-12 pt-3 pb-3">
-            <div class="row">
-                <div class="col-md-8">
-                    <div>Esse livro não possui avaliações.</div>
-                    <div>
-                        <strong>Faça a primeira :) </strong>
-                    </div>
-                </div>
-                <div class="col-md-4 text-right">
-                    <button class="btn btn-outline-dark" id="btn-avaliar" type="button" data-loading-text="Processando, aguarde..." 
-                            data-livro-id="@Model.Id">Avaliar livro</button>
-                </div>
-            </div>
-            <div id="avaliacoes" class="hidden"></div>
-        </div>
-
-        <div></div>
-        @*<ul class="list-unstyled">
-            <li>
-                <strong>O teclado e grande?</strong><br />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dolor nec orci laoreet 
-                imperdiet finibus a urna. Quisque pretium lacinia vulputate. Nullam fermentum nec nisi ut tristique. 
-                Morbi justo ipsum, commodo sed malesuada a, gravida pulvinar lacus. Fusce urna enim, fermentum sed cursus
-                at, pretium vel leo. Ut condimentum diam lacus, eu porta felis consectetur pharetra. Proin posuere,
-                ex eu ultrices volutpat, quam neque iaculis leo, eget molestie sem velit quis sem. Nunc mattis
-                condimentum neque, nec cursus eros dignissim id. Quisque tempor leo sed leo pharetra semper.
-            </li>
-            <li>
-                <strong>O teclado e grande?</strong><br />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dolor nec orci laoreet
-                imperdiet finibus a urna. Quisque pretium lacinia vulputate. Nullam fermentum nec nisi ut tristique.
-                Morbi justo ipsum, commodo sed malesuada a, gravida pulvinar lacus. Fusce urna enim, fermentum sed cursus
-                at, pretium vel leo. Ut condimentum diam lacus, eu porta felis consectetur pharetra. Proin posuere,
-                ex eu ultrices volutpat, quam neque iaculis leo, eget molestie sem velit quis sem. Nunc mattis
-                condimentum neque, nec cursus eros dignissim id. Quisque tempor leo sed leo pharetra semper.
-            </li>
-        </ul>*@
-    </div>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -110,5 +67,4 @@
     <script>
         let detalhes = new DetalhesLivro();
     </script>
-    
 }

@@ -27,5 +27,9 @@
             document.querySelector('.nota-componente .fa-star[data-indice="' + i + '"]')
                 .classList.remove('deselecionada');
         }
+
+        let nota = document.querySelectorAll('.nota-componente .fa-star:not(.deselecionada)').length;
+
+        document.querySelector("#Nota").setAttribute("value", nota);
     }
 }

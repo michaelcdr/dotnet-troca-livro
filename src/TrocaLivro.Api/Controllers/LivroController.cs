@@ -121,5 +121,18 @@ namespace TrocaLivro.Api.Controllers
            
             return Ok(resultado);
         }
+
+        [HttpPost("Avaliar")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Avaliar(AvaliarLivroCommand comando)
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            comando.Usuario = _tokenHandler.ObterNomeUsuario(token);
+
+            AppResponse<AvaliarLivroResultado> resultado = await _mediator.Send(comando);
+            if (!resultado.Sucesso) return BadRequest(resultado);
+
+            return Ok(resultado);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace TrocaLivro.Aplicacao.CasosDeUsos
+﻿namespace TrocaLivro.Dominio.Enums
 {
     public enum NotaLivroEnum
     {

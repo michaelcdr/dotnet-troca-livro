@@ -102,5 +102,10 @@ namespace TrocaLivro.Infra.Repositorios.EF
         {
             await ApplicationDbContext.LivrosDisponibilizadosParaTrocas.AddAsync(disponibilizacao);
         }
+
+        public async Task Avaliar(Avaliacao avaliacao)
+        {
+            await ApplicationDbContext.Avaliacoes.AddAsync(avaliacao);
+        }
     }
 }

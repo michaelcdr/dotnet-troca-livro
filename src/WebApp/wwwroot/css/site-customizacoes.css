@@ -594,9 +594,17 @@ a.slick-prev.arrow-slider-product-img-details {
     display: inline !important;
 }
 
-.nota-componente .fa-star.deselecionada{
-    color:#ccc;
+.nota-componente .fa-star.deselecionada {
+    color: #ccc;
+    transition: all .4s;
 }
 .nota-componente .fa-star {
     color: #ffd800;
+    cursor:pointer;
+    transition:all .4s;
+}
+
+
+.swal2-container{
+    z-index:9999;
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.DisponibilizarLivroParaTroca;
@@ -36,7 +37,8 @@ namespace WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddFluentValidation();
+            services.AddControllersWithViews()
+                    .AddFluentValidation();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services
@@ -58,8 +60,10 @@ namespace WebApp
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddAutoMapper(typeof(UsuarioProfile));
             services.AddAutoMapper(typeof(LivroProfile));
+            
             services.AddTransient<IValidator<DisponibilizarLivroParaTrocaViewModel>, DisponibilizarLivroParaTrocaValidator>();
-
+            services.AddTransient<IValidator<AvaliarLivroViewModel>, AvaliarLivroValidator>();
+            
             services.AddMvc().AddRazorOptions(options =>
             {
                 options.ViewLocationFormats.Add("/{0}.cshtml");

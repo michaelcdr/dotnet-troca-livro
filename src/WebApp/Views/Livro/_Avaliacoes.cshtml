@@ -1,0 +1,27 @@
+﻿@model LivroDetalhes
+
+<div class="row">
+    <div class="col-md-12 mt-3">
+        <h3>Avaliações</h3>
+    </div>
+    <div class="col-md-12">
+        <div class="card col-md-12 pt-3 pb-3">
+            <div class="row">
+                <div class="col-md-8">
+                    <div>Esse livro não possui avaliações.</div>
+                    <div>
+                        <strong>Faça a primeira :) </strong>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    @if (Model.PodeEditar)
+                    {
+                        <button class="btn btn-outline-dark" id="btn-avaliar" type="button" data-loading-text="Processando, aguarde..." 
+                            data-livro-id="@Model.Id">Avaliar livro</button>
+                    }
+                </div>
+            </div>
+            <div id="avaliacoes" class="hidden"></div>
+        </div>
+    </div>
+</div>

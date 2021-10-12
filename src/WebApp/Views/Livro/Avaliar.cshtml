@@ -1,28 +1,35 @@
-﻿@model TrocaLivro.Aplicacao.CasosDeUsos.AvaliarLivroViewModel
+﻿@model AvaliarLivroViewModel
 
 <div class="cabecalho">
     Avalie o livro: <small>@Model.TituloLivro</small>
 </div>
 <div class="corpo">
-    <div class="form-group">
-        <label class="control-label">Título</label>
-        <input class="form-control" asp-for="Titulo" />
-    </div> 
-    <div class="form-group">
-        <label id="descritivo" class="control-label">Descrição</label>
-        <textarea asp-for="Descricao" class="form-control" style="height:150px"></textarea>
-    </div>
-    <div class="form-group">
-        <label asp-for="Nota" class="control-label">Nota:</label>
-        <input asp-for="Nota" type="hidden" />
-        <div class="nota-componente">
-            <span class="fa fa-star deselecionada" data-indice="1"></span>
-            <span class="fa fa-star deselecionada" data-indice="2"></span>
-            <span class="fa fa-star deselecionada" data-indice="3"></span>
-            <span class="fa fa-star deselecionada" data-indice="4"></span>
-            <span class="fa fa-star deselecionada" data-indice="5"></span>
+    <form asp-action="Avaliar" asp-controller="Livro" method="post" id="form-avaliar">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="LivroId" />
+        <div class="form-group">
+            <label class="control-label">Título</label>
+            <input class="form-control" asp-for="Titulo" />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div> 
+        <div class="form-group">
+            <label id="descritivo" class="control-label">Descrição</label>
+            <textarea asp-for="Descricao" class="form-control" style="height:150px"></textarea>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
         </div>
-    </div>
+        <div class="form-group">
+            <label asp-for="Nota" class="control-label">Nota:</label>
+            <input asp-for="Nota" type="hidden" />
+            <div class="nota-componente">
+                <span class="fa fa-star fa-2x deselecionada" data-indice="1"></span>
+                <span class="fa fa-star fa-2x deselecionada" data-indice="2"></span>
+                <span class="fa fa-star fa-2x deselecionada" data-indice="3"></span>
+                <span class="fa fa-star fa-2x deselecionada" data-indice="4"></span>
+                <span class="fa fa-star fa-2x deselecionada" data-indice="5"></span>
+            </div>
+            <span asp-validation-for="Nota" class="text-danger"></span>
+        </div>
+    </form>
 </div>
 <div class="rodape"></div>
 <script>

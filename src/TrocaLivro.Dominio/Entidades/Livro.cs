@@ -7,33 +7,40 @@ namespace TrocaLivro.Dominio.Entidades
     public class Livro : EntidadeBase
     {
         public int Id { get; private set; }
-
         public string Titulo { get; private set; }
         public string Subtitulo { get; private set; }
         public string Descricao { get; private set; }
         public string ISBN { get; private set; }
         public int Ano { get; private set; }
         public int NumeroPaginas { get; private set; }
-
         public List<LivroAutor> Autores { get; private set; }
-        public DateTime DataCadastro { get; set; }
-        public string CadastradoPor { get; set; }
-        public DateTime? DataAlteracao { get; set; }
-        public string AlteradoPor { get; set; }
         public Editora Editora { get; private set; }
-
-       
         public int EditoraId { get; private set; }
         public string Tags { get; set; }
         public List<Imagem> Imagens { get; set; }
         public List<Arquivo> Arquivos { get; set; }
+        public List<Avaliacao> Avaliacoes { get; private set; }
         public List<LivroDisponibilizadoParaTroca> DiponibilizacaoParaTrocas { get; set; }
         public SubCategoria SubCategoria { get; set; }
         public int SubCategoriaId { get; set; }
 
+        public DateTime DataCadastro { get; set; }
+        public string CadastradoPor { get; set; }
+        public DateTime? DataAlteracao { get; set; }
+        public string AlteradoPor { get; set; }
+
         public bool Deletado { get; private set; }
         public string DeletadoPor { get; private set; }
         public DateTime? DataDaDelecao { get; private set; }
+
+        public Livro()
+        {
+            this.Autores = new List<LivroAutor>();
+            this.Imagens = new List<Imagem>();
+            this.Arquivos = new List<Arquivo>();
+            this.Avaliacoes = new List<Avaliacao>();
+            this.DiponibilizacaoParaTrocas = new List<LivroDisponibilizadoParaTroca>();
+        }
 
         public void AdicionarAutores(List<LivroAutor> livroAutors)
         {
@@ -68,19 +75,9 @@ namespace TrocaLivro.Dominio.Entidades
                     this.Autores.Add(new LivroAutor { LivroId = this.Id, AutorId = autorIdSelecionado });
         }
 
-      
-
         public void AdicionarEditora(Editora editora)
         {
             this.Editora = editora;
-        }
-
-        public Livro() 
-        {
-            this.Autores = new List<LivroAutor>();
-            this.Imagens = new List<Imagem>();
-            this.Arquivos = new List<Arquivo>();
-            this.DiponibilizacaoParaTrocas = new List<LivroDisponibilizadoParaTroca>();
         }
 
         public void Deletar(string usuario)
@@ -90,14 +87,6 @@ namespace TrocaLivro.Dominio.Entidades
             this.DataDaDelecao = DateTime.Now;
             this.DataAlteracao = DateTime.Now;
             this.AlteradoPor = usuario;
-        }
-
-        private void AdicionarAutor(int idAutor)
-        {
-            if (this.Autores == null)
-                this.Autores = new List<LivroAutor>();
-
-            this.Autores.Add(new LivroAutor { AutorId = idAutor });
         }
 
         public override bool TaValido()

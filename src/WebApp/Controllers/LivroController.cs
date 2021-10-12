@@ -59,9 +59,17 @@ namespace WebApp.Controllers
             return View(model);
         }
 
+        public IActionResult _Avaliacoes(LivroDetalhes model) => PartialView(model);
+
         public PartialViewResult Avaliar(int id, string tituloLivro)
+            => PartialView(new AvaliarLivroViewModel(id, tituloLivro));
+
+        [HttpPost, AuthorizeCustomizado, ModelStateAttribute]
+        public async Task<JsonResult> Avaliar(AvaliarLivroCommand command)
         {
-            return PartialView(new AvaliarLivroViewModel(id, tituloLivro));
+            AtualizarToken();
+            AppResponse<AvaliarLivroResultado> resposta = await api.AvaliarLivro(command);
+            return Json(resposta);
         }
 
         [AuthorizeCustomizado]
@@ -172,7 +180,7 @@ namespace WebApp.Controllers
             return View(new DisponibilizarLivroParaTrocaViewModel(livro));
         }
 
-        [HttpPost]
+        [HttpPost, ModelStateAttribute]
         public async Task<IActionResult> DisponibilizarParaTroca(DisponibilizarLivroParaTrocaCommand comando)
         {
             AtualizarToken();
