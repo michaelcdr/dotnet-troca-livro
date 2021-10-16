@@ -17,6 +17,7 @@ namespace TrocaLivro.Dominio.Repositorios
         Task<bool> VerificarExistencia(string iSBN, int? idLivroAtual=null);
         Task<List<int>> ObterIdsImagens(int id);
         void RemoverImagens(List<int> idsImagens);
+        Task<List<Avaliacao>> ObterAvaliacoes(int livroId);
         void Atualizar(Livro livro);
         Task<List<Imagem>> ObterImagens(List<int> livrosIds);
         Task Avaliar(Avaliacao avaliacao);

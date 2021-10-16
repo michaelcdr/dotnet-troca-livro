@@ -9,6 +9,7 @@ a {
   color: #0366d6;
 }
 
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -97,11 +98,6 @@ body {
     width: calc(100% - 40px);
     position: absolute;
     bottom:20px;
-}
-.ator {
-    font-weight: bold;
-    
-    font-size: 16px;
 }
 
 

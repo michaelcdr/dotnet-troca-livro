@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.DTO;
@@ -18,12 +13,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.ObterLivro
     {
         private readonly IUnitOfWork uow;
         private const string MSG_SUCCESS = "Livro obtido com sucesso.";
-        private readonly IMapper mapper;
 
-        public ObterLivroQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public ObterLivroQueryHandler(IUnitOfWork unitOfWork)
         {
             this.uow = unitOfWork;
-            this.mapper = mapper;
         }
 
         public async Task<AppResponse<ObterLivroResultado>> Handle(ObterLivroQuery request, CancellationToken cancellationToken)
@@ -32,7 +25,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.ObterLivro
 
             LivroDTO livroDTO = livro.ToDTO();
 
-            var resultado = new ObterLivroResultado() { Livro = livroDTO };
+            var resultado = new ObterLivroResultado(livroDTO);
 
             return new AppResponse<ObterLivroResultado>(true, MSG_SUCCESS, resultado);
         }

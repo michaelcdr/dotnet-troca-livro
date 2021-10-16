@@ -1,23 +1,31 @@
 ﻿:root {
-    --primary-color: #C01327;
+    --primary-color: #ec1a47;
+    --red-color: #ec1a47;
     --second-color: #F5F0EC;
     --default-color: #212529;
     --ts-time: .4s;
-}
-/* 
-C01327
-1B1A28
-2E3140
-86858B
-F5F0EC */
+} 
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #F5F0EC;
+    background-color: #fff;
+    color: var(--default-color);
     line-height: normal;
-    padding-top:0px;
+    padding-top: 0px;
 }
 
+p {
+    line-height:1.4;
+}
+h1 {
+    margin-bottom: 0.8rem;
+}
+h4 {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 0.8rem;
+}
 a:not(.btn-outline-dark),
 a:link:not(.btn-outline-dark),
 a:visited:not(.btn-outline-dark),
@@ -25,6 +33,17 @@ a:hover:not(.btn-outline-dark),
 a:active:not(.btn-outline-dark) {
     color: var(--second-color);
     text-decoration: none;
+}
+
+.btn-outline-danger {
+    transition: all 0.4s;
+    border-width: 3px;
+    border-color: var(--red-color);
+}
+.btn-outline-dark {
+    transition: all 0.4s;
+    border-width: 3px;
+    border-color: var(--default-color);
 }
 
 a.page-link,
@@ -373,8 +392,6 @@ footer {
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
     padding: 15px;
     margin-top: 5px;
     margin-bottom: 15px;
@@ -441,9 +458,7 @@ div.dropdown-menu.show {
     padding: 10px;
     border-radius: 5px;
     -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+    -moz-border-radius: 5px; 
 }
 
 .table-cart .img {
@@ -521,7 +536,7 @@ a.slick-next.arrow-slider-product-img-details {
     top: 48px;
     border: 0px;
     background-color: transparent;
-    transition: .4 all;
+    transition: 0.4s all;
 }
 
 a.slick-prev.arrow-slider-product-img-details {
@@ -608,3 +623,22 @@ a.slick-prev.arrow-slider-product-img-details {
 .swal2-container{
     z-index:9999;
 }
+
+.card-avaliacao {
+    margin-top:10px;
+    background-color:#f0f0f0;
+    padding:20px;
+    border-radius:4px;
+    
+}
+    .card-avaliacao .descricao {
+        line-height: 1.5;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .card-avaliacao h3 {
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: rgb(102, 102, 102);
+        font-size: 18px;
+    }

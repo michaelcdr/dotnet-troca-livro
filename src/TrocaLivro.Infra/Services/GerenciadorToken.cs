@@ -15,6 +15,7 @@ namespace TrocaLivro.Infra.Services
 {
     public class GerenciadorToken : IGerenciadorToken
     {
+        private const string MSG_NOTFOUND = "Tipo de usuário não encontrado.";
         private readonly UserManager<Usuario> _userManager;
         private readonly JwtConfiguracao _jwtConfig;
 
@@ -34,7 +35,7 @@ namespace TrocaLivro.Infra.Services
 
             var rolesDoUsuario = await _userManager.GetRolesAsync(usuario);
 
-            if (rolesDoUsuario == null || rolesDoUsuario.Count == 0) return new AppResponse<TokenResultado>(false, "Tipo de usuário não encontrado.");
+            if (rolesDoUsuario == null || rolesDoUsuario.Count == 0) return new AppResponse<TokenResultado>(false, MSG_NOTFOUND);
 
             var role = rolesDoUsuario.First();
 
@@ -48,7 +49,7 @@ namespace TrocaLivro.Infra.Services
                     new Claim(JwtRegisteredClaimNames.Sub, login),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }),
-                Expires = DateTime.Now.AddHours(6),
+                Expires = DateTime.Now.AddDays(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

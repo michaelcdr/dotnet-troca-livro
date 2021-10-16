@@ -4,6 +4,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
     public class ObterLivroResultado
     {
-        public LivroDTO Livro { get;  set; }
+        public ObterLivroResultado(LivroDTO livro)
+        {
+            Livro = livro;
+        }
+        public LivroDTO Livro { get;  private set; }
     }
 }

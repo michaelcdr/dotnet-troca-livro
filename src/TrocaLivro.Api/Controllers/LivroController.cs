@@ -134,5 +134,15 @@ namespace TrocaLivro.Api.Controllers
 
             return Ok(resultado);
         }
+
+        [HttpGet("Avaliacoes/{livroId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> ObterAvaliacoes(int livroId)
+        {
+            var query = new ObterAvaliacoesLivroQuery() { LivroId = livroId };
+            AppResponse<ObterAvaliacoesLivroResultado> resultado = await _mediator.Send(query);
+            if (!resultado.Sucesso) return BadRequest(resultado);
+            return Ok(resultado);
+        }
     }
 }

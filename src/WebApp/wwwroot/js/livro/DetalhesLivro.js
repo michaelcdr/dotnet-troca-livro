@@ -107,7 +107,9 @@ DetalhesLivro.prototype.avaliar = function () {
                             if (!dados.sucesso)
                                 alertError({ text: dados.mensagem });
                             else {
+                                
                                 _self.listarAvaliacoes();
+                                $.sidebar.fnFechar();
                             }
 
                         }).catch(error => {
@@ -125,5 +127,14 @@ DetalhesLivro.prototype.avaliar = function () {
 };
 
 DetalhesLivro.prototype.listarAvaliacoes = function () {
+    let livroId = this._livroId;
 
+    const myRequest = new Request('/Livro/_ListaAvaliacoes/' + livroId, {
+        method: 'GET' 
+    });
+
+    fetch(myRequest)
+        .then(response => {
+            response.text().then(resultado => $("#avaliacoes").html(resultado));
+        });
 };

@@ -21,14 +21,12 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
         private const string msgErro = "Não foi possível atualizar o livro.";
         private readonly IMapper mapper;
         private readonly IUnitOfWork uow;
-        private readonly IHostingEnvironment environment;
         private string msgSuccess = "Livro criado com sucesso.";
 
-        public EditarLivroCommandHandler(IMapper mapper, IUnitOfWork uow, IHostingEnvironment env )
+        public EditarLivroCommandHandler(IMapper mapper, IUnitOfWork uow )
         {
             this.mapper = mapper;
             this.uow = uow;
-            this.environment = env;
         }
 
         public async Task<AppResponse<EditarLivroResultado>> Handle(EditarLivroCommand command, CancellationToken cancellationToken)

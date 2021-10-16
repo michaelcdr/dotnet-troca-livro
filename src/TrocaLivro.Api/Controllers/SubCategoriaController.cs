@@ -6,7 +6,7 @@ using TrocaLivro.Aplicacao.CasosDeUsos;
 namespace TrocaLivro.Api.Controllers
 {
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersion("1.0"), ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/v{version:apiVersion}/subcategorias")]
     public class SubCategoriaController : Controller
     {

@@ -52,6 +52,7 @@ namespace WebApp.Controllers
             
             if (User.Identity.IsAuthenticated)
             {
+                model.PodeAvaliar = true;
                 model.PodeEditar = User.IsInRole("admin") || livro.CadastradoPor == User.Identity.Name;
                 model.DisponibilizarParaTroca = true;
             }
@@ -60,6 +61,8 @@ namespace WebApp.Controllers
         }
 
         public IActionResult _Avaliacoes(LivroDetalhes model) => PartialView(model);
+
+        public IActionResult _ListaUsuariosOfertando(LivroDetalhes model) => PartialView(model);
 
         public PartialViewResult Avaliar(int id, string tituloLivro)
             => PartialView(new AvaliarLivroViewModel(id, tituloLivro));
@@ -70,6 +73,13 @@ namespace WebApp.Controllers
             AtualizarToken();
             AppResponse<AvaliarLivroResultado> resposta = await api.AvaliarLivro(command);
             return Json(resposta);
+        }
+         
+        public async Task<PartialViewResult> _ListaAvaliacoes(int id)
+        {
+            AtualizarToken();
+            AppResponse<ObterAvaliacoesLivroResultado> resposta = await api.ObterAvaliacoes(id);
+            return PartialView(resposta.Dados.AvaliacoesDoLivro);
         }
 
         [AuthorizeCustomizado]

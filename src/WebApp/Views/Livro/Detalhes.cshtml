@@ -11,8 +11,8 @@
     </div>
     <div class="col-md-9">
         <h1>@Model.Titulo</h1>
-        <div class="ator pb-2">@Model.Autores </div>
-        <div class="isbn pb-2">@Model.ISBN - @Model.NumeroPagina páginas - @Model.Ano</div>
+        <h4 class="ator">@Model.Autores </h4>
+        <div class="isbn">@Model.ISBN - @Model.NumeroPagina páginas - @Model.Ano</div>
         <p>@Html.Raw(Model.Descricao)</p>
     </div> 
     <div class="col-md-12 pt-2">
@@ -31,34 +31,9 @@
     </div>
 </div>
 
-@if (Model.Usuarios.Count > 0)
-{
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="mt-3"> Esse livro está sendo oferecido por:</h3>
+<partial name="_ListaUsuariosOfertando"/>
 
-            <table class="table table-striped" width="100%">
-                @foreach (var item in Model.Usuarios)
-                {
-                    <tr>
-                        <td class="text-center" width="10px" valign="middle">
-                            <img src="~/img/usuario/2.png" width="50" />
-                        </td>
-                        <td class="text-center" width="200px" valign="middle">
-                            <div>@item.Nome</div>
-                            <div>@item.LivrosEnviados Livros enviados</div>
-                        </td>
-                        <td class="text-right" valign="middle">
-                            <button type="button" class="btn btn-outline-dark">Solicitar troca</button>
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
-    </div>
-}
-<partial name="_Avaliacoes"/>
-
+<partial name="_Avaliacoes" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

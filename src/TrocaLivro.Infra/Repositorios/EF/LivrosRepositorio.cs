@@ -27,6 +27,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Include(e => e.Imagens)
                 .Include(e => e.Arquivos)
                 .Include(e => e.SubCategoria)
+                .Include(e => e.Avaliacoes).ThenInclude(e => e.Usuario)
                 .Include(e => e.DiponibilizacaoParaTrocas).ThenInclude(e => e.UsuarioQueDisponibilizouParaTroca)
                 .SingleAsync();
         }
@@ -106,6 +107,13 @@ namespace TrocaLivro.Infra.Repositorios.EF
         public async Task Avaliar(Avaliacao avaliacao)
         {
             await ApplicationDbContext.Avaliacoes.AddAsync(avaliacao);
+        }
+
+        public async Task<List<Avaliacao>> ObterAvaliacoes(int livroId)
+        {
+            return await ApplicationDbContext.Avaliacoes.Where(e => e.LivroId == livroId)
+                .Include(a => a.Usuario)
+                .ToListAsync();
         }
     }
 }

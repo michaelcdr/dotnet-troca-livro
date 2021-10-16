@@ -14,14 +14,34 @@
                     </div>
                 </div>
                 <div class="col-md-4 text-right">
-                    @if (Model.PodeEditar)
+                    @if (Model.PodeAvaliar)
                     {
                         <button class="btn btn-outline-dark" id="btn-avaliar" type="button" data-loading-text="Processando, aguarde..." 
                             data-livro-id="@Model.Id">Avaliar livro</button>
                     }
                 </div>
             </div>
-            <div id="avaliacoes" class="hidden"></div>
+            <div id="avaliacoes">
+                @foreach (var livroAvaliado in Model.Avaliacoes)
+                {
+                    <div class="card-avaliacao">
+                        <h3>@livroAvaliado.Titulo</h3>
+                        <div class="nota">
+                            <div class="nota-componente">
+                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 1 ? "deselecionada" :"")" ></span>
+                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 2 ? "deselecionada" :"")" ></span>
+                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 3 ? "deselecionada" :"")" ></span>
+                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 4 ? "deselecionada" :"")" ></span>
+                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 5 ? "deselecionada" :"")" ></span>
+                            </div>
+                        </div>
+                        <div class="descricao">
+                            @Html.Raw(livroAvaliado.Descricao)
+                        </div>
+                        <strong>@livroAvaliado.Usuario - @livroAvaliado.Data</strong>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>

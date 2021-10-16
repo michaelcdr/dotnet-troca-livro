@@ -24,7 +24,7 @@ namespace TrocaLivro.Aplicacao.DTO
         public List<ImagemDTO> Imagens { get; set; }
         public string CadastradoPor { get; set; }
         public List<UsuarioOfertando> UsuariosOfertando { get; set; }
-
+        public List<AvaliacaoLivro> Avaliacoes { get; set; }
         public LivroDTO()
         {
             Imagens = new List<ImagemDTO>();
@@ -53,7 +53,7 @@ namespace TrocaLivro.Aplicacao.DTO
                 NomeEditora = livro.Editora.Nome;
             
             if (livro.Autores != null)
-                Autores = livro.Autores.Select(e => new LivroAutorDTO { AutorId = e.AutorId, Nome = e.Autor.Nome }).ToList();
+                Autores = livro.Autores.Select(e => new LivroAutorDTO(e.AutorId, e.Autor.Nome)).ToList();
 
             if (livro.Imagens.Count > 0)
             {
@@ -64,7 +64,7 @@ namespace TrocaLivro.Aplicacao.DTO
 
                 this.CapaBase64 = base64String;
 
-                foreach (var imagem in livro.Imagens)
+                foreach (Imagem imagem in livro.Imagens)
                 { 
                     string base64Imagem = "data:image/jpg;base64," + Convert.ToBase64String(imagem.Nome, 0, imagem.Nome.Length);
 
@@ -80,6 +80,12 @@ namespace TrocaLivro.Aplicacao.DTO
                     LivrosEnviados = 0
                 }).ToList();
             }
+
+            if (livro.Avaliacoes.Count > 0)
+                this.Avaliacoes = livro.Avaliacoes
+                    .Select(e => new AvaliacaoLivro(e.Titulo,e.Descricao,e.Nota,e.AvaliadoEm,e.Usuario.Nome))
+                    .OrderByDescending(e => e.Data)
+                    .ToList();
         }
     }
 }

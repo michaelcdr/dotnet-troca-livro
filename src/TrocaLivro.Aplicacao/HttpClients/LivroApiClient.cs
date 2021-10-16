@@ -233,5 +233,13 @@ namespace TrocaLivro.Aplicacao.HttpClients
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<AvaliarLivroResultado>>();
             return conteudoResposta;
         }
+
+        public async Task<AppResponse<ObterAvaliacoesLivroResultado>> ObterAvaliacoes(int livroId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/Avaliacoes/{livroId}");
+            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterAvaliacoesLivroResultado>>();
+            return conteudoResposta;
+        }
     }
 }
