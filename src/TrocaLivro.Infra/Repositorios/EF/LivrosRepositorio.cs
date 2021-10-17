@@ -51,9 +51,11 @@ namespace TrocaLivro.Infra.Repositorios.EF
             return await ApplicationDbContext.Livros
                 .Where(e => termoPesquisa != null && termoPesquisa != string.Empty 
                     ?   e.Titulo.Contains(termoPesquisa) || e.Descricao.Contains(termoPesquisa) || 
-                        e.Subtitulo.Contains(termoPesquisa)
+                        e.Subtitulo.Contains(termoPesquisa) ||
+                        e.Autores.Any(autor => autor.Autor.Nome.Contains(termoPesquisa))
                     : true)
                 .Where(e => !e.Deletado)
+                .Include(e => e.Autores).ThenInclude(a => a.Autor)
                 .OrderByDescending(e => e.DataCadastro).Take(tamanhoPagina).ToListAsync();
         }
 

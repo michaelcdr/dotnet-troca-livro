@@ -53,7 +53,7 @@ namespace TrocaLivro.Api.Controllers
         }
 
         /// <summary>
-        /// Obtem uma lista de nivel. Quando nada for informado no termo de pesquisa todos livros são retornados.
+        /// Obtem umm livro pelo id do mesmo.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

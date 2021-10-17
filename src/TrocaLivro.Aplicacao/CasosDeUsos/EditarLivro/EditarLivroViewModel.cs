@@ -66,6 +66,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
             LivroDTO livro, List<EditoraDTO> editoras, List<AutorDTO> autores, 
             List<CategoriaDTO> categorias, List<SubCategoriaDTO> subCategorias)
         {
+            this.Id = livro.Id;
             this.Titulo = livro.Titulo;
             this.ISBN = livro.ISBN;
             this.Subtitulo = livro.Subtitulo;

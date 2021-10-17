@@ -41,12 +41,6 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
             
             List<int> idsImagensAtuais = await uow.Livros.ObterIdsImagens(livro.Id);
 
-            if (!livro.TaValido())
-                return new AppResponse<EditarLivroResultado>("Erro.", false, livro.ObterErros());
-
-            if (await uow.Livros.VerificarExistencia(livro.ISBN,livro.Id)) 
-                return new AppResponse<EditarLivroResultado>(msgErro, false, new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
-
             if (command.Imagens != null && command.Imagens.Count > 0)
             {
                 bool contemImagensNaoJpg = command.Imagens.Any(e => Path.GetExtension(e.FileName).ToLower() != ".jpg");
@@ -57,6 +51,12 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
                 foreach (IFormFile imagemFormFile in command.Imagens)
                     livro.AdicionarImagem(new Imagem(command.Id, FileHelper.ConvertToBytes(imagemFormFile), 0, 0));
             }
+
+            if (!livro.TaValido())
+                return new AppResponse<EditarLivroResultado>("Erro.", false, livro.ObterErros());
+
+            if (await uow.Livros.VerificarExistencia(livro.ISBN,livro.Id)) 
+                return new AppResponse<EditarLivroResultado>(msgErro, false, new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
 
             List<int> idsImagens = command.ImagensAtuaisId == null 
                 ? new List<int>() 

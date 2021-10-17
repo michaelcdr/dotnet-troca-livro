@@ -155,7 +155,7 @@ namespace WebApp.Controllers
 
                 return View(model);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Detalhes", new { id = model.Id });
         }
 
         [AuthorizeCustomizado, HttpPost]

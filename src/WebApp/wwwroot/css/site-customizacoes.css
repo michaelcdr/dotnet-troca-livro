@@ -1,15 +1,24 @@
 ﻿:root {
+    --primary-color: #8f4e5c;
+    --danger-color: #ec1a47;
+    --second-color: #F5F0EC;
+    --default-color: #23232e;
+    --ts-time: .4s;
+    --default-text-color: #654260;
+    --bg-default: #ededed;
+}
+/*:root {
     --primary-color: #ec1a47;
-    --red-color: #ec1a47;
+    --danger-color: #ec1a47;
     --second-color: #F5F0EC;
     --default-color: #212529;
     --ts-time: .4s;
-} 
+} */
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #fff;
-    color: var(--default-color);
+    background-color: var(--bg-default);
+    color: var(--default-text-color);
     line-height: normal;
     padding-top: 0px;
 }
@@ -26,6 +35,28 @@ h4 {
     line-height: 1.4;
     margin-bottom: 0.8rem;
 }
+
+/* NAVEGAÇÃO */
+.container-nav {
+    background-color: var(--default-color);
+    padding: 10px 10px 0px 10px;
+}
+
+footer {
+    background-color: var(--default-color);
+    min-height: 200px;
+    width: 100%;
+}
+/* TABELAS */
+.table-striped tbody tr:nth-of-type(even) {
+    /*background-color: rgba(0,0,0,.05);*/
+    background-color: #fff;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    /*background-color: rgba(0,0,0,.05);*/
+    background-color: var(--bg-default);
+}
+/* BOTÕES E LINKS */
 a:not(.btn-outline-dark),
 a:link:not(.btn-outline-dark),
 a:visited:not(.btn-outline-dark),
@@ -38,13 +69,30 @@ a:active:not(.btn-outline-dark) {
 .btn-outline-danger {
     transition: all 0.4s;
     border-width: 3px;
-    border-color: var(--red-color);
+    border-color: var(--danger-color);
 }
 .btn-outline-dark {
     transition: all 0.4s;
     border-width: 3px;
     border-color: var(--default-color);
 }
+    .btn-outline-dark:hover,
+    .btn-outline-dark:active,
+    .btn-outline-dark:focus {
+       background-color: var(--default-color);
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
 
 a.page-link,
 a.page-link:link,
@@ -234,9 +282,6 @@ main {
     font-size: 16px;
 }
 
-.card-oferta .btn-outline-dark {
-    border-width: 3px;
-}
 
 .card-price {
     color: var(--primary-color);
@@ -319,11 +364,7 @@ main {
             max-height: 100px;
         }
 
-footer {
-    background-color: #343A40;
-    min-height: 200px;
-    width: 100%;
-}
+
 
 .social-media-footer img {
     height: 25px;
@@ -406,10 +447,7 @@ footer {
     }
 
 
-.container-nav {
-    background-color: #343A40;
-    padding: 10px 10px 0px 10px;
-}
+
 
 .menu {
     margin: 0px;

@@ -3,12 +3,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-sm-3 col-md-3 col-lg-2">
                         <a class="navbar-brand" href="/">
                             <span class="logo-strong">B</span>ook<span class="logo-strong">E</span>xchange
                         </a>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-sm-6 col-md-8">
                         <form id="form-pesquisa" asp-controller="livro" asp-action="pesquisa" method="GET">
                             <div class="row">
                                 <div class="col-md-12">
@@ -25,7 +25,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-sm-3 col-md-2">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <span class="login-nav text-light">
