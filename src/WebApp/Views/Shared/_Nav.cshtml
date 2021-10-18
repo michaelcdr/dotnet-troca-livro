@@ -1,14 +1,18 @@
-﻿<div class=" container-nav">
+﻿<div class="container-nav">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-sm-3 col-md-3 col-lg-2">
+                    <nav class="navbar navbar-expand-sm col-sm-3 col-md-3 col-lg-2 navbar-logo">
                         <a class="navbar-brand" href="/">
                             <span class="logo-strong">B</span>ook<span class="logo-strong">E</span>xchange
                         </a>
-                    </div>
-                    <div class="col-sm-6 col-md-8">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="fa fa-bars" style="color: white"></span>
+                        </button>
+                    </nav>
+                    <div class="col-xs-12 col-sm-6 col-md-8">
                         <form id="form-pesquisa" asp-controller="livro" asp-action="pesquisa" method="GET">
                             <div class="row">
                                 <div class="col-md-12">
@@ -25,7 +29,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-sm-3 col-md-2">
+                    <div class="col-xs-12 col-sm-3 col-md-2">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <span class="login-nav text-light">
@@ -50,20 +54,27 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <ul class="menu">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categorias
-                        </a>                        
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="">Categoria 1</a>
-                        </div>
-                    </li>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li><a asp-action="Cadastrar" asp-controller="Livro">Cadastrar livro</a></li>
-                    }
-                </ul>
+                <nav class="row navbar navbar-expand-sm navbar-light">
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <ul class="navbar-nav" >
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-toggle nav-link text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Categorias
+                                </a>                        
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item " href="">Categoria 1</a>
+                                </div>
+                            </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-action="Cadastrar" asp-controller="Livro">Cadastrar livro</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </nav>
             </div>
         </div>
     </div>

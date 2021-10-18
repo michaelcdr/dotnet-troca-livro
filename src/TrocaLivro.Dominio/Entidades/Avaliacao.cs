@@ -27,6 +27,13 @@ namespace TrocaLivro.Dominio.Entidades
 
         public override bool TaValido()
         {
+            bool estaNoLimiteDeNotasPermitidas = this.Nota.GetHashCode() > 0 && this.Nota.GetHashCode() <= 5;
+
+            if (this.Nota.GetHashCode() == 0)
+                this.AdicionarErro("Informe uma nota.", nameof(this.Nota));
+            else if (!estaNoLimiteDeNotasPermitidas)
+                this.AdicionarErro("Informe uma nota válida.", nameof(this.Nota));
+
             return this._erros.Count == 0;  
         }
     }

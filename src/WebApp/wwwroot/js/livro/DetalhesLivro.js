@@ -73,7 +73,12 @@ DetalhesLivro.prototype.obterDadosFormAvaliacao = function () {
     formData.append('LivroId', parseInt($(`#${formId} #LivroId`).val()));
     formData.append('Titulo', $(`#${formId} #Titulo`).val());
     formData.append('Descricao', $(`#${formId} #Descricao`).val());
-    formData.append('Nota', parseInt($(`#${formId} #Nota`).val()));
+
+    if ($.isNullOrEmpty($(`#${formId} #Nota`).val()))
+        formData.append('Nota', 0);
+    else
+        formData.append('Nota', parseInt($(`#${formId} #Nota`).val()));
+
     return formData;
 };
 
@@ -104,10 +109,16 @@ DetalhesLivro.prototype.avaliar = function () {
                     fetch(myRequest)
                         .then(response => { return response.json(); })
                         .then(dados => {
-                            if (!dados.sucesso)
-                                alertError({ text: dados.mensagem });
-                            else {
-                                
+                            if (!dados.sucesso) {
+                                var erros = [];
+                                $(dados.erros).each(function (index,erroObj) {
+                                    if (erroObj.mensagem === "The value '0' is invalid.")
+                                        erros.push("Informe a nota.");
+                                    else
+                                        erros.push(erroObj.mensagem);
+                                });
+                                alertError({ title: dados.mensagem, text: erros.join("<br/>") });
+                            } else {
                                 _self.listarAvaliacoes();
                                 $.sidebar.fnFechar();
                             }

@@ -13,9 +13,12 @@
                         <td class="text-center" width="10px" valign="middle">
                             <img src="~/img/usuario/2.png" width="50" />
                         </td>
-                        <td class="text-center" width="200px" valign="middle">
-                            <div>@item.Nome</div>
-                            <div>@item.LivrosEnviados Livros enviados</div>
+                        <td class="text-center" width="30%" valign="middle">
+                            <strong>@item.Nome</strong> está oferecendo esse livro por <strong>@item.Pontos</strong> pontos.
+                        </td>
+                        <td class="text-center" width="" valign="middle">
+                            <strong>@item.Nome</strong> já enviou 
+                            <strong>@item.LivrosEnviados</strong> livros
                         </td>
                         <td class="text-right" valign="middle">
                             <button type="button" class="btn btn-outline-dark">Solicitar troca</button>

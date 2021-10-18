@@ -16,11 +16,13 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                 .NotEmpty()
                 .WithMessage("Informe uma descrição");
 
+            //RuleFor(model => model.Nota)
+            //    .NotEmpty()
+            //    .WithMessage("A nota deve ser selecionada.");
+
             RuleFor(model => model.Nota)
-                .NotEmpty()
-                .WithMessage("A nota deve ser selecionada.")
-                .Must(e => e.GetHashCode() > 0 && e.GetHashCode() <= 5)
-                .WithMessage("A está inválida.");
+                .IsInEnum()
+                .WithMessage("A nota deve ser selecionada.");
         }
     }
 }

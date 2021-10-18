@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using TrocaLivro.Dominio.Entidades;
+using TrocaLivro.Dominio.Enums;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Dominio.Transacoes;
 
@@ -23,7 +24,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 
             if (usuario == null) return new AppResponse<AvaliarLivroResultado>(false, "O usuário informado na requisição não existe.", response);
 
-            var avaliacao = new Avaliacao(comando.LivroId, usuario.Id, comando.Titulo, comando.Descricao, comando.Nota);
+            var avaliacao = new Avaliacao(comando.LivroId, usuario.Id, comando.Titulo, comando.Descricao, (NotaLivroEnum)comando.Nota);
+
+
             await uow.Livros.Avaliar(avaliacao);
             await uow.CommitAsync();
 

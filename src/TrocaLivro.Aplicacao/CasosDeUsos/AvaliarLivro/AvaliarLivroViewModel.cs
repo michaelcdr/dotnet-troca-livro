@@ -7,7 +7,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
     { 
         public string Titulo { get; set; }
         public string Descricao { get; set; }
-        public NotaLivroEnum Nota { get; set; }
+        public NotaLivroEnum? Nota { get; set; }
         public int LivroId { get; private set; }
         public string TituloLivro { get; private set; }
 
