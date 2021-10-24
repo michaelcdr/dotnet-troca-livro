@@ -110,7 +110,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
         {
             await ApplicationDbContext.Avaliacoes.AddAsync(avaliacao);
         }
-
+         
         public async Task<List<Avaliacao>> ObterAvaliacoes(int livroId)
         {
             return await ApplicationDbContext.Avaliacoes.Where(e => e.LivroId == livroId)

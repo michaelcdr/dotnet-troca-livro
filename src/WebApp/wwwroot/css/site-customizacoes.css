@@ -79,10 +79,12 @@ a:active:not(.btn-outline-dark) {
     border-width: 3px;
     border-color: var(--default-color);
 }
-    .btn-outline-dark:hover,
-    .btn-outline-dark:active,
-    .btn-outline-dark:focus {
-       background-color: var(--default-color);
+
+    table a.btn-outline-dark:hover, a.btn-outline-dark:hover, .btn-outline-dark:hover,
+    table a.btn-outline-dark:active, a.btn-outline-dark:active, .btn-outline-dark:active,
+    table a.btn-outline-dark:focus, a.btn-outline-dark:focus, .btn-outline-dark:focus {
+        color: var(--second-color);
+        background-color: var(--default-color);
     }
 
     

@@ -4,6 +4,9 @@
     {
         public string Nome { get; set; }
         public int LivrosEnviados { get; set; }
-        public int Pontos { get;   set; }
+        public int Pontos { get; set; }
+        public int DisponibilizacaoTrocaId { get; set; }
+        
+        public string UserName { get; set; }
     }
 }

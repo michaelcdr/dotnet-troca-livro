@@ -40,21 +40,13 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta);
         }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] CriarEditoraCommand command)
-        //{
-        //    AppResponse<CriarEditoraResultado> resposta = await _mediator.Send(command);
-
-        //    if (!resposta.Sucesso) return BadRequest(resposta);
-
-        //    var uri = Url.Action("Get", new { id = resposta.Dados.Id });
-
-        //    return Created(uri, resposta);
-        //}
+        [HttpGet("{id}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Get(int id)
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            string usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            AppResponse<ObterTrocaResultado> resposta = await _mediator.Send(new ObterTrocaQuery { Id = id, Usuario = usuario });
+            return Ok(resposta);
+        }
     }
 }

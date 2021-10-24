@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,12 @@ namespace WebApp.Controllers
     public class LivroController : Controller
     {
         private readonly LivroApiClient api;
-        //private IHostingEnvironment _env;
-        public LivroController(LivroApiClient livroApiClient/*,  IHostingEnvironment env*/)
+        private readonly IMapper _mapper;
+
+        public LivroController(LivroApiClient livroApiClient, IMapper mapper)
         {
             this.api = livroApiClient;
-            //this._env = env;
+            this._mapper = mapper;
         } 
 
         private void AtualizarToken() 
@@ -55,7 +57,19 @@ namespace WebApp.Controllers
                 model.PodeAvaliar = true;
                 model.PodeEditar = User.IsInRole("admin") || livro.CadastradoPor == User.Identity.Name;
                 model.DisponibilizarParaTroca = true;
+                model.PodeSolicitarTroca = true;
+                model.LoginUsuarioLogado = User.Identity.Name;
             }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Troca(int disponibilizacaoTrocaId)
+        {
+            AtualizarToken();
+
+            AppResponse<ObterTrocaResultado> resposta = await api.ObterTroca(disponibilizacaoTrocaId);
+            TrocarLivroViewModel model = _mapper.Map<TrocarLivroViewModel>(resposta.Dados);
 
             return View(model);
         }

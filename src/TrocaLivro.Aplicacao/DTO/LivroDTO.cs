@@ -76,9 +76,11 @@ namespace TrocaLivro.Aplicacao.DTO
             {
                 this.UsuariosOfertando = livro.DiponibilizacaoParaTrocas.Select(e => new UsuarioOfertando
                 {
+                    DisponibilizacaoTrocaId = e.Id,
                     Nome = e.UsuarioQueDisponibilizouParaTroca.Nome,
                     Pontos = e.Pontos,
-                    LivrosEnviados = 0
+                    LivrosEnviados = 0,
+                    UserName = e.UsuarioQueDisponibilizouParaTroca.UserName
                 }).ToList();
             }
 

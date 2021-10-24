@@ -4,7 +4,6 @@ using TrocaLivro.Aplicacao.DTO;
 
 namespace TrocaLivro.Aplicacao.ViewModels
 {
-
     public class LivroDetalhes
     {
         public int Id { get; set; }
@@ -12,17 +11,17 @@ namespace TrocaLivro.Aplicacao.ViewModels
         public string Descricao { get; set; }
         public int NumeroPagina { get;  set; }
         public bool DisponibilizarParaTroca { get; set; }
-       
-
+        public string LoginUsuarioLogado { get; set; }
         public string Autores { get;  set; }
         public string ISBN { get;  set; }
-        public string Editora { get;  set; }
+        public string Editora { get; set; }
 
         public List<UsuarioOfertando> Usuarios { get; set; }
         public int Ano { get;  set; }
         public string Capa { get;  set; }
         public bool PodeEditar { get; set; }
         public bool PodeAvaliar { get; set; }
+        public bool PodeSolicitarTroca { get; set; }
         public List<AvaliacaoLivro> Avaliacoes { get; set; }
         public LivroDetalhes()
         {

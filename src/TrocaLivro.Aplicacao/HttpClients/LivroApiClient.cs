@@ -48,7 +48,6 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return indexViewModel;
         }
 
-
         private MultipartFormDataContent CriarFormDataContentParaCamposDoLivro(IEdicaoCadastroLivroCommand requisicao)
         {
             var content = new MultipartFormDataContent
@@ -239,6 +238,14 @@ namespace TrocaLivro.Aplicacao.HttpClients
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/Avaliacoes/{livroId}");
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterAvaliacoesLivroResultado>>();
+            return conteudoResposta;
+        }
+
+        public async Task<AppResponse<ObterTrocaResultado>> ObterTroca(int trocaId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_TROCAS}/{trocaId}");
+            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterTrocaResultado>>();
             return conteudoResposta;
         }
     }
