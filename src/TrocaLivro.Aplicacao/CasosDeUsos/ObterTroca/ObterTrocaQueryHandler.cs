@@ -19,8 +19,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 
         public async Task<AppResponse<ObterTrocaResultado>> Handle(ObterTrocaQuery request, CancellationToken cancellationToken)
         {
-            LivroDisponibilizadoParaTroca livroDisponibilizado = await _db.LivrosDisponibilizadosParaTrocas.AsNoTracking()
-                .Include(disponibilizacao => disponibilizacao.Livro)
+            Troca livroDisponibilizado = await _db.Trocas.AsNoTracking()
+                .Include(disponibilizacao => disponibilizacao.Livro).ThenInclude(livro => livro.Imagens)
                 .Include(disponibilizacao => disponibilizacao.UsuarioQueDisponibilizouParaTroca)
                 .SingleAsync(troca => troca.Id == request.Id);
 

@@ -36,7 +36,7 @@
                             {
                                 if (Model.LoginUsuarioLogado != usuarioQueEstaOfertando.UserName)
                                 {
-                                    <a asp-action="Troca" asp-controller="Livro" asp-route-disponibilizacaoTrocaId="@usuarioQueEstaOfertando.DisponibilizacaoTrocaId" 
+                                    <a asp-action="Solicitacao" asp-controller="Troca" asp-route-id="@usuarioQueEstaOfertando.DisponibilizacaoTrocaId" 
                                         class="btn btn-outline-dark">Solicitar troca</a>
                                 }
                             }

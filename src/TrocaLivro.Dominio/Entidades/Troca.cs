@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using TrocaLivro.Dominio.Enums;
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class LivroDisponibilizadoParaTroca : EntidadeBase
+    public class Troca : EntidadeBase
     {
         public int Id { get; set; }
         public int LivroId { get; set; }
@@ -14,6 +15,15 @@ namespace TrocaLivro.Dominio.Entidades
         public Usuario UsuarioQueDisponibilizouParaTroca { get; set; }
         public StatusTroca Status { get; set; }
         public string Descritivo { get; set; }
+        public List<ImagemLivroEmTroca> Imagens { get; private set; }
+        public Usuario UsuarioQueSolicitouTroca { get; set; }
+        public string UsuarioQueSolicitouTrocaId { get; set; }
+        public DateTime? DataSolicitacaoTroca { get; private set; }
+
+        public Troca()
+        {
+            Imagens = new List<ImagemLivroEmTroca>();
+        }
 
         public override bool TaValido()
         {
@@ -27,6 +37,13 @@ namespace TrocaLivro.Dominio.Entidades
                 this.AdicionarErro("Informe o livro", nameof(LivroId));
 
             return this._erros.Count == 0;
+        }
+
+        public void MarcarComoTrocaSolicitada(string usuarioQueSolicitouTrocaId)
+        {
+            this.Status = StatusTroca.TrocaSolicitada;
+            this.UsuarioQueSolicitouTrocaId = usuarioQueSolicitouTrocaId;
+            this.DataSolicitacaoTroca = DateTime.Now;
         }
     }
 }

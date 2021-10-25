@@ -20,7 +20,7 @@ namespace TrocaLivro.Dominio.Entidades
         public List<Imagem> Imagens { get; set; }
         public List<Arquivo> Arquivos { get; set; }
         public List<Avaliacao> Avaliacoes { get; private set; }
-        public List<LivroDisponibilizadoParaTroca> DiponibilizacaoParaTrocas { get; set; }
+        public List<Troca> DiponibilizacaoParaTrocas { get; set; }
         public SubCategoria SubCategoria { get; set; }
         public int SubCategoriaId { get; set; }
 
@@ -39,7 +39,7 @@ namespace TrocaLivro.Dominio.Entidades
             this.Imagens = new List<Imagem>();
             this.Arquivos = new List<Arquivo>();
             this.Avaliacoes = new List<Avaliacao>();
-            this.DiponibilizacaoParaTrocas = new List<LivroDisponibilizadoParaTroca>();
+            this.DiponibilizacaoParaTrocas = new List<Troca>();
         }
 
         public void AdicionarAutores(List<LivroAutor> livroAutors)
@@ -73,6 +73,15 @@ namespace TrocaLivro.Dominio.Entidades
             foreach (var autorIdSelecionado in idsAutores)
                 if (!this.Autores.Any(e => e.AutorId == autorIdSelecionado))
                     this.Autores.Add(new LivroAutor { LivroId = this.Id, AutorId = autorIdSelecionado });
+        }
+
+        public string ObterCapaEmBase64()
+        {
+            Imagem img = this.Imagens.Where(e => e.Nome != null).First();
+            int imgLength = img.Nome.Length;
+            var imgData = img.Nome;
+            string base64String = "data:image/jpg;base64," + Convert.ToBase64String(imgData, 0, imgLength);
+            return base64String;
         }
 
         public void AdicionarEditora(Editora editora)

@@ -16,7 +16,8 @@ namespace TrocaLivro.Infra.Data
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<SubCategoria> SubCategorias { get; set; }
         public DbSet<Avaliacao> Avaliacoes { get; set; }
-        public DbSet<LivroDisponibilizadoParaTroca> LivrosDisponibilizadosParaTrocas { get; set; }
+        public DbSet<Troca> Trocas { get; set; }
+        public DbSet<ImagemLivroEmTroca> ImagensDeLivrosEmTroca { get; set;  }
         public ApplicationDbContext() { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -41,13 +42,14 @@ namespace TrocaLivro.Infra.Data
             builder.Entity<Categoria>().Ignore(e => e._erros);
             builder.Entity<SubCategoria>().Ignore(e => e._erros);
             builder.Entity<Avaliacao>().Ignore(e => e._erros);
-            builder.Entity<LivroDisponibilizadoParaTroca>().Ignore(e => e._erros);
+            builder.Entity<Troca>().Ignore(e => e._erros);
+            builder.Entity<ImagemLivroEmTroca>().Ignore(e => e._erros);
 
             builder.ApplyConfiguration(new UsuarioMap());
             builder.ApplyConfiguration(new TipoUsuarioMap());
             builder.ApplyConfiguration(new LivroMap());
             builder.ApplyConfiguration(new AvaliacaoMap());
-            builder.ApplyConfiguration(new LivroDisponibilizadoParaTrocaMap());
+            builder.ApplyConfiguration(new TrocaMap());
             builder.ApplyConfiguration(new AutorMap());
             builder.ApplyConfiguration(new EditoraMap());
             builder.ApplyConfiguration(new LivroAutorMap());
@@ -55,6 +57,7 @@ namespace TrocaLivro.Infra.Data
             builder.ApplyConfiguration(new ImagemMap());
             builder.ApplyConfiguration(new CategoriaMap());
             builder.ApplyConfiguration(new SubCategoriaMap());
+            builder.ApplyConfiguration(new ImagemLivroEmTrocaMap());
         }
     }
 }

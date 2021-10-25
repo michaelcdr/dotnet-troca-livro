@@ -40,6 +40,18 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta);
         }
 
+        [HttpPost("Solicitar"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Solicitar(SolicitarTrocaCommand comando)
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            comando.Usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            AppResponse<SolicitarTrocaResultado> resposta = await _mediator.Send(comando);
+
+            if (!resposta.Sucesso) return BadRequest(resposta.Erros);
+
+            return Ok(resposta);
+        }
+
         [HttpGet("{id}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(int id)
         {

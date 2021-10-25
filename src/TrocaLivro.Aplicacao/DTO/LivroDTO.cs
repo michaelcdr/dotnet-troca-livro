@@ -57,12 +57,7 @@ namespace TrocaLivro.Aplicacao.DTO
 
             if (livro.Imagens.Count > 0)
             {
-                Imagem img = livro.Imagens.Where(e => e.Nome != null).First();
-                int imgLength = img.Nome.Length;
-                var imgData = img.Nome;
-                string base64String = "data:image/jpg;base64," + Convert.ToBase64String(imgData, 0, imgLength);
-
-                this.CapaBase64 = base64String;
+                this.CapaBase64 = livro.ObterCapaEmBase64();
 
                 foreach (Imagem imagem in livro.Imagens)
                 { 

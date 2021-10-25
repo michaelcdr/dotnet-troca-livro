@@ -57,7 +57,7 @@ namespace TrocaLivro.Infra.Services
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = tokenHandler.WriteToken(token);
 
-            return new AppResponse<TokenResultado>(true, "Token gerado com sucesso", new TokenResultado(jwtToken,role));
+            return new AppResponse<TokenResultado>(true, "Token gerado com sucesso", new TokenResultado(jwtToken, role, usuario.Id));
         }
 
         public string ObterNomeUsuario(string token)

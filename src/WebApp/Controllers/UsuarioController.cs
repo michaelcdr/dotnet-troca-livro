@@ -16,14 +16,12 @@ namespace WebApp.Controllers
 {
     public class UsuarioController : Controller
     {
-        private readonly UsuarioApiClient contaApi;
+        private readonly UsuarioApiClient usuarioApi;
         
         public UsuarioController(UsuarioApiClient contaApiClient)
         {
-            this.contaApi = contaApiClient;
+            this.usuarioApi = contaApiClient;
         }
-
-        public IActionResult LoginOld() => View();
 
         public IActionResult Login()
         {
@@ -40,7 +38,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppResponse<LogarUsuarioResultado> resultado = await contaApi.Logar(model);
+                AppResponse<LogarUsuarioResultado> resultado = await usuarioApi.Logar(model);
 
                 if (!resultado.Sucesso)
                 {
@@ -65,6 +63,7 @@ namespace WebApp.Controllers
         {
             var claims = new List<Claim>
             {
+                new Claim("UsuarioId", logarUsuarioResultado.Dados.UsuarioId),
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.NameIdentifier, username),
                 new Claim("Token", logarUsuarioResultado.Dados.Token),
@@ -77,7 +76,7 @@ namespace WebApp.Controllers
             var authProp = new AuthenticationProperties
             {
                 IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(2), //configurar expiração do cookie para um valor menor que a expiração do token
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(2), 
                 IsPersistent = true
             };
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProp);
@@ -90,7 +89,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppResponse<RegistrarUsuarioResultado> resultado = await contaApi.Registrar(model);
+                AppResponse<RegistrarUsuarioResultado> resultado = await usuarioApi.Registrar(model);
 
                 if (!resultado.Sucesso)
                 {
@@ -99,7 +98,7 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-                    AppResponse<LogarUsuarioResultado> logarUsuarioResultado = await contaApi.Logar(new LogarUsuarioModel { Senha = model.Senha, Usuario = model.Usuario });
+                    AppResponse<LogarUsuarioResultado> logarUsuarioResultado = await usuarioApi.Logar(new LogarUsuarioModel(model.Usuario , model.Senha));
 
                     await AutenticarRegistrandoClaimns(model.Usuario, logarUsuarioResultado);
 

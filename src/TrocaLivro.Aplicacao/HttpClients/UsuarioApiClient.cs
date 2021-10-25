@@ -21,21 +21,16 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
         public async Task<AppResponse<LogarUsuarioResultado>> Logar(LogarUsuarioModel model)
         {
-            var resposta = await _httpClient.PostAsJsonAsync("Usuario/Logar", model);
-            
+            HttpResponseMessage resposta = await _httpClient.PostAsJsonAsync("Usuario/Logar", model);
             var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<LogarUsuarioResultado>>();
-
             return appResponse;
         }
         
         public async Task<AppResponse<RegistrarUsuarioResultado>> Registrar(RegistrarUsuarioModel model)
         {
             var commando = _mapper.Map<RegistrarUsuarioCommand>(model);
-
             var resposta = await _httpClient.PostAsJsonAsync("Usuario/Registrar", commando);
-
             var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<RegistrarUsuarioResultado>>();
-
             return appResponse;
         }
     }

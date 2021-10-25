@@ -21,6 +21,6 @@ namespace TrocaLivro.Dominio.Repositorios
         void Atualizar(Livro livro);
         Task<List<Imagem>> ObterImagens(List<int> livrosIds);
         Task Avaliar(Avaliacao avaliacao);
-        Task DisponibilizarParaTroca(LivroDisponibilizadoParaTroca disponibilizacao);
+        Task DisponibilizarParaTroca(Troca disponibilizacao);
     }
 }

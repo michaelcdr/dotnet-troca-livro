@@ -11,5 +11,14 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         [Display(Name = "Senha")]
         [Required(ErrorMessage = "Informe a {0}")]
         public string Senha { get; set; }
+        public LogarUsuarioModel()
+        {
+
+        }
+        public LogarUsuarioModel(string usuario, string senha)
+        {
+            this.Usuario = usuario; 
+            this.Senha = senha;
+        }
     }
 }

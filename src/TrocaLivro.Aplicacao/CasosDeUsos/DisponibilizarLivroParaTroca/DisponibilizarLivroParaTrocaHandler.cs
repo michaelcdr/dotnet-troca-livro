@@ -22,7 +22,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         {
             Usuario usuario = await uow.Usuarios.ObterPorLogin(commando.Usuario);
 
-            var disponibilizacao = new LivroDisponibilizadoParaTroca
+            var disponibilizacao = new Troca
             {
                 Descritivo = commando.Descritivo,
                 DisponibilizadoEm = DateTime.Now,

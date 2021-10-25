@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrocaLivro.Infra.Data;
 
 namespace TrocaLivro.Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211024221840_ImagensDeLivrosEmTroca")]
+    partial class ImagensDeLivrosEmTroca
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -374,6 +376,42 @@ namespace TrocaLivro.Infra.Migrations
                     b.ToTable("LivrosAutores");
                 });
 
+            modelBuilder.Entity("TrocaLivro.Dominio.Entidades.LivroDisponibilizadoParaTroca", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descritivo")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("DisponibilizadoEm")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LivroId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pontos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioQueDisponibilizouParaTrocaId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.HasIndex("UsuarioQueDisponibilizouParaTrocaId");
+
+                    b.ToTable("LivrosDisponibilizadosParaTrocas");
+                });
+
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.SubCategoria", b =>
                 {
                     b.Property<int>("Id")
@@ -421,50 +459,6 @@ namespace TrocaLivro.Infra.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("TiposUsuarios");
-                });
-
-            modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Troca", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("DataSolicitacaoTroca")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descritivo")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("DisponibilizadoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LivroId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pontos")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioQueDisponibilizouParaTrocaId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsuarioQueSolicitouTrocaId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LivroId");
-
-                    b.HasIndex("UsuarioQueDisponibilizouParaTrocaId");
-
-                    b.HasIndex("UsuarioQueSolicitouTrocaId");
-
-                    b.ToTable("Trocas");
                 });
 
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Usuario", b =>
@@ -639,7 +633,7 @@ namespace TrocaLivro.Infra.Migrations
 
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.ImagemLivroEmTroca", b =>
                 {
-                    b.HasOne("TrocaLivro.Dominio.Entidades.Troca", "Troca")
+                    b.HasOne("TrocaLivro.Dominio.Entidades.LivroDisponibilizadoParaTroca", "Troca")
                         .WithMany("Imagens")
                         .HasForeignKey("TrocaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -686,6 +680,23 @@ namespace TrocaLivro.Infra.Migrations
                     b.Navigation("Livro");
                 });
 
+            modelBuilder.Entity("TrocaLivro.Dominio.Entidades.LivroDisponibilizadoParaTroca", b =>
+                {
+                    b.HasOne("TrocaLivro.Dominio.Entidades.Livro", "Livro")
+                        .WithMany("DiponibilizacaoParaTrocas")
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrocaLivro.Dominio.Entidades.Usuario", "UsuarioQueDisponibilizouParaTroca")
+                        .WithMany("Trocas")
+                        .HasForeignKey("UsuarioQueDisponibilizouParaTrocaId");
+
+                    b.Navigation("Livro");
+
+                    b.Navigation("UsuarioQueDisponibilizouParaTroca");
+                });
+
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.SubCategoria", b =>
                 {
                     b.HasOne("TrocaLivro.Dominio.Entidades.Categoria", "Categoria")
@@ -695,29 +706,6 @@ namespace TrocaLivro.Infra.Migrations
                         .IsRequired();
 
                     b.Navigation("Categoria");
-                });
-
-            modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Troca", b =>
-                {
-                    b.HasOne("TrocaLivro.Dominio.Entidades.Livro", "Livro")
-                        .WithMany("DiponibilizacaoParaTrocas")
-                        .HasForeignKey("LivroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TrocaLivro.Dominio.Entidades.Usuario", "UsuarioQueDisponibilizouParaTroca")
-                        .WithMany("TrocasDisponibilizadas")
-                        .HasForeignKey("UsuarioQueDisponibilizouParaTrocaId");
-
-                    b.HasOne("TrocaLivro.Dominio.Entidades.Usuario", "UsuarioQueSolicitouTroca")
-                        .WithMany("TrocasSolicitadas")
-                        .HasForeignKey("UsuarioQueSolicitouTrocaId");
-
-                    b.Navigation("Livro");
-
-                    b.Navigation("UsuarioQueDisponibilizouParaTroca");
-
-                    b.Navigation("UsuarioQueSolicitouTroca");
                 });
 
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Autor", b =>
@@ -748,21 +736,19 @@ namespace TrocaLivro.Infra.Migrations
                     b.Navigation("Imagens");
                 });
 
+            modelBuilder.Entity("TrocaLivro.Dominio.Entidades.LivroDisponibilizadoParaTroca", b =>
+                {
+                    b.Navigation("Imagens");
+                });
+
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.SubCategoria", b =>
                 {
                     b.Navigation("Livros");
                 });
 
-            modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Troca", b =>
-                {
-                    b.Navigation("Imagens");
-                });
-
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Usuario", b =>
                 {
-                    b.Navigation("TrocasDisponibilizadas");
-
-                    b.Navigation("TrocasSolicitadas");
+                    b.Navigation("Trocas");
                 });
 #pragma warning restore 612, 618
         }

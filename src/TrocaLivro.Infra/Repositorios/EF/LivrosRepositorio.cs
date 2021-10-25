@@ -66,7 +66,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
 
         public async Task<int> ObterTotalDeTrocas()
         {
-            return await ApplicationDbContext.LivrosDisponibilizadosParaTrocas.AsNoTracking()
+            return await ApplicationDbContext.Trocas.AsNoTracking()
                 .Where(e => e.Status == Dominio.Enums.StatusTroca.TrocaConcluida)
                 .Select(e => e.Id)
                 .CountAsync();
@@ -74,7 +74,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
 
         public async Task<int> ObterTotalLivrosDisponiveisParaTroca()
         {
-            return await ApplicationDbContext.LivrosDisponibilizadosParaTrocas.AsNoTracking()
+            return await ApplicationDbContext.Trocas.AsNoTracking()
                .Where(e => e.Status == Dominio.Enums.StatusTroca.Disponibilizado)
                .Select(e => e.Id)
                .CountAsync();
@@ -101,9 +101,9 @@ namespace TrocaLivro.Infra.Repositorios.EF
             return await ApplicationDbContext.Imagens.Where(imagemAtual => livrosIds.Contains(imagemAtual.LivroId)).ToListAsync();
         }
 
-        public async Task DisponibilizarParaTroca(LivroDisponibilizadoParaTroca disponibilizacao)
+        public async Task DisponibilizarParaTroca(Troca disponibilizacao)
         {
-            await ApplicationDbContext.LivrosDisponibilizadosParaTrocas.AddAsync(disponibilizacao);
+            await ApplicationDbContext.Trocas.AddAsync(disponibilizacao);
         }
 
         public async Task Avaliar(Avaliacao avaliacao)

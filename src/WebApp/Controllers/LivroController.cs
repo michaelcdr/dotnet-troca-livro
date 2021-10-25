@@ -64,16 +64,6 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Troca(int disponibilizacaoTrocaId)
-        {
-            AtualizarToken();
-
-            AppResponse<ObterTrocaResultado> resposta = await api.ObterTroca(disponibilizacaoTrocaId);
-            TrocarLivroViewModel model = _mapper.Map<TrocarLivroViewModel>(resposta.Dados);
-
-            return View(model);
-        }
-
         public IActionResult _Avaliacoes(LivroDetalhes model) => PartialView(model);
 
         public IActionResult _ListaUsuariosOfertando(LivroDetalhes model) => PartialView(model);

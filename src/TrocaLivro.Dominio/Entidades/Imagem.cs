@@ -14,7 +14,7 @@
 
         }
 
-        public Imagem( byte[] nome, int altura, int largura)
+        public Imagem(byte[] nome, int altura, int largura)
         {
             this.Nome = nome;
             this.Altura = altura;
