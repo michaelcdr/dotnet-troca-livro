@@ -1,12 +1,24 @@
-﻿:root {
-    --primary-color: #8f4e5c;
+﻿/*:root {
+    --primary-color: #651015;
+    --default-text-color: #646361;
+    --danger-color: #ec1a47;
+    --second-color: #ededed;
+    --default-color: #bb181b;
+    --ts-time: .4s;
+    --bg-default: #ededed;
+}*/
+
+:root {
+    --primary-color: #ec1a47;
     --danger-color: #ec1a47;
     --second-color: #F5F0EC;
     --default-color: #23232e;
     --ts-time: .4s;
-    --default-text-color: #654260;
+    --default-text-color: #23232e;
     --bg-default: #ededed;
 }
+
+
 /*:root {
     --primary-color: #ec1a47;
     --danger-color: #ec1a47;
