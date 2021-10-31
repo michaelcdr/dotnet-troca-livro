@@ -7,9 +7,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
     public class ObterTrocaResultado
     {
         public ObterTrocaResultado(
-            int pontos, StatusTroca status, string descritivo, string disponibilizadoPor, 
+            int disponibilizacaoTrocaId, int pontos, StatusTroca status, string descritivo, string disponibilizadoPor, 
             int livroId, string tituloLivro, DateTime disponibilizadoEm, string capa)
         {
+            DisponibilizacaoTrocaId = disponibilizacaoTrocaId;
             Pontos = pontos;
             Status = status;
             Descritivo = descritivo;
@@ -19,7 +20,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             DisponibilizadoEm = disponibilizadoEm;
             Capa = capa;
         }
-
+        public int DisponibilizacaoTrocaId { get; private set; }
         public int Pontos { get; private set; }
         public StatusTroca Status { get; private set; }
         public string Descritivo { get; private set; }
@@ -34,6 +35,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             string imgBase64 = livroDisponibilizado.Livro.ObterCapaEmBase64();
 
             return new ObterTrocaResultado(
+                livroDisponibilizado.Id,
                 livroDisponibilizado.Pontos,
                 livroDisponibilizado.Status,
                 livroDisponibilizado.Descritivo,

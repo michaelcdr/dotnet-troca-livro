@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Dominio.Responses;
+using WebApp.Filtros;
 
 namespace WebApp.Controllers
 {
@@ -34,9 +35,11 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, AuthorizeCustomizado]
         public async Task<JsonResult> Solicitar(int disponibilizacaoTrocaId)
         {
+            AtualizarToken();
+
             AppResponse<SolicitarTrocaResultado> resposta = await api.SolicitarTroca(new SolicitarTrocaCommand(disponibilizacaoTrocaId));
             return Json(resposta);
         }

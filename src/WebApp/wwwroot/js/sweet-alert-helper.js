@@ -1,4 +1,4 @@
-﻿window.alertSuccess = function (dataObj) {
+﻿window.alertSuccess = function (dataObj, callback) {
     let opts = {
         type: "success",
         toast: true,
@@ -6,8 +6,14 @@
         timer: 3000,
         showConfirmButton: false
     }
+
     $.extend(opts, dataObj);
-    Swal.fire(opts);
+
+    Swal.fire(opts)
+        .then((result) => {
+            if (result.value) 
+                callback();
+        });
 }
 
 window.alertError = function (dataObj) {

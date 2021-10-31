@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
@@ -12,11 +15,33 @@ namespace TrocaLivro.Aplicacao.HttpClients
     {
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
-
+        private string token;
         public UsuarioApiClient(HttpClient httpClient, IMapper mapper)
         {
             this._httpClient = httpClient;
             this._mapper = mapper;
+        }
+
+        public void AtualizarToken(Claim claimComToken)
+        {
+            this.token = claimComToken.Value;
+        }
+
+        public async Task<int> ObterPontos()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await _httpClient.GetAsync("Usuario/Pontos");
+            var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterPontosResultado>>();
+
+            return appResponse.Dados.Pontos;
+        }
+
+        public async Task<AppResponse<ComprarPacoteResultado>> ComprarPacote(int pacoteId)
+        {
+            var command = new ComprarPacoteCommand(pacoteId);
+            HttpResponseMessage resposta = await _httpClient.PostAsJsonAsync("Usuario/Logar", command);
+            var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<ComprarPacoteResultado>>();
+            return appResponse;
         }
 
         public async Task<AppResponse<LogarUsuarioResultado>> Logar(LogarUsuarioModel model)

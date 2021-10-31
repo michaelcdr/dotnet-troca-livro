@@ -1,0 +1,21 @@
+﻿@model List<PacotePontosViewModel>
+
+<div class="card-deck text-center">
+    @foreach (var pacote in  Model)
+    {
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">@pacote.Titulo</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">@pacote.ObterValorFormatado()</h1>
+                <p>
+                    @pacote.Pontos pontos.
+                </p>
+                <a type="button" asp-action="ConfirmarCompra" asp-controller="Pacote" asp-route-id="@pacote.Id" class="btn btn-lg btn-block btn-outline-dark">
+                    Comprar
+                </a>
+            </div>
+        </div>
+    }       
+</div>

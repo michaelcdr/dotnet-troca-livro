@@ -1,0 +1,38 @@
+﻿@model ConfirmarCompraPacoteViewModel
+
+@{
+    ViewData["Title"] = "Confirmar compra de pacote";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+<div class="row " >
+ 
+     <div class="col-md-12">
+        <h1>Compra de pacote » <small>Comprando pacote <strong>@Model.Titulo</strong></small></h1>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="Compra" asp-controller="Pacote">
+                            <input type="hidden" value="@Model.Id" name="pacoteId" id="pacoteId" />
+                            <h3 class="text-center">
+                                O pacote que você está comprando possui <strong>@Model.Pontos</strong> pontos, 
+                                clique em comprar para prosseguir com a compra.
+                            </h3>
+                            <button class="btn btn-outline-dark btn-block" type="button">Comprar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     
+    <script> 
+    </script>
+}

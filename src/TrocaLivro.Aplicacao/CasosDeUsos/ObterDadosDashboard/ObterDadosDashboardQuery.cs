@@ -8,6 +8,5 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         public ObterDadosDashboardQuery()
         {
         }
-
     }
 }

@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Dominio.Entidades;
+using TrocaLivro.Infra.Repositorios.Data;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -18,8 +21,13 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             ObterDadosDashboardViewModel model = await _api.ObterInformacoesHome();
-
+            
             return View(model);
+        }
+
+        public async Task<PartialViewResult> _PacotesPontos(List<PacotePontos> pacotes)
+        {
+            return PartialView(pacotes);
         }
 
         public IActionResult Privacy()

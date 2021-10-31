@@ -6,12 +6,26 @@
     }
 
     iniciarEventos() {
-        let _self = this;
-        //console.log(document.querySelector("#btn-solicitar"));
-        let btn = document.querySelector("#btn-solicitar");
-        btn.addEventListener('click', function () {
+        let _self = this; 
+        let btn = $("#btn-solicitar");
+        btn.on('click', function () {
             $(btn).button('loading');
-            $.post('/Livro/Trocar')
+            let params = {
+                disponibilizacaoTrocaId: parseInt(btn.data('disponibilizacaoTrocaId'))
+            };
+            $.post('/Troca/Solicitar', params,function (data) {
+                if (data.Sucesso) {
+                    alertSuccess({ title: "Troca solicitada com sucesso", text: "" }, function () {
+                        document.location = "/";
+                    });
+                } else
+                    alertError({ text: data.mensagem })
+
+                $(btn).button('reset');
+            }).fail(function () {
+                alertServerError();
+                $(btn).button('reset');
+            })
         });
     } 
 }

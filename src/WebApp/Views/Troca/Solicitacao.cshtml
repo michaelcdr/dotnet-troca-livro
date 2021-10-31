@@ -2,19 +2,28 @@
 
 <div class="row mt-2" >
     <div class="col-md-12">
-        <h1>@Html.Raw(Model.TituloDestaque)</h1>
+        <h2>@Html.Raw(Model.TituloDestaque)</h2>
     </div>
-    <div class="col-md-3">
-        <img src="@Model.Capa" style="max-width:100%" />
-    </div>
-    <div class="col-md-9">
-        <h3>@Model.TituloLivro</h3>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="@Model.Capa" style="max-width:100%" />
+                    </div>
+                    <div class="col-md-9">
+                        <h3>@Model.TituloLivro</h3>
 
-        <strong>Descritivo informado pelo dono:</strong><br />
-        <p>@Html.Raw(Model.Descritivo)</p>
+                        <strong>Descritivo informado pelo dono:</strong><br />
+                        <p>@Html.Raw(Model.Descritivo)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-md-12 mt-2">
         <button type="button" id="btn-solicitar" data-loading-text="Processando, aguarde..." data-livro-id="@Model.LivroId"
+            data-disponibilizacao-troca-id="@Model.DisponibilizacaoTrocaId"
             class="btn btn-block btn-outline-dark">Concluir solicitação do livro.</button>
     </div>
 </div>

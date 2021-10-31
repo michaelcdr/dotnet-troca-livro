@@ -22,6 +22,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             Usuario usuario = await db.Usuarios.SingleAsync(e => e.UserName == comando.Usuario);
             Troca troca = await db.Trocas.SingleAsync(e => e.Id == comando.TrocaId);
 
+            if (troca.Status != Dominio.Enums.StatusTroca.Disponibilizado)
+                return new AppResponse<SolicitarTrocaResultado>(false, "Esse livro não está mais disponível para troca.");
+
             if (usuario.Pontos < troca.Pontos)
                 return new AppResponse<SolicitarTrocaResultado>(false, "Você não possui pontos suficientes para efetuar essa troca.");
 

@@ -9,7 +9,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         {
 
         }
-
+        public int DisponibilizacaoTrocaId { get; set; }
         public int Pontos { get;  set; }
         public StatusTroca Status { get;  set; }
         public string Descritivo { get;  set; }

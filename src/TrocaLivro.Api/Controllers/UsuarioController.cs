@@ -1,9 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
 using TrocaLivro.Dominio.Responses;
+using TrocaLivro.Infra.Services;
 
 namespace TrocaLivro.Api.Controllers
 {
@@ -13,11 +16,12 @@ namespace TrocaLivro.Api.Controllers
     public class UsuarioController : Controller
     {
         private readonly string erroLogar = "Não foi posivel autenticar.";
-        private IMediator _mediator;
-
-        public UsuarioController(IMediator mediator)
+        private readonly IMediator _mediator;
+        private readonly IGerenciadorToken _gerenciadorToken;
+        public UsuarioController(IMediator mediator, IGerenciadorToken gerenciadorToken)
         {
             this._mediator = mediator;
+            this._gerenciadorToken = gerenciadorToken;
         }
 
         /// <summary>
@@ -49,6 +53,19 @@ namespace TrocaLivro.Api.Controllers
         public async Task<IActionResult> Registrar(RegistrarUsuarioCommand model)
         {
             AppResponse<RegistrarUsuarioResultado> resposta = await _mediator.Send(model);
+            return Ok(resposta);
+        }
+
+        /// <summary>
+        /// Obtem pontos do usuário logado
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet("Pontos"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Pontos()
+        {
+            var query = new ObterPontosQuery(_gerenciadorToken.ObterNomeUsuario(HttpContext.Request.Headers["Authorization"]));
+            AppResponse<ObterPontosResultado> resposta = await _mediator.Send(query);
             return Ok(resposta);
         }
     }

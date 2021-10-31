@@ -53,6 +53,11 @@ h4 {
     background-color: var(--default-color);
     padding: 10px 10px 0px 10px;
 }
+@media only screen and (max-width: 600px)  {
+    .container-nav {
+        padding: 10px 0px 0px 0px;
+    }
+}
 .navbar.navbar-logo {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -98,8 +103,10 @@ a:active:not(.btn-outline-dark) {
         color: var(--second-color);
         background-color: var(--default-color);
     }
+.badge.badge-danger{
+    background-color:var(--danger-color);
+}
 
-    
 
 
 
@@ -235,16 +242,29 @@ a.a-primary:active {
     max-height: 200px;
     max-width: 200px;
     width: unset;
+} 
+
+.pontos-container {
+    padding-right: 0px;
+    font-size: 0.7rem;
+    text-align: right;
 }
 
 
-
-
-
-
-
-
-
+@media only screen and (max-width: 600px) {
+    .pontos-container {
+        position: absolute;
+        top: -68px;
+        width: 180px;
+        right: 50px;
+        font-size:10px;
+    }
+    .badge.pontos{
+        position:relative;
+        top:-2px;
+        padding:2px 4px;
+    }
+}
 
 .cols-centered th {
     text-align: center;
@@ -260,8 +280,7 @@ a.a-primary:active {
 
 .login-nav {
     text-align: left;
-    font-size: 0.7rem;
-    max-width: 140px;
+    font-size: 0.7rem; 
     float: right;
 }
 

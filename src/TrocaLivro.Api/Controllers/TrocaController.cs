@@ -47,7 +47,7 @@ namespace TrocaLivro.Api.Controllers
             comando.Usuario = _gerenciadorToken.ObterNomeUsuario(token);
             AppResponse<SolicitarTrocaResultado> resposta = await _mediator.Send(comando);
 
-            if (!resposta.Sucesso) return BadRequest(resposta.Erros);
+            if (!resposta.Sucesso) return BadRequest(resposta);
 
             return Ok(resposta);
         }
