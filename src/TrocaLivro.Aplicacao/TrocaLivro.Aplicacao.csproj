@@ -17,4 +17,9 @@
     <ProjectReference Include="..\TrocaLivro.Infra\TrocaLivro.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CasosDeUsos\ObterTrocasSolicitadas\" />
+    <Folder Include="CasosDeUsos\ObterLivrosDisponibilizadosParaTroca\" />
+  </ItemGroup>
+
 </Project>

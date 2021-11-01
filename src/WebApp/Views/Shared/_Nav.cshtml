@@ -5,6 +5,7 @@
                 <div class="row">
                     <nav class="navbar navbar-expand-sm col-sm-3 col-md-3 col-lg-2 navbar-logo">
                         <a class="navbar-brand" href="/">
+                            <span class="fa fa-book"></span>
                             <span class="logo-strong">B</span>ook<span class="logo-strong">E</span>xchange
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
@@ -35,7 +36,7 @@
                         {
                             <span class="login-nav text-light text-right">
                                 <i class="fa fa-user"></i> Olá,
-                                <a href="" class="a-primary">@User.Identity.Name</a> clique em
+                                <a asp-action="MinhaConta" asp-controller="Usuario" class="a-primary">@User.Identity.Name</a> clique em
                                 <a asp-action="Sair" asp-controller="Usuario" class="a-primary" title="Sair no sistema" data-container="body" 
                                     data-toggle="tooltip" data-placement="body">Sair</a> para fazer seu logout.
                             </span>

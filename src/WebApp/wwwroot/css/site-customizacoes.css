@@ -16,6 +16,7 @@
     --ts-time: .4s;
     --default-text-color: #23232e;
     --bg-default: #ededed;
+    --bg-tabs:#fff;
 }
 
 
@@ -62,10 +63,17 @@ h4 {
     padding-top: 0px;
     padding-bottom: 0px;
 }
+.navbar-brand {
+    margin-right: 0rem;
+    font-size: 1.23rem;
+}
 footer {
     background-color: var(--default-color);
     min-height: 200px;
     width: 100%;
+}
+#navbar-menu > ul > li:first-child > a{
+    padding-left:0px;
 }
 /* TABELAS */
 .table-striped tbody tr:nth-of-type(even) {
@@ -75,15 +83,6 @@ footer {
 .table-striped tbody tr:nth-of-type(odd) {
     /*background-color: rgba(0,0,0,.05);*/
     background-color: var(--bg-default);
-}
-/* BOTÕES E LINKS */
-a:not(.btn-outline-dark),
-a:link:not(.btn-outline-dark),
-a:visited:not(.btn-outline-dark),
-a:hover:not(.btn-outline-dark),
-a:active:not(.btn-outline-dark) {
-    color: var(--second-color);
-    text-decoration: none;
 }
 
 .btn-outline-danger {
@@ -106,8 +105,14 @@ a:active:not(.btn-outline-dark) {
 .badge.badge-danger{
     background-color:var(--danger-color);
 }
-
-
+/*TABS*/
+.tab-pane {
+    background-color: var(--bg-tabs);
+    padding: 15px;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
 
 
 

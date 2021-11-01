@@ -68,5 +68,18 @@ namespace TrocaLivro.Api.Controllers
             AppResponse<ObterPontosResultado> resposta = await _mediator.Send(query);
             return Ok(resposta);
         }
+
+        /// <summary>
+        /// Obtem um usuário pelo Username
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet("{userName}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Get(string userName)
+        {
+            var query = new ObterUsuarioQuery(userName);
+            AppResponse<ObterUsuarioResultado> resposta = await _mediator.Send(query);
+            return Ok(resposta);
+        }
     }
 }

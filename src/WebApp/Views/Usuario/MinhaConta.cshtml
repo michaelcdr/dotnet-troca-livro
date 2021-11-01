@@ -1,0 +1,50 @@
+﻿@model MinhaContaViewModel
+@{
+    ViewData["Title"] = "Solicitações de troca aguardando aprovação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Minha conta » <small>Meus dados</small></h1>
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="tabs-minha-conta" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-dark active" id="editar-usuario-tab" data-toggle="tab" href="#editar-usuario" 
+                    role="tab" 
+                    aria-controls="profile" aria-selected="true">Perfil
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-dark" id="trocas-solicitadas-tab" data-toggle="tab" href="#trocas-solicitadas" role="tab" 
+                    aria-controls="trocas-solicitadas" aria-selected="false">Trocas solicitadas
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-dark" id="livros-disponibilizados-troca-tab" data-toggle="tab" href="#livros-disponibilizados-troca" role="tab" 
+                    aria-controls="livros-disponibilizados-troca" aria-selected="false">Livros disponibilizados para troca
+                </a>
+            </li>
+            <li class="nav-item " role="presentation">
+                <a  class="nav-link text-dark" id="livros-enviados-tab" data-toggle="tab" href="#livros-enviados" role="tab"  
+                    aria-controls="livros-enviados" aria-selected="false">Livros enviados
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane show active" id="editar-usuario" role="tabpanel" aria-labelledby="editar-usuario-tab" 
+                data-action="@Url.Action("_Editar","Usuario")"></div>
+            <div class="tab-pane " id="trocas-solicitadas" role="tabpanel" aria-labelledby="trocas-solicitadas-tab" 
+                data-action="@Url.Action("_TrocasSolicitadas","Troca")"></div>
+            <div class="tab-pane " id="livros-disponibilizados-troca" role="tabpanel" aria-labelledby="livros-disponibilizados-troca-tab" 
+                data-action="@Url.Action("_LivrosDisponibilizadosParaTroca","Troca")"></div>
+            <div class="tab-pane " id="livros-enviados" role="tabpanel" aria-labelledby="livros-enviados-tab" 
+                data-action="@Url.Action("_LivrosEnviados","Troca")"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/usuario/MinhaConta.js"></script>
+}

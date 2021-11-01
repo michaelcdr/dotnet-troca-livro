@@ -7,18 +7,18 @@ using TrocaLivro.Infra.Repositorios.Data;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
-    public class ObterPacoteCommandHandler : IRequestHandler<ObterPacoteCommand, ObterPacoteResultado>
+    public class ObterPacoteQueryHandler : IRequestHandler<ObterPacoteQuery, ObterPacoteResultado>
     {
         private readonly PacotesRepositorio _pacotesRepositorio;
         private readonly IMapper _mapper;
 
-        public ObterPacoteCommandHandler(IMapper mapper)
+        public ObterPacoteQueryHandler(IMapper mapper)
         {
             this._pacotesRepositorio = new PacotesRepositorio();
             this._mapper = mapper;
         }
 
-        public async Task<ObterPacoteResultado> Handle(ObterPacoteCommand request, CancellationToken cancellationToken)
+        public async Task<ObterPacoteResultado> Handle(ObterPacoteQuery request, CancellationToken cancellationToken)
         {
             PacotePontos pacote = _pacotesRepositorio.Obter(request.PacoteId);
             ObterPacoteResultado resultado = _mapper.Map<ObterPacoteResultado>(pacote);

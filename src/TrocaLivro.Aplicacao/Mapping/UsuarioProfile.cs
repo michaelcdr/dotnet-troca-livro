@@ -8,6 +8,7 @@ namespace TrocaLivro.Aplicacao.Mapping
         public UsuarioProfile()
         {
             CreateMap<RegistrarUsuarioModel, RegistrarUsuarioCommand>();
+            CreateMap<ObterUsuarioResultado, EditarUsuarioModel>();
         }
     }
 }

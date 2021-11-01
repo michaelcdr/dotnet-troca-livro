@@ -11,7 +11,7 @@ using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.HttpClients
 {
-    public class UsuarioApiClient
+    public class UsuarioApiClient : IAtualizadorToken
     {
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
@@ -57,6 +57,19 @@ namespace TrocaLivro.Aplicacao.HttpClients
             var resposta = await _httpClient.PostAsJsonAsync("Usuario/Registrar", commando);
             var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<RegistrarUsuarioResultado>>();
             return appResponse;
+        }
+
+        public async Task<AppResponse<ObterUsuarioResultado>> Obter(string userName)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await _httpClient.GetAsync($"Usuario/{userName}");
+            var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterUsuarioResultado>>();
+            return appResponse;
+        }
+
+        public async Task Atualizar(EditarUsuarioModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

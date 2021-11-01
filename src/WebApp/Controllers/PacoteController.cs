@@ -1,45 +1,52 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
-using TrocaLivro.Dominio.Entidades;
+using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
-using TrocaLivro.Infra.Repositorios.Data;
 using WebApp.Filtros;
 
 namespace WebApp.Controllers
 {
-    public class PacoteController : Controller
+    public class PacoteController : BaseController
     {
-        private readonly PacotesRepositorio _pacotes;   
-        private readonly HttpClient httpClient;
+        private readonly PacoteApiClient api; 
+        private readonly IMapper mapper;
 
-        public PacoteController(HttpClient httpClient)
+        public PacoteController(PacoteApiClient httpClient,   IMapper mapper)
         {
-            this.httpClient = httpClient;
-            this._pacotes = new PacotesRepositorio();  
+            this.api = httpClient; 
+            this.mapper = mapper;
         } 
 
         [AuthorizeCustomizado]
         public async Task<IActionResult> ConfirmarCompra(int id)
         {
-            //PacotePontos pacote = _pacotes.Obter(id);
-            return View(new ConfirmarCompraPacoteViewModel(id));
+            base.AtualizarToken(this.api);
+            ObterPacoteResultado resultado = await api.ObterPacote(id);
+            var viewModel = mapper.Map<ConfirmarCompraPacoteViewModel>(resultado);
+            return View(viewModel);
         }
 
         [HttpPost, AuthorizeCustomizado]
-        public async Task<JsonResult> Comprar(int pacoteId)
+        public async Task<IActionResult> ConfirmarCompra(ConfirmarCompraPacoteViewModel model)
         {
-            var token = HttpContext.User.Claims.FirstOrDefault(e => e.Type == "Token").Value;
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var comando = new ComprarPacoteCommand(pacoteId);
-            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"Pacote/Comprar", comando);
-             
-            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<AvaliarLivroResultado>>(); 
-            return Json(resposta);
+            base.AtualizarToken(this.api);
+            AppResponse<ComprarPacoteResultado> resultado = await api.ComprarPacote(model.Id);
+
+            if (!resultado.Sucesso)
+            {
+                ModelState.AddModelError("", resultado.Mensagem);
+                return View(model);
+            }
+            return RedirectToAction("Index","Home");
         }
     }
 }

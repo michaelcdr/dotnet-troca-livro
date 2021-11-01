@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,12 +59,14 @@ namespace WebApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpClient<LivroApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            services.AddHttpClient<PacoteApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddAutoMapper(typeof(UsuarioProfile));
             services.AddAutoMapper(typeof(LivroProfile));
             
             services.AddTransient<IValidator<DisponibilizarLivroParaTrocaViewModel>, DisponibilizarLivroParaTrocaValidator>();
             services.AddTransient<IValidator<AvaliarLivroViewModel>, AvaliarLivroValidator>();
-            
+             
+
             services.AddMvc().AddRazorOptions(options =>
             {
                 options.ViewLocationFormats.Add("/{0}.cshtml");

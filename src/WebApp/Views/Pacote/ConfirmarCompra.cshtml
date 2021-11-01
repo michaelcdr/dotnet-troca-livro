@@ -15,13 +15,16 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form asp-action="Compra" asp-controller="Pacote">
+                        <form asp-action="ConfirmarCompra" asp-controller="Pacote">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" value="@Model.Id" name="pacoteId" id="pacoteId" />
+                            <input type="hidden" value="@Model.Pontos" name="Pontos" id="Pontos" />
+                            <input type="hidden" value="@Model.Titulo" name="Titulo" id="Titulo" />
                             <h3 class="text-center">
                                 O pacote que você está comprando possui <strong>@Model.Pontos</strong> pontos, 
                                 clique em comprar para prosseguir com a compra.
                             </h3>
-                            <button class="btn btn-outline-dark btn-block" type="button">Comprar</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit">Comprar</button>
                         </form>
                     </div>
                 </div>

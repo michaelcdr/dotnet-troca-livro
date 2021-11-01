@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace TrocaLivro.Dominio.Entidades
@@ -41,6 +42,11 @@ namespace TrocaLivro.Dominio.Entidades
             }
 
             return retorno;
+        }
+
+        public void AdicionarPontos(int pontos)
+        {
+            this.Pontos += pontos;
         }
 
         public List<Notificacao> ObterErros()

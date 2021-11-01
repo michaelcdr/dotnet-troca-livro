@@ -16,7 +16,7 @@ using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.HttpClients
 {
-    public class LivroApiClient
+    public class LivroApiClient : IAtualizadorToken
     {
         private readonly HttpClient httpClient;
         private readonly IMapper mapper;

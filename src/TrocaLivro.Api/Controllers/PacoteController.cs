@@ -35,9 +35,24 @@ namespace TrocaLivro.Api.Controllers
             comando.Usuario = _gerenciadorToken.ObterNomeUsuario(token);
             AppResponse<ComprarPacoteResultado> resposta = await _mediator.Send(comando);
 
-            if (!resposta.Sucesso) return BadRequest(resposta.Erros);
+            if (!resposta.Sucesso) return BadRequest(resposta);
 
             return Ok(resposta);
-        } 
+        }
+
+        /// <summary>
+        /// Compra um pacote de pontos.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpGet("Obter/{id}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Obter(int id)
+        {
+            //string token = HttpContext.Request.Headers["Authorization"];
+            //query.Usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            ObterPacoteResultado resposta = await _mediator.Send(new ObterPacoteQuery(id));
+
+            return Ok(resposta);
+        }
     }
 }

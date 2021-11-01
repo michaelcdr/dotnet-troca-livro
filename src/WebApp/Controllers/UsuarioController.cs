@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,17 +11,21 @@ using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
 using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
+using WebApp.Filtros;
 
 namespace WebApp.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : BaseController
     {
         private readonly UsuarioApiClient usuarioApi;
-        
-        public UsuarioController(UsuarioApiClient contaApiClient)
+        private readonly IMapper mapper;
+
+        public UsuarioController(UsuarioApiClient contaApiClient, IMapper mapper)
         {
             this.usuarioApi = contaApiClient;
+            this.mapper = mapper;
         }
 
         public IActionResult Login()
@@ -116,6 +121,26 @@ namespace WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+        public async Task<IActionResult> MinhaConta()
+        {
+            var model = new MinhaContaViewModel();
+            return View(model);
+        }
+
+        [AuthorizeCustomizado]
+        public async Task<IActionResult> _Editar()
+        {
+            base.AtualizarToken(this.usuarioApi);
+            AppResponse<ObterUsuarioResultado> resultado = await usuarioApi.Obter(User.Identity.Name);
+            var model = mapper.Map<EditarUsuarioModel>(resultado.Dados);
+            return PartialView(model);
+        }
+
+        [HttpPost, AuthorizeCustomizado]
+        public async Task<JsonResult> _Editar(EditarUsuarioModel model)
+        {
+            await usuarioApi.Atualizar(model);
+            return Json(model);
+        }
     }
 }
