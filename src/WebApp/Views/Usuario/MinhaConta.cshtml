@@ -10,9 +10,13 @@
     <div class="col-md-12">
         <ul class="nav nav-tabs" id="tabs-minha-conta" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link text-dark active" id="editar-usuario-tab" data-toggle="tab" href="#editar-usuario" 
-                    role="tab" 
+                <a class="nav-link text-dark active" id="editar-usuario-tab" data-toggle="tab" href="#editar-usuario" role="tab" 
                     aria-controls="profile" aria-selected="true">Perfil
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-dark" id="meus-livros-tab" data-toggle="tab" href="#meus-livros" role="tab" 
+                    aria-controls="meus-livros" aria-selected="false">Meus livros
                 </a>
             </li>
             <li class="nav-item" role="presentation">
@@ -26,20 +30,23 @@
                 </a>
             </li>
             <li class="nav-item " role="presentation">
+                <a  class="nav-link text-dark" id="trocas-aprovadas-tab" data-toggle="tab" href="#trocas-aprovadas" role="tab"  
+                    aria-controls="trocas-aprovadas" aria-selected="false">Trocas Aprovadas
+                </a>
+            </li>
+            <li class="nav-item " role="presentation">
                 <a  class="nav-link text-dark" id="livros-enviados-tab" data-toggle="tab" href="#livros-enviados" role="tab"  
                     aria-controls="livros-enviados" aria-selected="false">Livros enviados
                 </a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane show active" id="editar-usuario" role="tabpanel" aria-labelledby="editar-usuario-tab" 
-                data-action="@Url.Action("_Editar","Usuario")"></div>
-            <div class="tab-pane " id="trocas-solicitadas" role="tabpanel" aria-labelledby="trocas-solicitadas-tab" 
-                data-action="@Url.Action("_TrocasSolicitadas","Troca")"></div>
-            <div class="tab-pane " id="livros-disponibilizados-troca" role="tabpanel" aria-labelledby="livros-disponibilizados-troca-tab" 
-                data-action="@Url.Action("_LivrosDisponibilizadosParaTroca","Troca")"></div>
-            <div class="tab-pane " id="livros-enviados" role="tabpanel" aria-labelledby="livros-enviados-tab" 
-                data-action="@Url.Action("_LivrosEnviados","Troca")"></div>
+            <div class="tab-pane show active" id="editar-usuario" role="tabpanel" aria-labelledby="editar-usuario-tab" data-action="@Url.Action("_Editar","Usuario")"></div>
+            <div class="tab-pane" id="meus-livros" role="tabpanel" aria-labelledby="meus-livros-tab" data-action="@Url.Action("_CadastradosPeloUsuario","Livro")"></div>
+            <div class="tab-pane" id="trocas-solicitadas" role="tabpanel" aria-labelledby="trocas-solicitadas-tab" data-action="@Url.Action("_TrocasSolicitadas","Troca")"></div>
+            <div class="tab-pane" id="livros-disponibilizados-troca" role="tabpanel" aria-labelledby="livros-disponibilizados-troca-tab" data-action="@Url.Action("_LivrosDisponibilizadosParaTroca","Troca")"></div>
+            <div class="tab-pane" id="trocas-aprovadas" role="tabpanel" aria-labelledby="trocas-aprovadas-tab" data-action="@Url.Action("_Aprovadas","Troca")"></div>
+            <div class="tab-pane" id="livros-enviados" role="tabpanel" aria-labelledby="livros-enviados-tab" data-action="@Url.Action("_LivrosEnviados","Troca")"></div>
         </div>
     </div>
 </div>

@@ -75,6 +75,9 @@ body {
 .customize .card.card-produto{
     height:470px;
 }
+    .customize .card.card-produto.troca-solicitada {
+        height: 475px;
+    }
     .customize .card.card-produto .img-container {
         text-align: center;
         height: 170px;
@@ -85,10 +88,16 @@ body {
             width: unset;
         }
     .customize .card.card-produto .card-title {
+        height:50px;
+        display:block;
         text-align: center;
     }
     .customize .card.card-produto .card-text {
-        height: 120px;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 110px;
         text-align: center;
     }
 .card.card-produto .card-body {

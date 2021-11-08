@@ -121,6 +121,7 @@ namespace WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AuthorizeCustomizado]
         public async Task<IActionResult> MinhaConta()
         {
             var model = new MinhaContaViewModel();

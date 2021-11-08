@@ -32,7 +32,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 
             await db.SaveChangesAsync();
 
-            return new AppResponse<SolicitarTrocaResultado>();
+            return new AppResponse<SolicitarTrocaResultado>(true,"Troca solicitada com sucesso.");
         }
     }
 }

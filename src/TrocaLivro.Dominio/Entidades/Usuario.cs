@@ -53,5 +53,10 @@ namespace TrocaLivro.Dominio.Entidades
         {
             return this._erros;
         }
+
+        public string ObterNomeCompleto()
+        {
+            return this.Nome + " " + this.Sobrenome;
+        }
     }
 }

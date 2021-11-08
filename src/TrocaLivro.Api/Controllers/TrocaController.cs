@@ -52,12 +52,45 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta);
         }
 
+        [HttpPost("Aprovar"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Aprovar(AprovarTrocaCommand comando)
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            comando.Usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            AppResponse<AprovarTrocaResultado> resposta = await _mediator.Send(comando);
+
+            if (!resposta.Sucesso) return BadRequest(resposta);
+
+            return Ok(resposta);
+        }
+
         [HttpGet("{id}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(int id)
         {
             string token = HttpContext.Request.Headers["Authorization"];
             string usuario = _gerenciadorToken.ObterNomeUsuario(token);
             AppResponse<ObterTrocaResultado> resposta = await _mediator.Send(new ObterTrocaQuery { Id = id, Usuario = usuario });
+            return Ok(resposta);
+        }
+
+        [HttpGet("Solicitacoes"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Solicitacoes()
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            string usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            AppResponse<ObterTrocasSolicitadasResultado> resposta = await _mediator.Send(new ObterTrocasSolicitadasQuery(usuario));
+            return Ok(resposta);
+        }
+
+        [HttpGet("Disponibilizadas"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Disponibilizadas()
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            string usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            
+            AppResponse<ObterTrocasDisponibilizadasPorUsuarioResultado> resposta = await _mediator.Send(
+                new ObterTrocasDisponibilizadasPorUsuarioQuery(usuario)
+            );
             return Ok(resposta);
         }
     }

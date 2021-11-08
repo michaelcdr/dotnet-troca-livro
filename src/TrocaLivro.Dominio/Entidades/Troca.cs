@@ -19,10 +19,17 @@ namespace TrocaLivro.Dominio.Entidades
         public Usuario UsuarioQueSolicitouTroca { get; set; }
         public string UsuarioQueSolicitouTrocaId { get; set; }
         public DateTime? DataSolicitacaoTroca { get; private set; }
+        public DateTime? DataAprovacaoTroca { get; private set; }
 
         public Troca()
         {
             Imagens = new List<ImagemLivroEmTroca>();
+        }
+
+        public void Aprovar()
+        {
+            this.Status = StatusTroca.TrocaAprovada;
+            this.DataAprovacaoTroca = DateTime.Now;
         }
 
         public override bool TaValido()

@@ -11,7 +11,7 @@
 
     Swal.fire(opts)
         .then((result) => {
-            if (result.value) 
+            if (typeof(callback) === 'function')
                 callback();
         });
 }

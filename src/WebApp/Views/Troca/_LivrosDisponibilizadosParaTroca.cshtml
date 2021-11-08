@@ -1,4 +1,20 @@
-﻿
+﻿@model List<TrocaDisponibilizadaViewModel>
+
 <div>
-    Livros disponibilizados para troca
+    <h4>Livros disponibilizado para troca pelo seu usuário.</h4>
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info">
+            Ainda não existem livros disponibilizados para troca por seu usuário.
+        </div>
+    }
+    else
+    {
+        <div class="row d-flex">
+        @foreach (var livroTroca in Model)
+        {
+            <partial name="_Card" model="livroTroca" />
+        }
+        </div>
+    }
 </div>

@@ -68,7 +68,10 @@ namespace TrocaLivro.Dominio.Entidades
 
             if (autoresRemovidos != null)
                 foreach (var autorIdRemovido in autoresRemovidos)
-                    this.Autores.Remove(this.Autores.Single(a => a.AutorId == autorIdRemovido));
+                {
+                    LivroAutor livroAutor = this.Autores.Single(a => a.AutorId == autorIdRemovido);
+                    this.Autores.Remove(livroAutor);
+                }
 
             foreach (var autorIdSelecionado in idsAutores)
                 if (!this.Autores.Any(e => e.AutorId == autorIdSelecionado))

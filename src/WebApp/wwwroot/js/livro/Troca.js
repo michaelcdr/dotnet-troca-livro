@@ -14,7 +14,7 @@
                 disponibilizacaoTrocaId: parseInt(btn.data('disponibilizacaoTrocaId'))
             };
             $.post('/Troca/Solicitar', params,function (data) {
-                if (data.Sucesso) {
+                if (data.sucesso) {
                     alertSuccess({ title: "Troca solicitada com sucesso", text: "" }, function () {
                         document.location = "/";
                     });

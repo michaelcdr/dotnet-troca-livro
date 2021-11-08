@@ -48,7 +48,31 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return indexViewModel;
         }
 
-        
+        public async Task<AppResponse<AprovarTrocaResultado>> AprovarTroca(int trocaId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            var comando = new AprovarTrocaCommand(trocaId);
+            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"{APICONTROLLER_TROCAS}/Aprovar", comando);
+            var aprovacaoResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<AprovarTrocaResultado>>();
+            return aprovacaoResponse;
+        }
+
+        public async Task<AppResponse<ObterTrocasDisponibilizadasPorUsuarioResultado>> ObterTrocasDisponibilizadasPorUsuario()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_TROCAS}/Disponibilizadas");
+            var conteudo = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterTrocasDisponibilizadasPorUsuarioResultado>>();
+            return conteudo;
+        }
+
+        public async Task<AppResponse<ObterTrocasSolicitadasResultado>> ObterTrocasSolicitadas()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_TROCAS}/Solicitacoes");
+            var conteudo = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterTrocasSolicitadasResultado>>();
+            return conteudo;
+        }
+
         private MultipartFormDataContent CriarFormDataContentParaCamposDoLivro(IEdicaoCadastroLivroCommand requisicao)
         {
             var content = new MultipartFormDataContent
@@ -121,6 +145,14 @@ namespace TrocaLivro.Aplicacao.HttpClients
 
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<CadastrarLivroResultado>>();
             return conteudoResposta;
+        }
+
+        public async Task<List<LivroCardModel>> ObterLivrosCadastradosPeloUsuario()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            var resposta = await httpClient.GetAsync($"{APICONTROLLER_LIVRO}/ObterPorUsuario");
+            var livros = await resposta.Content.ReadFromJsonAsync<List<LivroCardModel>>();
+            return livros;
         }
 
         public async Task<List<LivroDTO>> ObterListaLivros(string termoPesquisa)

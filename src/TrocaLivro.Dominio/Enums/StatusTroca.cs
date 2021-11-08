@@ -4,6 +4,8 @@
     {
         Disponibilizado,
         TrocaSolicitada,
-        TrocaConcluida
+        TrocaAprovada,
+        LivroEnviado,
+        LivroRecebido
     }
 }

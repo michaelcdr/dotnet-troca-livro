@@ -168,6 +168,13 @@ namespace WebApp.Controllers
             return PartialView(livros);
         }
 
+        public async Task<IActionResult> _CadastradosPeloUsuario()
+        {
+            base.AtualizarToken(this.api);
+            List<LivroCardModel> livros = await api.ObterLivrosCadastradosPeloUsuario();
+            return PartialView(livros);
+        }
+
         public async Task<IActionResult> DisponibilizarParaTroca(int id)
         {
             LivroDTO livro = await api.ObterLivro(id);

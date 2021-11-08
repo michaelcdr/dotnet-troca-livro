@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using System;
 
 namespace WebApp.Filtros
@@ -11,7 +12,12 @@ namespace WebApp.Filtros
         {
             if (context.HttpContext.User == null || !context.HttpContext.User.Identity.IsAuthenticated)
             {
-                context.Result = new UnauthorizedResult();
+                context.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary{
+                        { "controller", "Usuario" },
+                        { "action", "Login" }
+                    }
+                );
             }
         }
     }

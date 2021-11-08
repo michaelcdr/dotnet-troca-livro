@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Filtros;
 
@@ -38,18 +39,26 @@ namespace WebApp.Controllers
             return Json(resposta);
         }
 
+        [HttpPost, AuthorizeCustomizado]
+        public async Task<JsonResult> Aprovar(int trocaId)
+        {
+            base.AtualizarToken(this.api);
+
+            AppResponse<AprovarTrocaResultado> resposta = await api.AprovarTroca(trocaId);
+            return Json(resposta);
+        }
+
         [AuthorizeCustomizado]
         public async Task<IActionResult> _LivrosDisponibilizadosParaTroca()
         {
             base.AtualizarToken(this.api);
-            return PartialView();
+            AppResponse<ObterTrocasDisponibilizadasPorUsuarioResultado> resposta = await api.ObterTrocasDisponibilizadasPorUsuario();
+            return PartialView(resposta.Dados.Livros);
         }
 
         [AuthorizeCustomizado]
         public async Task<IActionResult> _LivrosEnviados()
         {
-            base.AtualizarToken(this.api);
-            //AppResponse<SolicitarTrocaResultado> resposta = await api.ObterLivros
             return PartialView();
         }
 
@@ -57,6 +66,14 @@ namespace WebApp.Controllers
         public async Task<IActionResult> _TrocasSolicitadas()
         {
             base.AtualizarToken(this.api);
+            AppResponse<ObterTrocasSolicitadasResultado> resposta = await api.ObterTrocasSolicitadas();
+            List<TrocaSolicitadaViewModel> solicitacoes = resposta.Dados.Solicitacoes;
+            return PartialView(solicitacoes);
+        }
+
+        [AuthorizeCustomizado]
+        public async Task<IActionResult> _Aprovadas()
+        {
             return PartialView();
         }
     }

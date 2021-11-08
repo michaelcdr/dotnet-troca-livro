@@ -1,0 +1,18 @@
+﻿@model List<LivroCardModel>
+    
+<h4>Veja abaixo os livros cadastrados por você.</h4>
+
+@if (Model.Count > 0)
+{
+    <div class="row d-flex">
+        @foreach (var livro in Model)
+        {
+            <partial name="_Card" model="livro" />
+        }
+    </div>
+}
+else{
+    <div class="alert alert-info">
+        Nenhum livro cadastrado.
+    </div>
+}

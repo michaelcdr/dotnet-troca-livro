@@ -41,6 +41,20 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta.Dados.Livros);
         }
 
+        [HttpGet("ObterPorUsuario")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> ObterPorUsuario([FromQuery] ObterLivrosPorUsuarioQuery query)
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            query.Usuario = _tokenHandler.ObterNomeUsuario(token);
+
+            AppResponse<ObterLivrosPorUsuarioResultado> resposta = await _mediator.Send(query);
+
+            if (!resposta.Sucesso) return BadRequest(resposta.Erros);
+
+            return Ok(resposta.Dados.Livros);
+        }
+
         [HttpGet("dashboard")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Dashboard()

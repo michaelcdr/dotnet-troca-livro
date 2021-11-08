@@ -67,7 +67,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
         public async Task<int> ObterTotalDeTrocas()
         {
             return await ApplicationDbContext.Trocas.AsNoTracking()
-                .Where(e => e.Status == Dominio.Enums.StatusTroca.TrocaConcluida)
+                .Where(e => e.Status == Dominio.Enums.StatusTroca.LivroEnviado)
                 .Select(e => e.Id)
                 .CountAsync();
         }
