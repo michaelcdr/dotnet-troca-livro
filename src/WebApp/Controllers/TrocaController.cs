@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
-using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Filtros;
+using WebApp.Helpers;
 
 namespace WebApp.Controllers
 {
@@ -26,16 +26,16 @@ namespace WebApp.Controllers
 
             AppResponse<ObterTrocaResultado> resposta = await api.ObterTroca(id);
             TrocarLivroViewModel model = _mapper.Map<TrocarLivroViewModel>(resposta.Dados);
-
+            model.Estados = EstadosHelper.ObterTodos();
             return View(model);
         }
 
         [HttpPost, AuthorizeCustomizado]
-        public async Task<JsonResult> Solicitar(int disponibilizacaoTrocaId)
+        public async Task<JsonResult> Solicitar(TrocarLivroViewModel model)
         {
             base.AtualizarToken(this.api);
-
-            AppResponse<SolicitarTrocaResultado> resposta = await api.SolicitarTroca(new SolicitarTrocaCommand(disponibilizacaoTrocaId));
+            var comando = new SolicitarTrocaCommand(model.TrocaId);
+            AppResponse<SolicitarTrocaResultado> resposta = await api.SolicitarTroca(comando);
             return Json(resposta);
         }
 

@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Configuracoes\" />
-    <Folder Include="Helpers\" />
     <Folder Include="wwwroot\img\usuario\" />
     <Folder Include="wwwroot\Imagens\" />
   </ItemGroup>

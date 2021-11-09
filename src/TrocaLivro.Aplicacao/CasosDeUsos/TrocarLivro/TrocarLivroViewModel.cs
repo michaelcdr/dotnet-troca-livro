@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using TrocaLivro.Dominio.Enums;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
@@ -7,9 +10,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
     {
         public TrocarLivroViewModel()
         {
-
+             
         }
-        public int DisponibilizacaoTrocaId { get; set; }
+        public int TrocaId { get; set; }
         public int Pontos { get;  set; }
         public StatusTroca Status { get;  set; }
         public string Descritivo { get;  set; }
@@ -25,5 +28,27 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                        $"<strong>{(this.Pontos > 1 ? this.Pontos + " pontos" : this.Pontos + " ponto")}</strong>."; 
             }
         }
-    }
+        
+        [Required(ErrorMessage = "Informe o campo {0}")]
+        public string CEP { get; set; }
+
+        [Required(ErrorMessage = "Informe o campo {0}")]
+        public string Logradouro { get; set; }
+
+        [Required(ErrorMessage = "Informe o campo {0}")]
+        public int? Numero { get; set; }
+        
+        public string Complemento { get; set; }
+
+        [Required(ErrorMessage = "Informe o campo {0}")]
+        public string Cidade { get; set; }
+
+        [Required(ErrorMessage = "Informe o campo {0}")]
+        public string Bairro { get; set; }
+
+        [Required(ErrorMessage = "Informe o campo {0}")]
+        public string UF { get; set; }
+
+        public List<SelectListItem> Estados { get; set; }
+    } 
 }
