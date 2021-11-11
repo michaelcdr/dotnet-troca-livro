@@ -18,6 +18,11 @@
             this.Nome = nome;
         }
 
+        public ImagemLivroEmTroca( byte[] nome)
+        {
+            this.Nome = nome;
+        }
+
         public override bool TaValido()
         {
             return true;

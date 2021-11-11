@@ -1,13 +1,19 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
 using TrocaLivro.Aplicacao.DTO;
 
 namespace TrocaLivro.Aplicacao.ViewModels
 {
     public class DisponibilizarLivroParaTrocaViewModel
     {
+        public int LivroId { get; private set; }
+        public string Descritivo { get; set; }
+        public int? Pontos { get; set; }
+        public List<IFormFile> Imagens { get; set; }
+
         public string Titulo { get; private set; }
         public string Imagem { get; private set; }
-        public int LivroId { get; private set; }
         public string Autores { get; private set; }
         public string ISBN { get; private set; }
         public int Ano { get; private set; }
@@ -15,8 +21,6 @@ namespace TrocaLivro.Aplicacao.ViewModels
         public int MaximoDePontos { get; private set; }
 
         
-        public string Descritivo { get; set; }
-        public int? Pontos { get; set; }
 
 
         public DisponibilizarLivroParaTrocaViewModel(LivroDTO livroDTO)

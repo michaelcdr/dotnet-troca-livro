@@ -22,7 +22,8 @@
         </div>
         <div class="row">
             <div class="col-md-12 p-3">
-                <form id="form-disponibilizacao" method="post" asp-action="DisponibilizarParaTroca" asp-controller="Livro">
+                <form id="form-disponibilizacao" method="post" asp-action="DisponibilizarParaTroca" asp-controller="Livro"
+                        enctype="multipart/form-data" >
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <input type="hidden" asp-for="LivroId" />
@@ -48,7 +49,15 @@
                         </select>
                         <span asp-validation-for="Pontos"  class="text-danger"></span>
                     </div>
-
+                    <div class="form-group">
+                        <label for="Descritivo">Imagens:</label><br />
+                       
+                        <label class="btn btn-outline-dark">
+                            Adicionar imagens
+                            <input id="Imagens" name="Imagens" type="file" multiple class="d-none" accept="image/jpeg" />
+                        </label>
+                        <div id="imagens-container" class="row"></div> 
+                    </div>
                     <button class="btn btn-block btn-success" type="button" id="btn-disponibilizar-troca" data-loading-text="Processando, aguarde..."> 
                         Disponibilizar
                     </button>

@@ -28,8 +28,8 @@ namespace TrocaLivro.Api.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPost("Disponibilizar"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Disponibilizar(DisponibilizarLivroParaTrocaCommand comando)
+        [HttpPost("Disponibilizar"), DisableRequestSizeLimit, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> Disponibilizar([FromForm]DisponibilizarLivroParaTrocaCommand comando)
         {
             string token = HttpContext.Request.Headers["Authorization"];
             comando.Usuario = _gerenciadorToken.ObterNomeUsuario(token);

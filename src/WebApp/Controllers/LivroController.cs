@@ -180,7 +180,7 @@ namespace WebApp.Controllers
             LivroDTO livro = await api.ObterLivro(id);
             return View(new DisponibilizarLivroParaTrocaViewModel(livro));
         }
-
+            
         [HttpPost, ModelStateAttribute]
         public async Task<IActionResult> DisponibilizarParaTroca(DisponibilizarLivroParaTrocaCommand comando)
         {

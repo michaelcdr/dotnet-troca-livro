@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using TrocaLivro.Dominio.Entidades;
+using TrocaLivro.Dominio.Helpers;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Dominio.Transacoes;
 
@@ -17,25 +19,29 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         }
 
         public async Task<AppResponse<DisponibilizarLivroParaTrocaResultado>> Handle(
-            DisponibilizarLivroParaTrocaCommand commando, 
+            DisponibilizarLivroParaTrocaCommand comando, 
             CancellationToken cancellationToken)
         {
-            Usuario usuario = await uow.Usuarios.ObterPorLogin(commando.Usuario);
+            Usuario usuario = await uow.Usuarios.ObterPorLogin(comando.Usuario);
 
-            var disponibilizacao = new Troca
+            var troca = new Troca
             {
-                Descritivo = commando.Descritivo,
+                Descritivo = comando.Descritivo,
                 DisponibilizadoEm = DateTime.Now,
                 UsuarioQueDisponibilizouParaTrocaId = usuario.Id,
-                Pontos = commando.Pontos,
-                LivroId = commando.LivroId,
+                Pontos = comando.Pontos,
+                LivroId = comando.LivroId,
                 Status = Dominio.Enums.StatusTroca.Disponibilizado
             };
 
-            if (!disponibilizacao.TaValido())
-                return new AppResponse<DisponibilizarLivroParaTrocaResultado>("Erro.", false, disponibilizacao.ObterErros());
+            if (comando.Imagens != null && comando.Imagens.Count > 0)
+                foreach (IFormFile imagemFormFile in comando.Imagens)
+                    troca.AdicionarImagem(new ImagemLivroEmTroca(FileHelper.ConvertToBytes(imagemFormFile)));
 
-            await uow.Livros.DisponibilizarParaTroca(disponibilizacao);
+            if (!troca.TaValido())
+                return new AppResponse<DisponibilizarLivroParaTrocaResultado>("Erro.", false, troca.ObterErros());
+
+            await uow.Livros.DisponibilizarParaTroca(troca);
 
             await uow.CommitAsync();
 

@@ -253,7 +253,22 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<AppResponse<DisponibilizarLivroParaTrocaResultado>> DisponibilizarParaTroca(DisponibilizarLivroParaTrocaCommand comando)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"{APICONTROLLER_TROCAS}/Disponibilizar", comando);
+            
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(comando.Descritivo), BotarAspas("descritivo") }, 
+                { new StringContent(comando.LivroId.ToString()), BotarAspas("livroId") },
+                { new StringContent(comando.Pontos.ToString()), BotarAspas("pontos") },
+            };
+
+            foreach (var imagem in comando.Imagens)
+            {
+                var imagemBytes = new ByteArrayContent(FileHelper.ConvertToBytes(imagem));
+                imagemBytes.Headers.Add("content-type", "image/jpg");
+                content.Add(imagemBytes, BotarAspas("imagens"), BotarAspas("imagem-atual.jpg"));
+            }
+
+            HttpResponseMessage resposta = await httpClient.PostAsync($"{APICONTROLLER_TROCAS}/Disponibilizar", content);
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppResponse<DisponibilizarLivroParaTrocaResultado>>();
             return conteudoResposta;
         }

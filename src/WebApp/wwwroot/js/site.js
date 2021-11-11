@@ -20,12 +20,49 @@ $(document).ready(function () {
             $(".navbar .dropdown-menu").mouseleave(function () {
                 $(this).removeClass("show");
             });
-
-            // do something here
         }
     });
-
-
-
-    // document ready  
 });
+
+function createGuid() {
+    let S4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    let guid = `${S4()}${S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`;
+
+    return guid.toLowerCase();
+}
+
+function removerArquivoDoFileList(indiceDoArquivo, selector) {
+    const dt = new DataTransfer();
+    const input = document.querySelector(selector);
+    const { files } = input
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        if (indiceDoArquivo !== i)
+            dt.items.add(file);
+    }
+
+    input.files = dt.files;
+}
+
+function obterIndiceImagem(imagemId) {
+    let indice = -1;
+    $(".card").each(function (index, elemento) {
+        if ($(elemento).data('imagemId') === imagemId) {
+            indice = index;
+            return;
+        }
+    });
+    return indice;
+}
+
+function obterCardUpload(imagemId, src) {
+    return `<div class="col-md-2 d-flex m-3 align-items-stretch  card" data-imagem-id="${imagemId}" >
+        <div class="img-livro-container text-center pt-2 pb-2">
+            <img src="${src}" class='img-livro' style='max-width:100px; max-height: 100px' />
+        </div>
+        <div class="text-center pb-2">
+            <button class="btn btn-danger btn-sm btn-remover-img" data-imagem-id="${imagemId}" type="button">Remover</button>
+        </div>
+    </div>`;
+}

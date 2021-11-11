@@ -32,6 +32,14 @@ namespace TrocaLivro.Dominio.Entidades
             this.DataAprovacaoTroca = DateTime.Now;
         }
 
+        public void AdicionarImagem(ImagemLivroEmTroca imagem)
+        {
+            if (this.Imagens == null)
+                this.Imagens = new List<ImagemLivroEmTroca>();
+
+            this.Imagens.Add(imagem);
+        }
+
         public override bool TaValido()
         {
             if (string.IsNullOrEmpty(Descritivo))
