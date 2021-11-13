@@ -10,6 +10,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
+                        <div class="alert col-md-12 alert-danger hidden" id="form-error"> </div>
                         <div class="col-md-1">
                             <img src="@Model.Capa" style="max-width:100%" />
                         </div>
@@ -17,6 +18,24 @@
                             <h3>@Model.TituloLivro</h3>
                             <strong>Descritivo informado pelo dono:</strong><br />
                             <p>@Html.Raw(Model.Descritivo)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <fieldset>
+                                <legend>Imagens atuais</legend>
+                                <div class="row" id="imgs-atuais-container">
+                                    @foreach (var item in Model.Imagens)
+                                    {
+                                        <div class="col-md-2 d-flex m-3 align-items-stretch img-atual  card"  >
+                                            <div class="img-livro-container text-center pt-2 pb-2">
+                                                <img src="@item" class='img-livro' style='max-width:100px; max-height: 100px' />
+                                            </div> 
+                                        </div>
+                                    }
+                                </div>
+                            </fieldset>
+                            <hr />
                         </div>
                     </div>
                     <div class="row pt-2">

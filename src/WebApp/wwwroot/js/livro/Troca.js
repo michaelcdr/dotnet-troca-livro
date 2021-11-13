@@ -2,7 +2,6 @@
     constructor() {
 
         this.iniciarEventos();
-        
     }
 
     iniciarEventos() {
@@ -18,8 +17,15 @@
                     alertSuccess({ title: "Troca solicitada com sucesso", text: "" }, function () {
                         document.location = "/";
                     });
-                } else
+                } else {
+                    if (data.erros != null) {
+                        $("#form-error")
+                            .html("<strong>Verifique os erros a seguir:</strong><br />" + data.erros.map(e => e.mensagem).join("<br/>"))
+                            .removeClass("hidden");
+
+                    }
                     alertError({ text: data.mensagem })
+                }
 
                 $(btn).button('reset');
             }).fail(function () {

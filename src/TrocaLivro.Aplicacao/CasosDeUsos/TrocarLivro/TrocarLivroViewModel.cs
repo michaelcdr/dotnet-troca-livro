@@ -29,6 +29,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             }
         }
         
+        public List<string> Imagens { get; set; }
+
         [Required(ErrorMessage = "Informe o campo {0}")]
         public string CEP { get; set; }
 

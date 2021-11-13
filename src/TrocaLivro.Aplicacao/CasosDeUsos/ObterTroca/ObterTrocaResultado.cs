@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Enums;
 
@@ -29,22 +31,38 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         public string TituloLivro { get; private set; }
         public DateTime DisponibilizadoEm { get; private set; }
         public string Capa { get; private set; }
+        public List<string> Imagens { get;  set; }
 
-        public static ObterTrocaResultado CriarPor(Troca livroDisponibilizado)
+        public static ObterTrocaResultado CriarPor(Troca troca)
         {
-            string imgBase64 = livroDisponibilizado.Livro.ObterCapaEmBase64();
+            string imgBase64 = troca.Livro.ObterCapaEmBase64();
+
+            var imagensTroca = new List<string>();
+
+            if (troca.Imagens != null)
+                foreach (var imagemTroca in troca.Imagens)
+                {
+                    int imgLength = imagemTroca.Nome.Length;
+                    var imgData = imagemTroca.Nome;
+                    string base64String = "data:image/jpg;base64," + Convert.ToBase64String(imgData, 0, imgLength);
+
+                    imagensTroca.Add(base64String);
+                }
 
             return new ObterTrocaResultado(
-                livroDisponibilizado.Id,
-                livroDisponibilizado.Pontos,
-                livroDisponibilizado.Status,
-                livroDisponibilizado.Descritivo,
-                livroDisponibilizado.UsuarioQueDisponibilizouParaTroca.UserName,
-                livroDisponibilizado.LivroId,
-                livroDisponibilizado.Livro.Titulo,
-                livroDisponibilizado.DisponibilizadoEm,
+                troca.Id,
+                troca.Pontos,
+                troca.Status,
+                troca.Descritivo,
+                troca.UsuarioQueDisponibilizouParaTroca.UserName,
+                troca.LivroId,
+                troca.Livro.Titulo,
+                troca.DisponibilizadoEm,
                 imgBase64
-            );
+            )
+            {
+                Imagens = imagensTroca
+            };
         }
     }
 }
