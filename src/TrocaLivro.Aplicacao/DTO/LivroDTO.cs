@@ -67,9 +67,11 @@ namespace TrocaLivro.Aplicacao.DTO
                 }
             }
 
-            if (livro.DiponibilizacaoParaTrocas.Count > 0)
+            if (livro.DiponibilizacaoParaTrocas.Count(e=>e.Status == Dominio.Enums.StatusTroca.Disponibilizado) > 0)
             {
-                this.UsuariosOfertando = livro.DiponibilizacaoParaTrocas.Select(e => new UsuarioOfertando
+                this.UsuariosOfertando = livro.DiponibilizacaoParaTrocas
+                    .Where(e => e.Status == Dominio.Enums.StatusTroca.Disponibilizado)
+                    .Select(e => new UsuarioOfertando
                 {
                     DisponibilizacaoTrocaId = e.Id,
                     Nome = e.UsuarioQueDisponibilizouParaTroca.Nome,

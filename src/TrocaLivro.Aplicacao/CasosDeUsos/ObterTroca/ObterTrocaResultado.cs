@@ -9,10 +9,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
     public class ObterTrocaResultado
     {
         public ObterTrocaResultado(
-            int disponibilizacaoTrocaId, int pontos, StatusTroca status, string descritivo, string disponibilizadoPor, 
+            int trocaId, int pontos, StatusTroca status, string descritivo, string disponibilizadoPor, 
             int livroId, string tituloLivro, DateTime disponibilizadoEm, string capa)
         {
-            DisponibilizacaoTrocaId = disponibilizacaoTrocaId;
+            TrocaId = trocaId;
             Pontos = pontos;
             Status = status;
             Descritivo = descritivo;
@@ -22,7 +22,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             DisponibilizadoEm = disponibilizadoEm;
             Capa = capa;
         }
-        public int DisponibilizacaoTrocaId { get; private set; }
+        public int TrocaId { get; private set; }
         public int Pontos { get; private set; }
         public StatusTroca Status { get; private set; }
         public string Descritivo { get; private set; }

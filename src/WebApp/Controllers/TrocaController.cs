@@ -34,7 +34,7 @@ namespace WebApp.Controllers
         public async Task<JsonResult> Solicitar(TrocarLivroViewModel model)
         {
             base.AtualizarToken(this.api);
-            var comando = new SolicitarTrocaCommand(model.TrocaId);
+            var comando = _mapper.Map<SolicitarTrocaCommand>(model);
             AppResponse<SolicitarTrocaResultado> resposta = await api.SolicitarTroca(comando);
             return Json(resposta);
         }
