@@ -1,7 +1,7 @@
 ﻿@model List<TrocaSolicitadaViewModel>
 
 <div>
-    <h4>Veja as trocas solicitadas ao seu usuário.</h4>
+    <h4>Veja os livros que seu usuário solicitou.</h4>
     @if (Model.Count == 0)
     {
         <div class="alert alert-info">
@@ -13,7 +13,9 @@
         <div class="row d-flex">
         @foreach (var livroTroca in Model)
         {
-        <partial name="_CardTrocaSolicitada" model="livroTroca" />
+            <div class="flex-fill col-md-4 mb-3">
+                <partial name="_CardTroca" model="livroTroca" />
+            </div>
         }
         </div>
     }

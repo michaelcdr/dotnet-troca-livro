@@ -3,9 +3,9 @@ using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
-    public class ObterTrocasSolicitadasQuery:IRequest<AppResponse<ObterTrocasSolicitadasResultado>>
+    public class ObterTrocasSolicitadasAoUsuarioLogadoQuery:IRequest<AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado>>
     {
-        public ObterTrocasSolicitadasQuery(string usuarioQueDisponibilizouTroca)
+        public ObterTrocasSolicitadasAoUsuarioLogadoQuery(string usuarioQueDisponibilizouTroca)
         {
             UsuarioQueDisponibilizouTroca = usuarioQueDisponibilizouTroca;
         }

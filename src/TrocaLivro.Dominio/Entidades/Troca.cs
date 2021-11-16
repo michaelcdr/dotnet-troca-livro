@@ -20,6 +20,24 @@ namespace TrocaLivro.Dominio.Entidades
         public string UsuarioQueSolicitouTrocaId { get; set; }
         public DateTime? DataSolicitacaoTroca { get; private set; }
         public DateTime? DataAprovacaoTroca { get; private set; }
+        public DateTime? DataEnvio { get; private set; }
+        public DateTime? DataRecebimento { get; private set; }
+
+        public int? EnderecoId { get; private set; }
+
+        public void MarcarComoEnviado()
+        {
+            this.DataEnvio = DateTime.Now;
+            this.Status = StatusTroca.LivroEnviado;
+        }
+
+        public void MarcarComoRecebido()
+        {
+            this.DataRecebimento = DateTime.Now;
+            this.Status = StatusTroca.LivroRecebido;
+        }
+
+        public Endereco Endereco { get; set; }
 
         public Troca()
         {
@@ -52,6 +70,11 @@ namespace TrocaLivro.Dominio.Entidades
                 this.AdicionarErro("Informe o livro", nameof(LivroId));
 
             return this._erros.Count == 0;
+        }
+
+        public void AdicionarEnderecoDeEntrega(int id)
+        {
+            this.EnderecoId = id;
         }
 
         public void MarcarComoTrocaSolicitada(string usuarioQueSolicitouTrocaId)

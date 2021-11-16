@@ -19,6 +19,8 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
             builder.HasOne(e => e.UsuarioQueSolicitouTroca)
                 .WithMany(e => e.TrocasSolicitadas)
                 .HasForeignKey(e => e.UsuarioQueSolicitouTrocaId);
+
+            builder.HasOne(e => e.Endereco).WithMany(e => e.Trocas);
         }
     }
 }

@@ -115,6 +115,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
         {
             return await ApplicationDbContext.Avaliacoes.Where(e => e.LivroId == livroId)
                 .Include(a => a.Usuario)
+                .OrderByDescending(e => e.AvaliadoEm)
                 .ToListAsync();
         }
     }

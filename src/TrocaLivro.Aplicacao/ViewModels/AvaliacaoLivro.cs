@@ -10,6 +10,7 @@ namespace TrocaLivro.Aplicacao.ViewModels
             Titulo = titulo;
             Descricao = descricao;
             Nota = nota;
+            AvaliadoEm = data;
             Data = data.ToString("dd/MM/yyyy HH:mm:ss");
             Usuario = usuario;  
         }
@@ -22,5 +23,6 @@ namespace TrocaLivro.Aplicacao.ViewModels
         public string Titulo { get;  set; }
         public string Descricao { get;  set; }
         public NotaLivroEnum Nota { get;  set; }
+        public DateTime AvaliadoEm { get; set; }
     }
 }

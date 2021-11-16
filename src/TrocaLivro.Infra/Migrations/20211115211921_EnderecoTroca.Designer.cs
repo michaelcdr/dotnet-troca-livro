@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrocaLivro.Infra.Data;
 
 namespace TrocaLivro.Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211115211921_EnderecoTroca")]
+    partial class EnderecoTroca
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,9 +254,6 @@ namespace TrocaLivro.Infra.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Cidade")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Complemento")
                         .HasColumnType("nvarchar(max)");
 
@@ -478,12 +477,6 @@ namespace TrocaLivro.Infra.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("DataAprovacaoTroca")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataEnvio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataRecebimento")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DataSolicitacaoTroca")

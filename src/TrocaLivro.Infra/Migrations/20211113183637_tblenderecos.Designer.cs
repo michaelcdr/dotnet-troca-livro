@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrocaLivro.Infra.Data;
 
 namespace TrocaLivro.Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211113183637_tblenderecos")]
+    partial class tblenderecos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,9 +254,6 @@ namespace TrocaLivro.Infra.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Cidade")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Complemento")
                         .HasColumnType("nvarchar(max)");
 
@@ -480,12 +479,6 @@ namespace TrocaLivro.Infra.Migrations
                     b.Property<DateTime?>("DataAprovacaoTroca")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DataEnvio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataRecebimento")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("DataSolicitacaoTroca")
                         .HasColumnType("datetime2");
 
@@ -496,9 +489,6 @@ namespace TrocaLivro.Infra.Migrations
 
                     b.Property<DateTime>("DisponibilizadoEm")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("EnderecoId")
-                        .HasColumnType("int");
 
                     b.Property<int>("LivroId")
                         .HasColumnType("int");
@@ -516,8 +506,6 @@ namespace TrocaLivro.Infra.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EnderecoId");
 
                     b.HasIndex("LivroId");
 
@@ -771,10 +759,6 @@ namespace TrocaLivro.Infra.Migrations
 
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Troca", b =>
                 {
-                    b.HasOne("TrocaLivro.Dominio.Entidades.Endereco", "Endereco")
-                        .WithMany("Trocas")
-                        .HasForeignKey("EnderecoId");
-
                     b.HasOne("TrocaLivro.Dominio.Entidades.Livro", "Livro")
                         .WithMany("DiponibilizacaoParaTrocas")
                         .HasForeignKey("LivroId")
@@ -788,8 +772,6 @@ namespace TrocaLivro.Infra.Migrations
                     b.HasOne("TrocaLivro.Dominio.Entidades.Usuario", "UsuarioQueSolicitouTroca")
                         .WithMany("TrocasSolicitadas")
                         .HasForeignKey("UsuarioQueSolicitouTrocaId");
-
-                    b.Navigation("Endereco");
 
                     b.Navigation("Livro");
 
@@ -811,11 +793,6 @@ namespace TrocaLivro.Infra.Migrations
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Editora", b =>
                 {
                     b.Navigation("Livros");
-                });
-
-            modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Endereco", b =>
-                {
-                    b.Navigation("Trocas");
                 });
 
             modelBuilder.Entity("TrocaLivro.Dominio.Entidades.Livro", b =>

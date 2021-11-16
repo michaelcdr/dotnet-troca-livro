@@ -5,6 +5,9 @@ using System;
 
 namespace WebApp.Filtros
 {
+    /// <summary>
+    /// Limita acesso a usuários autorizados, se nao autorizado volta para o login.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeCustomizadoAttribute : Attribute, IAuthorizationFilter 
     { 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TrocaLivro.Dominio.Entidades;
@@ -19,8 +20,12 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 
         public async Task<AppResponse<SolicitarTrocaResultado>> Handle(SolicitarTrocaCommand comando, CancellationToken cancellationToken)
         {
-            Usuario usuario = await db.Usuarios.SingleAsync(e => e.UserName == comando.Usuario);
+            Usuario usuario = await db.Usuarios.Include(trocaAtual => trocaAtual.Endereco)
+                .SingleAsync(e => e.UserName == comando.Usuario);
+
             Troca troca = await db.Trocas.SingleAsync(e => e.Id == comando.TrocaId);
+
+            usuario.AdicionarEndereco(usuario.Id, comando.Bairro, comando.CEP, comando.Complemento, comando.UF, comando.Logradouro, comando.Numero,comando.Cidade);
 
             if (troca.Status != Dominio.Enums.StatusTroca.Disponibilizado)
                 return new AppResponse<SolicitarTrocaResultado>(false, "Esse livro não está mais disponível para troca.");
@@ -31,6 +36,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             troca.MarcarComoTrocaSolicitada(usuario.Id);
 
             await db.SaveChangesAsync();
+
+            troca.AdicionarEnderecoDeEntrega(usuario.Endereco.OrderByDescending(e => e.Id).First().Id);
 
             return new AppResponse<SolicitarTrocaResultado>(true,"Troca solicitada com sucesso.");
         }

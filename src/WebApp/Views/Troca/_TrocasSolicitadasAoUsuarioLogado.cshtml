@@ -1,0 +1,22 @@
+﻿@model List<TrocaSolicitadaViewModel>
+
+<div>
+    <h4>Veja as trocas solicitadas ao seu usuário.</h4>
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info">
+            Ainda não existem solicitações de trocas para seu usuário.
+        </div>
+    }
+    else
+    {
+        <div class="row d-flex">
+        @foreach (var livroTroca in Model)
+        {
+            <div class="flex-fill col-md-4 mb-3">
+                <partial name="_CardTrocaSolicitada" model="livroTroca" />
+            </div>  
+        }
+        </div>
+    }
+</div>

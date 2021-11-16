@@ -64,6 +64,16 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta);
         }
 
+        [HttpPost("MarcarLivroComoEnviado"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> MarcarLivroComoEnviado(MarcarLivroComoEnviadoCommand comando)
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            comando.Usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            AppCommandResponse resposta = await _mediator.Send(comando);
+            if (!resposta.Sucesso) return BadRequest(resposta);
+            return Ok(resposta);
+        }
+
         [HttpGet("{id}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(int id)
         {
@@ -73,12 +83,21 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta);
         }
 
-        [HttpGet("Solicitacoes"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Solicitacoes()
+        [HttpGet("SolicitadasAoUsuarioLogado"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> SolicitadasAoUsuarioLogado()
         {
             string token = HttpContext.Request.Headers["Authorization"];
             string usuario = _gerenciadorToken.ObterNomeUsuario(token);
-            AppResponse<ObterTrocasSolicitadasResultado> resposta = await _mediator.Send(new ObterTrocasSolicitadasQuery(usuario));
+            AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado> resposta = await _mediator.Send(new ObterTrocasSolicitadasAoUsuarioLogadoQuery(usuario));
+            return Ok(resposta);
+        }
+        
+        [HttpGet("SolicitadasPeloUsuarioLogado"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> SolicitadasPeloUsuarioLogado()
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            string usuario = _gerenciadorToken.ObterNomeUsuario(token);
+            AppResponse<ObterTrocasSolicitadasPeloUsuarioLogadoResultado> resposta = await _mediator.Send(new ObterTrocasSolicitadasPeloUsuarioLogadoQuery(usuario));
             return Ok(resposta);
         }
 

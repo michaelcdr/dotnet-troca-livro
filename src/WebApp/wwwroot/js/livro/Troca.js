@@ -9,27 +9,30 @@
     iniciarEventos() {
         let _self = this;
         _self.btnEl.on('click', function () {
-            _self.btnEl.button('loading');
+            
 
-            $.post('/Troca/Solicitar', _self.obterDadosFormulario(), function (data) {
-                if (data.sucesso) {
-                    alertSuccess({ title: "Troca solicitada com sucesso", text: "" }, function () {
-                        document.location = "/";
-                    });
-                } else {
-                    if (data.erros != null) {
-                        $("#form-error")
-                            .html("<strong>Verifique os erros a seguir:</strong><br />" + data.erros.map(e => e.mensagem).join("<br/>"))
-                            .removeClass("hidden");
+            if (_self.taValido()) {
+                _self.btnEl.button('loading');
+                $.post('/Troca/Solicitar', _self.obterDadosFormulario(), function (data) {
+                    if (data.sucesso) {
+                        alertSuccess({ title: "Troca solicitada com sucesso", text: "",timer:1500 }, function () {
+                            document.location = "/";
+                        });
+                    } else {
+                        if (data.erros != null) {
+                            $("#form-error")
+                                .html("<strong>Verifique os erros a seguir:</strong><br />" + data.erros.map(e => e.mensagem).join("<br/>"))
+                                .removeClass("hidden");
+                        }
+                        alertError({ text: data.mensagem })
                     }
-                    alertError({ text: data.mensagem })
-                }
-                _self.btnEl.button('reset');
+                    _self.btnEl.button('reset');
 
-            }).fail(function () {
-                alertServerError();
-                _self.btnEl.button('reset');
-            })
+                }).fail(function () {
+                    alertServerError();
+                    _self.btnEl.button('reset');
+                })
+            }
         });
 
         $("#CEP").on('change', function () {
@@ -50,5 +53,5 @@
 
     obterDadosFormulario() { return this.formEl.serialize(); }
 
-    validar() { return this.formEl.validate().form(); }
+    taValido() { return this.formEl.validate().form(); }
 }

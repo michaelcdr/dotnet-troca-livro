@@ -44,7 +44,7 @@ namespace TrocaLivro.Aplicacao.Mapping
             CreateMap<ObterDadosDashboardResultado, ObterDadosDashboardViewModel>();
             CreateMap<ObterTrocaResultado, TrocarLivroViewModel>();
             CreateMap<TrocarLivroViewModel, SolicitarTrocaCommand>();
-
+            CreateMap<ObterTrocaResultado,TrocaViewModel>();
             CreateMap<PacotePontos, ObterPacoteResultado>();
             CreateMap<ObterPacoteResultado, ConfirmarCompraPacoteViewModel>();
         }

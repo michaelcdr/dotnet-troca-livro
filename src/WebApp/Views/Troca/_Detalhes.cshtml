@@ -1,0 +1,75 @@
+﻿@model TrocaLivro.Aplicacao.ViewModels.TrocaViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Detalhes da troca:</h3>        
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>@Model.TituloLivro</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <img src="@Model.Capa" style="max-width:100%" />
+                    </div>
+                    <div class="col-md-8">
+                        <ul class="list-unstyled">
+                            <li id="status-atual">
+                                <strong>Status atual:</strong> @Model.Status
+                            </li>
+                            <li><strong>Pontos:</strong> @Model.Pontos </li>
+                            <li><strong>Aprovado em:</strong> @Model.DataAprovacaoTroca </li>
+                            <li>
+                                <strong>Descritivo informado pelo dono:</strong><br />
+                                @Html.Raw(Model.Descritivo)
+                            </li>
+                        </ul> 
+                    </div>
+                    
+                    @if (Model.Imagens.Count > 0)
+                    {
+                        <div class="col-md-12 mt-3">
+                            <strong>Imagens reais do livro, enviadas pelo usuário:</strong>
+                            <div class="row">
+                                @foreach (var item in Model.Imagens)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="card text-center">
+                                            <div class="card-body">
+                                                <img src="@item" class='img-livro' style='max-width:100px; ' />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.EnderecoEntrega))
+                    {
+                        <div class="col-md-12 mt-3">
+                            <strong>Endereço de entrega:</strong>
+                            <div>
+                            @Html.Raw(Model.EnderecoEntrega)
+                            </div>
+
+                        </div>
+                    }
+                 </div>
+             </div>
+        </div>
+    </div>
+    <div class="col-md-12 pt-3">
+        <a class="btn btn-outline-dark btn-sm btn-voltar" href="#" data-target="#trocas-solicitadas">
+            <i class="fa fa-chevron-left"></i> Voltar para lista
+        </a> 
+        @if (Model.PodeMarcarComoEnviado())
+        {
+            <button class="btn btn-outline-success btn-sm" type="button" data-id="@Model.TrocaId" id="btn-marcar-como-enviada">
+                Marcar troca como enviada
+            </button>
+        }
+    </div>
+</div>

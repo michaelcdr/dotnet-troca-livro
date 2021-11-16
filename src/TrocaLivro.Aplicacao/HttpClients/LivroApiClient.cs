@@ -57,6 +57,15 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return aprovacaoResponse;
         }
 
+        public async Task<AppCommandResponse> MarcarLivroComoEnviado(int trocaId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            var comando = new MarcarLivroComoEnviadoCommand(trocaId);
+            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"{APICONTROLLER_TROCAS}/MarcarLivroComoEnviado", comando);
+            var aprovacaoResponse = await resposta.Content.ReadFromJsonAsync<AppCommandResponse>();
+            return aprovacaoResponse;
+        }
+
         public async Task<AppResponse<ObterTrocasDisponibilizadasPorUsuarioResultado>> ObterTrocasDisponibilizadasPorUsuario()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
@@ -65,11 +74,19 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return conteudo;
         }
 
-        public async Task<AppResponse<ObterTrocasSolicitadasResultado>> ObterTrocasSolicitadas()
+        public async Task<AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado>> ObterTrocasSolicitadasAoUsuarioLogado()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_TROCAS}/Solicitacoes");
-            var conteudo = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterTrocasSolicitadasResultado>>();
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_TROCAS}/SolicitadasAoUsuarioLogado");
+            var conteudo = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado>>();
+            return conteudo;
+        }
+
+        public async Task<AppResponse<ObterTrocasSolicitadasPeloUsuarioLogadoResultado>> ObterTrocasSolicitadasPeloUsuarioLogado()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_TROCAS}/SolicitadasPeloUsuarioLogado");
+            var conteudo = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterTrocasSolicitadasPeloUsuarioLogadoResultado>>();
             return conteudo;
         }
 

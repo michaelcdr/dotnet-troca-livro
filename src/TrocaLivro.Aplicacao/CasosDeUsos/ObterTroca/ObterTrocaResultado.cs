@@ -10,7 +10,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
     {
         public ObterTrocaResultado(
             int trocaId, int pontos, StatusTroca status, string descritivo, string disponibilizadoPor, 
-            int livroId, string tituloLivro, DateTime disponibilizadoEm, string capa)
+            int livroId, string tituloLivro, DateTime disponibilizadoEm, string capa, DateTime? dataAprovacaoTroca)
         {
             TrocaId = trocaId;
             Pontos = pontos;
@@ -21,6 +21,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             TituloLivro = tituloLivro;
             DisponibilizadoEm = disponibilizadoEm;
             Capa = capa;
+            DataAprovacaoTroca = dataAprovacaoTroca;
+
         }
         public int TrocaId { get; private set; }
         public int Pontos { get; private set; }
@@ -30,8 +32,11 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         public int LivroId { get; private set; }
         public string TituloLivro { get; private set; }
         public DateTime DisponibilizadoEm { get; private set; }
+        public DateTime? DataAprovacaoTroca { get; private set; }
         public string Capa { get; private set; }
-        public List<string> Imagens { get;  set; }
+        public List<string> Imagens { get; set; }
+        public string EnderecoEntrega { get; set; }
+
 
         public static ObterTrocaResultado CriarPor(Troca troca)
         {
@@ -49,7 +54,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                     imagensTroca.Add(base64String);
                 }
 
-            return new ObterTrocaResultado(
+            var resultado = new ObterTrocaResultado(
                 troca.Id,
                 troca.Pontos,
                 troca.Status,
@@ -58,11 +63,21 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                 troca.LivroId,
                 troca.Livro.Titulo,
                 troca.DisponibilizadoEm,
-                imgBase64
+                imgBase64,
+                troca.DataAprovacaoTroca
             )
-            {
+            { 
                 Imagens = imagensTroca
             };
+
+            if (troca.Endereco != null)
+            {
+                resultado.EnderecoEntrega = $"{troca.Endereco.Logradouro} - {troca.Endereco.Numero}<br />" +
+                    $"{troca.Endereco.Bairro}<br/>"+
+                    $"{troca.Endereco.Cidade} - {troca.Endereco.UF}<br />{troca.Endereco.CEP}";
+            }
+
+            return resultado;
         }
     }
 }

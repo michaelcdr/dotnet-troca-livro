@@ -23,9 +23,10 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                 .Include(disponibilizacao => disponibilizacao.Livro).ThenInclude(livro => livro.Imagens)
                 .Include(disponibilizacao => disponibilizacao.UsuarioQueDisponibilizouParaTroca)
                 .Include(troca => troca.Imagens)
+                .Include(troca => troca.Endereco)
                 .SingleAsync(troca => troca.Id == request.Id);
 
-            var resultado = ObterTrocaResultado.CriarPor(livroDisponibilizado);
+            ObterTrocaResultado resultado = ObterTrocaResultado.CriarPor(livroDisponibilizado);
 
             return new AppResponse<ObterTrocaResultado>(true, "Dados obtidos com sucesso.", resultado);
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Filtros;
 using WebApp.Helpers;
@@ -43,8 +44,15 @@ namespace WebApp.Controllers
         public async Task<JsonResult> Aprovar(int trocaId)
         {
             base.AtualizarToken(this.api);
-
             AppResponse<AprovarTrocaResultado> resposta = await api.AprovarTroca(trocaId);
+            return Json(resposta);
+        }
+
+        [HttpPost, AuthorizeCustomizado]
+        public async Task<JsonResult> MarcarComoEnviada(int id)
+        {
+            base.AtualizarToken(this.api);
+            AppCommandResponse resposta = await api.MarcarLivroComoEnviado(id);
             return Json(resposta);
         }
 
@@ -63,12 +71,31 @@ namespace WebApp.Controllers
         }
 
         [AuthorizeCustomizado]
-        public async Task<IActionResult> _TrocasSolicitadas()
+        public async Task<IActionResult> _TrocasSolicitadasAoUsuarioLogado()
         {
             base.AtualizarToken(this.api);
-            AppResponse<ObterTrocasSolicitadasResultado> resposta = await api.ObterTrocasSolicitadas();
+            AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado> resposta = await api.ObterTrocasSolicitadasAoUsuarioLogado();
             List<TrocaSolicitadaViewModel> solicitacoes = resposta.Dados.Solicitacoes;
             return PartialView(solicitacoes);
+        }
+
+        [AuthorizeCustomizado]
+        public async Task<IActionResult> _Detalhes(int id)
+        {
+            base.AtualizarToken(this.api);
+            AppResponse<ObterTrocaResultado> resposta = await api.ObterTroca(id);
+            var model = _mapper.Map<TrocaViewModel>(resposta.Dados);
+            return PartialView(model);
+        }
+
+        [AuthorizeCustomizado]
+        public async Task<IActionResult> _TrocasSolicitadasPeloUsuarioLogado()
+        {
+            base.AtualizarToken(this.api);
+            AppResponse<ObterTrocasSolicitadasPeloUsuarioLogadoResultado> resposta = await api.ObterTrocasSolicitadasPeloUsuarioLogado();
+            List<TrocaSolicitadaViewModel> solicitacoes = resposta.Dados.Solicitacoes;
+            return PartialView(solicitacoes);
+            
         }
 
         [AuthorizeCustomizado]

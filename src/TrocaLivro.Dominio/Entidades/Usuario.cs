@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 
 namespace TrocaLivro.Dominio.Entidades
@@ -13,6 +12,7 @@ namespace TrocaLivro.Dominio.Entidades
         private List<Notificacao> _erros { get; set; }
         public List<Troca> TrocasDisponibilizadas { get; set; }
         public List<Troca> TrocasSolicitadas { get; set; }
+        public List<Endereco> Endereco { get; private set; }    
         public Usuario(string nome, string userName, string email, string sobrenome)
         {
             this.Nome = nome;
@@ -21,6 +21,12 @@ namespace TrocaLivro.Dominio.Entidades
             this.Sobrenome = sobrenome;
             this.TrocasDisponibilizadas = new List<Troca>();
             this.TrocasSolicitadas = new List<Troca>();
+            this.Endereco = new List<Endereco>();
+        }
+
+        public void AdicionarEndereco(string usuarioId, string bairro, string cEP, string complemento, string uF, string logradouro, int numero, string cidade)
+        {
+            this.Endereco.Add(new Endereco(usuarioId, bairro, cEP, complemento, uF, logradouro, numero,cidade));
         }
 
         public bool TaValido()

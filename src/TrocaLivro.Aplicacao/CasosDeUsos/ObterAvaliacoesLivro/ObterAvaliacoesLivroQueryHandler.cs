@@ -25,7 +25,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 
             List<AvaliacaoLivro> avaliacoesDoLivro = avaliacaos
                 .Select(e => new AvaliacaoLivro(e.Titulo, e.Descricao, e.Nota, e.AvaliadoEm, e.Usuario.Nome))
-                .OrderByDescending(e => e.Data)
+                .OrderByDescending(e => e.AvaliadoEm)
                 .ToList();
 
             var resultado = new ObterAvaliacoesLivroResultado(avaliacoesDoLivro);

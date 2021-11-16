@@ -1,6 +1,6 @@
-﻿@model TrocaLivro.Aplicacao.CasosDeUsos.TrocaDisponibilizadaViewModel
+﻿@model TrocaLivro.Aplicacao.CasosDeUsos.TrocaSolicitadaViewModel
 
-<div class="card card-produto" >
+<div class="card card-produto troca-solicitada" >
     <div class="img-container">
         @if (Model.Livro.Imagem != null)
         {
@@ -17,7 +17,9 @@
     <div class="card-body">
         <h5 class="card-title">@Model.Livro.Titulo</h5>
         <p class="card-text">@Model.Livro.DescricaoFormatadaParaCard</p>
-        <div class="text-center"><small >Disponibilizado por <strong>@Model.ObterPontos()</strong></small></div>
-        <a asp-action="Detalhes" asp-controller="Livro" asp-route-id="@Model.Livro.Id" class="btn btn-outline-dark btn-block">Ver detalhes</a>
+        <div class="text-center"><small>Disponibilizado por <strong>@Model.Disponibilizador</strong></small></div>
+        <div class="text-center"><small>@Model.ObterPontos()</small></div>
+
+        <a asp-action="Detalhes" asp-controller="Livro" asp-route-id="@Model.Livro.Id" class="btn btn-outline-dark btn-block">Detalhes</a>
     </div>
-</div> 
+</div>

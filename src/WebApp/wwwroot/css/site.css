@@ -76,7 +76,7 @@ body {
     height:470px;
 }
     .customize .card.card-produto.troca-solicitada {
-        height: 475px;
+        height: 495px;
     }
     .customize .card.card-produto .img-container {
         text-align: center;
@@ -124,10 +124,6 @@ body {
 }
 .input-validation-error {
     border: 1px solid #dc3545;
-}
-
-.img-livro {
-    /*max-width: 100px;*/
 }
 
 #imagens-container .item {

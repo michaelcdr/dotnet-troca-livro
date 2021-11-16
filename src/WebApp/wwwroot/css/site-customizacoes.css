@@ -85,17 +85,30 @@ footer {
     background-color: var(--bg-default);
 }
 
+.btn-outline-success {
+    transition: all 0.4s;
+    border-width: 3px;
+    color: #28a745 !important;
+    cursor:pointer;
+}
 .btn-outline-danger {
     transition: all 0.4s;
     border-width: 3px;
+    cursor: pointer;
     border-color: var(--danger-color);
 }
 .btn-outline-dark {
     transition: all 0.4s;
     border-width: 3px;
+    cursor: pointer;
     border-color: var(--default-color);
 }
-
+table a.btn-outline-success:hover, a.btn-outline-success:hover, .btn-outline-success:hover,
+table a.btn-outline-success:active, a.btn-outline-success:active, .btn-outline-success:active,
+table a.btn-outline-success:focus, a.btn-outline-success:focus, .btn-outline-success:focus {
+    color: #fff !important;
+    background-color: #28a745;
+}
     table a.btn-outline-dark:hover, a.btn-outline-dark:hover, .btn-outline-dark:hover,
     table a.btn-outline-dark:active, a.btn-outline-dark:active, .btn-outline-dark:active,
     table a.btn-outline-dark:focus, a.btn-outline-dark:focus, .btn-outline-dark:focus {
@@ -726,3 +739,12 @@ a.slick-prev.arrow-slider-product-img-details {
         color: rgb(102, 102, 102);
         font-size: 18px;
     }
+
+.nav-pills[data-color=dark] > a.active {
+    background-color: var(--default-color);
+    color:var(--second-color);
+}
+.nav-pills[data-color=dark] > a {
+    color: var(--default-color);
+}
+.img-livro{ cursor:pointer;}

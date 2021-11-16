@@ -13,7 +13,9 @@
         <div class="row d-flex">
         @foreach (var livroTroca in Model)
         {
-            <partial name="_Card" model="livroTroca" />
+            <div class="flex-fill col-md-4 mb-4">
+                <partial name="_Card" model="livroTroca" />
+            </div>
         }
         </div>
     }

@@ -44,7 +44,8 @@ window.alertConfirm = function (dataObj, callback) {
         showCancelButton: true,
         confirmButtonColor: '#DC3545',
         cancelButtonColor: '#343A40',
-        confirmButtonText: 'Sim, desejo remover'
+        confirmButtonText: 'Sim, desejo remover',
+        cancelButtonText:"Cancelar"
     };
     $.extend(opts, dataObj);
 

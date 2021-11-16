@@ -12,20 +12,25 @@ using TrocaLivro.Infra.Data;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
-    public class ObterTrocasSolicitadasQueryHandler : IRequestHandler<ObterTrocasSolicitadasQuery, AppResponse<ObterTrocasSolicitadasResultado>>
+    public class ObterTrocasSolicitadasAoUsuarioLogadoQueryHandler : IRequestHandler<ObterTrocasSolicitadasAoUsuarioLogadoQuery, AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado>>
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper mapper;
-        public ObterTrocasSolicitadasQueryHandler(ApplicationDbContext context, IMapper mapper)
+        public ObterTrocasSolicitadasAoUsuarioLogadoQueryHandler(ApplicationDbContext context, IMapper mapper)
         {
             this._db = context;
             this.mapper = mapper;
         }
 
-        public async Task<AppResponse<ObterTrocasSolicitadasResultado>> Handle(ObterTrocasSolicitadasQuery request, CancellationToken cancellationToken)
+        public async Task<AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado>> Handle(ObterTrocasSolicitadasAoUsuarioLogadoQuery request, CancellationToken cancellationToken)
         {
             List<Troca> trocas = await _db.Trocas.AsNoTracking().Where(trocaAtual =>
-                 trocaAtual.Status == Dominio.Enums.StatusTroca.TrocaSolicitada &&
+                 (
+                    trocaAtual.Status == Dominio.Enums.StatusTroca.TrocaSolicitada ||
+                    trocaAtual.Status == Dominio.Enums.StatusTroca.TrocaAprovada ||
+                    trocaAtual.Status == Dominio.Enums.StatusTroca.LivroEnviado ||
+                    trocaAtual.Status == Dominio.Enums.StatusTroca.LivroRecebido
+                 ) &&
                  trocaAtual.UsuarioQueDisponibilizouParaTroca.UserName == request.UsuarioQueDisponibilizouTroca
             ).Include(trocaAtual => trocaAtual.Livro).ThenInclude(livroAtual => livroAtual.Imagens)
              .Include(trocaAtual => trocaAtual.UsuarioQueDisponibilizouParaTroca)
@@ -41,9 +46,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                 trocasSolicitadas.Add(new TrocaSolicitadaViewModel(troca, livroCard));
             }
 
-            var resultado = new ObterTrocasSolicitadasResultado(trocasSolicitadas);
+            var resultado = new ObterTrocasSolicitadasAoUsuarioLogadoResultado(trocasSolicitadas);
 
-            return new AppResponse<ObterTrocasSolicitadasResultado>(true, "Trocas obtidas com sucesso", resultado);
+            return new AppResponse<ObterTrocasSolicitadasAoUsuarioLogadoResultado>(true, "Trocas obtidas com sucesso", resultado);
         }
     }
 }

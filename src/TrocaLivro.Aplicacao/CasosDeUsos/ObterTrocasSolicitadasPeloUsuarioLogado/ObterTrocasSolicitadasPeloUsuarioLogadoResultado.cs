@@ -2,11 +2,10 @@
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
-    public class ObterTrocasSolicitadasResultado
+    public class ObterTrocasSolicitadasPeloUsuarioLogadoResultado
     {
         public List<TrocaSolicitadaViewModel> Solicitacoes { get; set; }
-
-        public ObterTrocasSolicitadasResultado(List<TrocaSolicitadaViewModel> solicitacoes)
+        public ObterTrocasSolicitadasPeloUsuarioLogadoResultado(List<TrocaSolicitadaViewModel> solicitacoes)
         {
             this.Solicitacoes = solicitacoes;
         }
