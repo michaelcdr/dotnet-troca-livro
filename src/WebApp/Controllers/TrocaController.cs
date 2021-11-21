@@ -56,6 +56,13 @@ namespace WebApp.Controllers
             return Json(resposta);
         }
 
+        [HttpPost, AuthorizeCustomizado]
+        public async Task<JsonResult> MarcarComoRecebido(int id)
+        {
+            base.AtualizarToken(this.api);
+            return Json(await api.MarcarLivroComoRecebido(id));
+        }
+
         [AuthorizeCustomizado]
         public async Task<IActionResult> _LivrosDisponibilizadosParaTroca()
         {
@@ -85,6 +92,8 @@ namespace WebApp.Controllers
             base.AtualizarToken(this.api);
             AppResponse<ObterTrocaResultado> resposta = await api.ObterTroca(id);
             var model = _mapper.Map<TrocaViewModel>(resposta.Dados);
+            model.SolicitadoPeloUsuarioLogado = User.Identity.Name == model.SolicitadoPor;
+
             return PartialView(model);
         }
 

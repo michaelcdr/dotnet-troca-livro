@@ -10,7 +10,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
     {
         public ObterTrocaResultado(
             int trocaId, int pontos, StatusTroca status, string descritivo, string disponibilizadoPor, 
-            int livroId, string tituloLivro, DateTime disponibilizadoEm, string capa, DateTime? dataAprovacaoTroca)
+            int livroId, string tituloLivro, DateTime disponibilizadoEm, string capa, DateTime? dataAprovacaoTroca,
+            string solicitadoPor)
         {
             TrocaId = trocaId;
             Pontos = pontos;
@@ -22,7 +23,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             DisponibilizadoEm = disponibilizadoEm;
             Capa = capa;
             DataAprovacaoTroca = dataAprovacaoTroca;
-
+            SolicitadoPor = solicitadoPor;
         }
         public int TrocaId { get; private set; }
         public int Pontos { get; private set; }
@@ -33,16 +34,19 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         public string TituloLivro { get; private set; }
         public DateTime DisponibilizadoEm { get; private set; }
         public DateTime? DataAprovacaoTroca { get; private set; }
+        public DateTime? DataRecebimento { get;  set; }
+        public DateTime? DataEnvio { get;  set; }
         public string Capa { get; private set; }
         public List<string> Imagens { get; set; }
         public string EnderecoEntrega { get; set; }
-
+        public string SolicitadoPor { get; set; }
 
         public static ObterTrocaResultado CriarPor(Troca troca)
         {
             string imgBase64 = troca.Livro.ObterCapaEmBase64();
 
             var imagensTroca = new List<string>();
+
 
             if (troca.Imagens != null)
                 foreach (var imagemTroca in troca.Imagens)
@@ -64,10 +68,15 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                 troca.Livro.Titulo,
                 troca.DisponibilizadoEm,
                 imgBase64,
-                troca.DataAprovacaoTroca
+                troca.DataAprovacaoTroca,
+                troca.UsuarioQueSolicitouTroca != null 
+                    ? troca.UsuarioQueSolicitouTroca.UserName
+                    : string.Empty
             )
             { 
-                Imagens = imagensTroca
+                Imagens = imagensTroca,
+                DataEnvio = troca.DataEnvio,
+                DataRecebimento = troca.DataRecebimento
             };
 
             if (troca.Endereco != null)

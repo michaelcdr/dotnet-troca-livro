@@ -21,6 +21,8 @@
                             </li>
                             <li><strong>Pontos:</strong> @Model.Pontos </li>
                             <li><strong>Aprovado em:</strong> @Model.DataAprovacaoTroca </li>
+                            <li><strong>Enviado em:</strong> @Model.DataEnvio </li>
+                            <li><strong>Recebido em:</strong> @Model.DataRecebimento </li>
                             <li>
                                 <strong>Descritivo informado pelo dono:</strong><br />
                                 @Html.Raw(Model.Descritivo)
@@ -62,13 +64,20 @@
         </div>
     </div>
     <div class="col-md-12 pt-3">
-        <a class="btn btn-outline-dark btn-sm btn-voltar" href="#" data-target="#trocas-solicitadas">
+        <a class="btn btn-outline-dark btn-sm btn-voltar" href="#">
             <i class="fa fa-chevron-left"></i> Voltar para lista
         </a> 
         @if (Model.PodeMarcarComoEnviado())
         {
             <button class="btn btn-outline-success btn-sm" type="button" data-id="@Model.TrocaId" id="btn-marcar-como-enviada">
                 Marcar troca como enviada
+            </button>
+        }
+
+        @if (Model.PodeMarcarComoRecebido())
+        {
+            <button class="btn btn-outline-success btn-sm" type="button" data-id="@Model.TrocaId" id="btn-marcar-como-recebido">
+                Marcar troca como recebido
             </button>
         }
     </div>

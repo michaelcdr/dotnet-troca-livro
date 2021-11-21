@@ -112,7 +112,6 @@
             if (idForm == "editar-usuario") {
                 _self.iniciarEventosFormEdicaoUsuario()
             } else {
-
                 $('.btn-aprovar').unbind('click');
                 $('.btn-aprovar').click(function () {
                     _self.aprovar($(this));
@@ -127,6 +126,7 @@
                     $.get('/Troca/_Detalhes', { id: trocaId }, function (htmlViewDetalhes) {
                         $('.tab-pane.active').html(htmlViewDetalhes);
 
+                        $('.btn-voltar').data("target", "#" + idForm);
                         $(".btn-voltar").unbind('click');
                         $(".btn-voltar").click(function (ev) {
                             ev.preventDefault();
@@ -139,6 +139,12 @@
                             _self.marcarComoEnviada($(this));
                         });
 
+                        $("#btn-marcar-como-recebido").unbind('click');
+                        $("#btn-marcar-como-recebido").click(function () {
+                            _self.marcarComoRecebido($(this));
+                        });
+
+                        $('.img-livro').unbind('click');
                         $('.img-livro').click(function (ev) {
                             ev.preventDefault();
 
@@ -156,49 +162,66 @@
     }
 
     aprovar(el) {
-        let trocaId = parseInt(el.data('id'));
-        el.button('loading');
-        $.post("/Troca/Aprovar", { trocaId: trocaId }, function (data) {
-            if (data.sucesso) {
-                $("#trocas-solicitadas-tab").trigger('click');
-                el.button('reset');
-            } else {
-                alertError({ text: data.mensagem });
-            }
-        }).fail(function () {
-            alertServerError();
-            el.button('reset');
-        });
+        let funcaoAprovar = function () {
+            return new Promise(function (resolve, reject) {
+                let trocaId = parseInt(el.data('id'));
+                el.button('loading');
+                $.post("/Troca/Aprovar", { trocaId: trocaId }, function (data) {
+                    if (data.sucesso) {
+                        alertSuccess({ timer: 3000, title: "Sucesso", text: data.mensagem });
+                        $("#trocas-solicitadas-tab").trigger('click');
+                        el.button('reset');
+                    } else {
+                        alertError({ text: data.mensagem });
+                    }
+                    resolve();
+                }).fail(function () {
+                    alertServerError();
+                    el.button('reset');
+                });
+            });
+        };
+        alertConfirmComPromise("Deseja aprovar a troca?", funcaoAprovar);
     }
 
     marcarComoEnviada(el) {
-        Swal.fire({
-            text: "Deseja marcar esse livro com enviado",
-            confirmButtonText: "OK",
-            confirmButtonColor: '#28a745',
-            showLoaderOnConfirm: true,
-            title: "Atenção",
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonColor: '#343A40',
-            cancelButtonText: "Cancelar",
-            preConfirm: function () {
-                return new Promise(function (resolve, reject) {
-                    $.post('/Troca/MarcarComoEnviada', { id: el.data('id') }, function (data) {
-                        if (!data.sucesso) {
-                            alertError({ text: data.mensagem });
-                        } else {
-                            $("#status-atual").html("<strong>Status:</strong> Enviado");
-                            el.remove();
-                        }
-                        resolve();
-                    }).fail(function () {
-                        alertServerError();
-                    });
+        let marcarComoEnviadaFuncao = function () {
+            return new Promise(function (resolve, reject) {
+                $.post('/Troca/MarcarComoEnviada', { id: el.data('id') }, function (data) {
+                    if (!data.sucesso) {
+                        alertError({ text: data.mensagem });
+                    } else {
+                        $("#status-atual").html("<strong>Status:</strong> Enviado");
+                        el.remove();
+                    }
+                    resolve();
+                }).fail(function () {
+                    alertServerError();
                 });
-            }
-        })
+            });
+        };
+        alertConfirmComPromise("Deseja marcar esse livro com enviado?", marcarComoEnviadaFuncao); 
     }
+
+    marcarComoRecebido(el) {
+        let marcarComoRecebidoFuncao = function () {
+            return new Promise(function (resolve, reject) {
+                $.post('/Troca/MarcarComoRecebido', { id: el.data('id') }, function (data) {
+                    if (!data.sucesso) {
+                        alertError({ text: data.mensagem });
+                    } else {
+                        $("#status-atual").html("<strong>Status:</strong> Recebido");
+                        el.remove();
+                    }
+                    resolve();
+                }).fail(function () {
+                    alertServerError();
+                });
+            });
+        };
+        alertConfirmComPromise("Deseja marcar esse livro com recebido?", marcarComoRecebidoFuncao);
+    }
+
 }
 
 var minhaConta = new MinhaConta();

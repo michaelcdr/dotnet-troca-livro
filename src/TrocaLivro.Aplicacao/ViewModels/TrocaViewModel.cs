@@ -11,17 +11,27 @@ namespace TrocaLivro.Aplicacao.ViewModels
         public StatusTroca Status { get; private set; }
         public string Descritivo { get; private set; }
         public string DisponibilizadoPor { get; private set; }
+        public string SolicitadoPor { get; private set; }
         public int LivroId { get; private set; }
         public string TituloLivro { get; private set; }
         public DateTime DisponibilizadoEm { get; private set; }
         public DateTime? DataAprovacaoTroca { get; private set; }
+        public DateTime? DataEnvio { get; set; }
+        public DateTime? DataRecebimento { get; set; }
         public string Capa { get; private set; }
         public List<string> Imagens { get; set; }
         public string EnderecoEntrega { get; set; }
+        public bool SolicitadoPeloUsuarioLogado { get; set; }
         public bool PodeMarcarComoEnviado()
         {
-            return this.Status == StatusTroca.TrocaAprovada;
+            return this.Status == StatusTroca.TrocaAprovada && !SolicitadoPeloUsuarioLogado;
         }
+
+        public bool PodeMarcarComoRecebido()
+        {
+            return this.Status == StatusTroca.LivroEnviado;    
+        }
+
         public string ObterStatusFormatado()
         {
             switch (this.Status)

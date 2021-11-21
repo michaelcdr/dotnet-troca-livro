@@ -14,21 +14,15 @@
             <a role="tab" data-toggle="pill" aria-selected="false" id="trocas-solicitadas-tab"            class="nav-link"        href="#trocas-solicitadas"            aria-controls="trocas-solicitadas" >Livros que me solicitaram</a>
             <a role="tab" data-toggle="pill" aria-selected="false" id="trocas-que-solicitei-tab"          class="nav-link"        href="#trocas-que-solicitei"          aria-controls="trocas-que-solicitei" >Livros que solicitei troca</a>
             <a role="tab" data-toggle="pill" aria-selected="false" id="livros-disponibilizados-troca-tab" class="nav-link"        href="#livros-disponibilizados-troca" aria-controls="livros-disponibilizados-troca"  >Livros que disponibilizei para troca</a>
-            @*<a role="tab" data-toggle="pill" aria-selected="false" id="trocas-aprovadas-tab"              class="nav-link"        href="#trocas-aprovadas"              aria-controls="trocas-aprovadas">*@
-            @*    Trocas Aprovadas<span class="ml-2 badge badge-danger" id="total-trocas-aprovadas">0</span>*@
-            @*</a>*@
-            @*<a role="tab" data-toggle="pill" aria-selected="false" id="livros-enviados-tab"               class="nav-link"        href="#livros-enviados"               aria-controls="livros-enviados">Livros enviados </a>*@
         </div>
     </div>
     <div class="col-9">
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="minha-conta-tabs-container">
             <div role="tabpanel" class="tab-pane show active" id="editar-usuario"                aria-labelledby="editar-usuario-tab" data-action="@Url.Action("_Editar","Usuario")"></div>
             <div role="tabpanel" class="tab-pane"             id="meus-livros"                   aria-labelledby="meus-livros-tab" data-action="@Url.Action("_CadastradosPeloUsuario","Livro")"></div>
             <div role="tabpanel" class="tab-pane"             id="trocas-solicitadas"            aria-labelledby="trocas-solicitadas-tab" data-action="@Url.Action("_TrocasSolicitadasAoUsuarioLogado","Troca")"></div>
             <div role="tabpanel" class="tab-pane"             id="trocas-que-solicitei"          aria-labelledby="trocas-que-solicitei-tab" data-action="@Url.Action("_TrocasSolicitadasPeloUsuarioLogado","Troca")"></div>
             <div role="tabpanel" class="tab-pane"             id="livros-disponibilizados-troca" aria-labelledby="livros-disponibilizados-troca-tab" data-action="@Url.Action("_LivrosDisponibilizadosParaTroca","Troca")"></div>
-            @*<div role="tabpanel" class="tab-pane"             id="trocas-aprovadas"              aria-labelledby="trocas-aprovadas-tab" data-action="@Url.Action("_Aprovadas","Troca")"></div>*@
-            @*<div role="tabpanel" class="tab-pane"             id="livros-enviados"               aria-labelledby="livros-enviados-tab" data-action="@Url.Action("_LivrosEnviados","Troca")"></div>*@
         </div>
     </div>
 </div>

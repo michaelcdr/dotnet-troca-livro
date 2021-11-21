@@ -74,6 +74,14 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta);
         }
 
+        [HttpPost("MarcarLivroComoRecebido"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> MarcarLivroComoRecebido(MarcarLivroComoRecebidoCommand comando)
+        {
+            AppCommandResponse resposta = await _mediator.Send(comando);
+            if (!resposta.Sucesso) return BadRequest(resposta);
+            return Ok(resposta);
+        }
+
         [HttpGet("{id}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(int id)
         {

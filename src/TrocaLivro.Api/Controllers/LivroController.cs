@@ -30,8 +30,7 @@ namespace TrocaLivro.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get([FromQuery] ObterLivrosQuery query)
         {
             AppResponse<ObterLivrosResultado> resposta = await _mediator.Send(query);
@@ -41,8 +40,7 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta.Dados.Livros);
         }
 
-        [HttpGet("ObterPorUsuario")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("ObterPorUsuario"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> ObterPorUsuario([FromQuery] ObterLivrosPorUsuarioQuery query)
         {
             string token = HttpContext.Request.Headers["Authorization"];
@@ -55,8 +53,7 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta.Dados.Livros);
         }
 
-        [HttpGet("dashboard")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("dashboard"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Dashboard()
         {
             AppResponse<ObterDadosDashboardResultado> resposta = await _mediator.Send(new ObterDadosDashboardQuery());

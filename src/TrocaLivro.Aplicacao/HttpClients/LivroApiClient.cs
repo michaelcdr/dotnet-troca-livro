@@ -57,6 +57,15 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return aprovacaoResponse;
         }
 
+        public async Task<AppCommandResponse> MarcarLivroComoRecebido(int id)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            var comando = new MarcarLivroComoRecebidoCommand(id);
+            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"{APICONTROLLER_TROCAS}/MarcarLivroComoRecebido", comando);
+            var aprovacaoResponse = await resposta.Content.ReadFromJsonAsync<AppCommandResponse>();
+            return aprovacaoResponse;
+        }
+
         public async Task<AppCommandResponse> MarcarLivroComoEnviado(int trocaId)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);

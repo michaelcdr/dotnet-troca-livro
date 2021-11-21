@@ -150,3 +150,8 @@ body {
 #livros-adicionados-recentemente{
     min-height:494px;
 }
+
+
+#minha-conta-tabs-container > .tab-pane {
+    min-height: calc(100vh - 275px);
+}

@@ -20,6 +20,8 @@
         <div class="text-center"><small>Disponibilizado por <strong>@Model.Disponibilizador</strong></small></div>
         <div class="text-center"><small>@Model.ObterPontos()</small></div>
 
-        <a asp-action="Detalhes" asp-controller="Livro" asp-route-id="@Model.Livro.Id" class="btn btn-outline-dark btn-block">Detalhes</a>
+        <a href="#" data-id="@Model.TrocaId"  class="btn btn-outline-dark btn-block btn-detalhes" 
+            data-loading-text="Processando...">Detalhes da troca
+        </a>
     </div>
 </div>

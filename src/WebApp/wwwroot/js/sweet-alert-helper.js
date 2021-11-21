@@ -56,3 +56,18 @@ window.alertConfirm = function (dataObj, callback) {
             }
         });
 }
+
+window.alertConfirmComPromise = function (mensagem, funcaoAposConfirm) {
+    Swal.fire({
+        text: mensagem,
+        confirmButtonText: "OK",
+        confirmButtonColor: '#28a745',
+        showLoaderOnConfirm: true,
+        title: "Atenção",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#343A40',
+        cancelButtonText: "Cancelar",
+        preConfirm: funcaoAposConfirm
+    });
+}

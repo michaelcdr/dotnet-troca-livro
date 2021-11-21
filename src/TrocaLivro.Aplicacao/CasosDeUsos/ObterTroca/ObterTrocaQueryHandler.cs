@@ -22,6 +22,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             Troca livroDisponibilizado = await _db.Trocas.AsNoTracking()
                 .Include(disponibilizacao => disponibilizacao.Livro).ThenInclude(livro => livro.Imagens)
                 .Include(disponibilizacao => disponibilizacao.UsuarioQueDisponibilizouParaTroca)
+                .Include(troca => troca.UsuarioQueSolicitouTroca)
                 .Include(troca => troca.Imagens)
                 .Include(troca => troca.Endereco)
                 .SingleAsync(troca => troca.Id == request.Id);
