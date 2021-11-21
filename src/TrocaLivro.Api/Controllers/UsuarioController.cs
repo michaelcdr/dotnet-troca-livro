@@ -93,7 +93,7 @@ namespace TrocaLivro.Api.Controllers
             return Ok(resposta);
         }
 
-        [HttpGet("Avatar/{avatar}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme]
+        [HttpGet("Avatar/{avatar}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Avatar(string avatar)
         {
             return File($"~/Avatar/{avatar}", "image/jpg");
