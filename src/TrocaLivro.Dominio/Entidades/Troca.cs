@@ -33,6 +33,8 @@ namespace TrocaLivro.Dominio.Entidades
 
         public void MarcarComoRecebido()
         {
+            this.UsuarioQueSolicitouTroca.DebitarPontos(this.Pontos);
+            this.UsuarioQueDisponibilizouParaTroca.AdicionarPontos(this.Pontos);
             this.DataRecebimento = DateTime.Now;
             this.Status = StatusTroca.LivroRecebido;
         }

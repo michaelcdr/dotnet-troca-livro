@@ -1,3 +1,4 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using TrocaLivro.Api.Filtros;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.Mapping;
 using TrocaLivro.Aplicacao.Services;
 using TrocaLivro.Dominio.Entidades;
@@ -145,7 +147,7 @@ namespace TrocaLivro.Api
             services.AddTransient<ICategoriasRepositorio, CategoriasRepositorio>();
              
             services.AddTransient<IGerenciadorToken, GerenciadorToken>();
-
+            services.AddTransient<IValidator<EditarUsuarioCommand>, EditarUsuarioCommandValidator>();
             services.AddApiVersioning();
         }
 
@@ -160,6 +162,7 @@ namespace TrocaLivro.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrocaLivro.Api v1"));
             }
 
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
 

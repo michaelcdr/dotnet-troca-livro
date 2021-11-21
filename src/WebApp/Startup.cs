@@ -65,7 +65,7 @@ namespace WebApp
             
             services.AddTransient<IValidator<DisponibilizarLivroParaTrocaViewModel>, DisponibilizarLivroParaTrocaValidator>();
             services.AddTransient<IValidator<AvaliarLivroViewModel>, AvaliarLivroValidator>();
-             
+            services.AddTransient<IValidator<EditarUsuarioCommand>, EditarUsuarioCommandValidator>();
 
             services.AddMvc().AddRazorOptions(options =>
             {

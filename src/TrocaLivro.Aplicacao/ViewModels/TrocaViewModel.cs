@@ -22,5 +22,23 @@ namespace TrocaLivro.Aplicacao.ViewModels
         {
             return this.Status == StatusTroca.TrocaAprovada;
         }
+        public string ObterStatusFormatado()
+        {
+            switch (this.Status)
+            {
+                case StatusTroca.Disponibilizado:
+                    return "Disponibilizado para troca";
+                case StatusTroca.TrocaSolicitada:
+                    return "Troca solicitada";
+                case StatusTroca.TrocaAprovada:
+                    return "Troca aprovada";
+                case StatusTroca.LivroEnviado:
+                    return "Enviado";
+                case StatusTroca.LivroRecebido:
+                    return "Livro recebido";
+                default:
+                    return "";
+            }
+        }
     }
 }

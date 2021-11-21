@@ -2,7 +2,6 @@
 
 namespace TrocaLivro.Dominio.Entidades
 {
-
     public class Autor : EntidadeBase
     {
         public Autor(string nome)

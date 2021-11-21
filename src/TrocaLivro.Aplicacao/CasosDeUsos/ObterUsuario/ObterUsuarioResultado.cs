@@ -4,6 +4,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
     public class ObterUsuarioResultado
     {
+        public string UsuarioId { get; set; }
         public string Login { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
@@ -13,6 +14,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         {
             return new ObterUsuarioResultado
             {
+                UsuarioId = usuario.Id,
                 Email = usuario.Email,
                 Nome = usuario.Nome,
                 Login = usuario.UserName,

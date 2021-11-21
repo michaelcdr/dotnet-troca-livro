@@ -16,9 +16,11 @@ namespace TrocaLivro.Dominio.Entidades
         public string Logradouro { get; private set; }
         public int Numero { get; private set; }
         public string Cidade { get; private set; }
-        public List<Troca> Trocas { get; private  set; }
+        public List<Troca> Trocas { get; private set; }
 
-        public Endereco(string usuarioId, string bairro, string cEP, string complemento, string uF, string logradouro, int numero, string cidade)
+        public Endereco(
+            string usuarioId, string bairro, string cEP, string complemento, 
+            string uF, string logradouro, int numero, string cidade)
         {
             this.UsuarioId = usuarioId;
             this.Bairro = bairro;

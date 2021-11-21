@@ -4,8 +4,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
     public class EditarUsuarioModel
     {
-        [Display(Name = "Login")]
-        [Required(ErrorMessage = "Informe o campo {0}")]
+        public string UsuarioId { get; set; }
         public string Login { get; set; }
 
         [Display(Name = "Nome")]

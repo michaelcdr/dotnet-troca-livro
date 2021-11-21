@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
@@ -18,10 +20,12 @@ namespace TrocaLivro.Api.Controllers
         private readonly string erroLogar = "Não foi posivel autenticar.";
         private readonly IMediator _mediator;
         private readonly IGerenciadorToken _gerenciadorToken;
-        public UsuarioController(IMediator mediator, IGerenciadorToken gerenciadorToken)
+        private readonly IWebHostEnvironment _webHost;
+        public UsuarioController(IMediator mediator, IWebHostEnvironment webHost, IGerenciadorToken gerenciadorToken)
         {
             this._mediator = mediator;
             this._gerenciadorToken = gerenciadorToken;
+            this._webHost = webHost;
         }
 
         /// <summary>
@@ -80,6 +84,19 @@ namespace TrocaLivro.Api.Controllers
             var query = new ObterUsuarioQuery(userName);
             AppResponse<ObterUsuarioResultado> resposta = await _mediator.Send(query);
             return Ok(resposta);
+        }
+
+        [HttpPost, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme), DisableRequestSizeLimit]
+        public async Task<IActionResult> Post([FromForm]EditarUsuarioCommand commando)
+        {
+            AppCommandResponse resposta = await _mediator.Send(commando);
+            return Ok(resposta);
+        }
+
+        [HttpGet("Avatar/{avatar}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme]
+        public IActionResult Avatar(string avatar)
+        {
+            return File($"~/Avatar/{avatar}", "image/jpg");
         }
     }
 }

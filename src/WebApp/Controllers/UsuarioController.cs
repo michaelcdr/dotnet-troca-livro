@@ -137,11 +137,11 @@ namespace WebApp.Controllers
             return PartialView(model);
         }
 
-        [HttpPost, AuthorizeCustomizado]
-        public async Task<JsonResult> _Editar(EditarUsuarioModel model)
+        [HttpPost, AuthorizeCustomizado, ModelState]
+        public async Task<JsonResult> _Editar(EditarUsuarioCommand model)
         {
-            await usuarioApi.Atualizar(model);
-            return Json(model);
+            base.AtualizarToken(this.usuarioApi);
+            return Json(await usuarioApi.Atualizar(model));
         }
     }
 }

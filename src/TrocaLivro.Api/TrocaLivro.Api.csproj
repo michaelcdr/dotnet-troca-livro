@@ -29,6 +29,7 @@
     <Folder Include="Resources\img\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\Imagens\" />
+    <Folder Include="wwwroot\Avatar\" />
   </ItemGroup>
 
 </Project>

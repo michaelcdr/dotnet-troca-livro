@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace TrocaLivro.Dominio.Entidades
@@ -24,9 +25,25 @@ namespace TrocaLivro.Dominio.Entidades
             this.Endereco = new List<Endereco>();
         }
 
+        public void Atualizar(string nome, string sobrenome, string email, string avatar)
+        {
+            this.Nome = nome;
+            this.Email = email;
+            this.Sobrenome = sobrenome;
+            this.Avatar = avatar;
+        }
+
         public void AdicionarEndereco(string usuarioId, string bairro, string cEP, string complemento, string uF, string logradouro, int numero, string cidade)
         {
             this.Endereco.Add(new Endereco(usuarioId, bairro, cEP, complemento, uF, logradouro, numero,cidade));
+        }
+
+        public void DebitarPontos(int pontos)
+        {
+            if (this.Pontos < pontos)
+                throw new InvalidOperationException("Você não tem pontos suficiente");
+
+            this.Pontos -= pontos;
         }
 
         public bool TaValido()

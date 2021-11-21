@@ -15,54 +15,141 @@
         });
     }
 
+    iniciarEventosFormEdicaoUsuario() {
+        let formEl = $("#editar-usuario-form");
+        jQuery.validator.unobtrusive.parse(formEl.parent());
+        formEl.unbind('submit');
+        formEl.submit(function () {
+            let taValido = formEl.validate().form();
+            let btn = $("#btn-editar-usuario");
+            let formData = new FormData();
+            formData.append('UsuarioId', $("#UsuarioId").val());
+            formData.append('Nome', $("#Nome").val());
+            formData.append('Sobrenome', $("#Sobrenome").val());
+            formData.append('Email', $("#Email").val());
+
+            if ($('#Avatar')[0].files != null && $('#Avatar')[0].files.length > 0)
+                formData.append('Avatar', $('#Avatar')[0].files[0]);
+
+            btn.button('loading');
+
+            if (taValido) {
+                $.ajax({
+                    url: formEl.attr("action"),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    error: function () {
+                        btn.button('reset');
+                        alertError({ text: "Ocorreu um erro interno em nossos servidores, tente novamente mais tarde." });
+                    },
+                    success: function (retorno) {
+                        if (retorno.sucesso) {
+                            alertSuccess({ title: "Sucesso", text: retorno.mensagem });
+                        } else {
+                           
+                            if (retorno.erros != null) {
+                                let text = "Verifique os erros a seguir: <br/>" + retorno.erros.map(e => e.mensagem).join(",");
+                                alertError({ html : text, title: retorno.mensagem });
+
+                            } else
+                                alertError({ text: retorno.mensagem });
+                        }
+
+                        btn.button('reset');
+                    }
+                });
+            }
+            return false;
+        });
+
+        $('#Avatar').unbind('change');
+        $('#Avatar').change(function () {
+            let input = this;
+            if (input.files) {
+                $('.img-livro-container').parent().remove();
+
+                for (var i = 0; i < input.files.length; i++) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        console.log(input)
+                        //if ($("#Avatar").val() !== "")
+                        //    removerArquivoDoFileList(0, '#Avatar');
+
+                        let imagemId = createGuid();
+                        let cardHtml = obterCardUpload(imagemId, e.target.result);
+
+                        $('#imagens-container').append(cardHtml);
+
+                        $('.btn-remover-img').unbind('click');
+                        $('.btn-remover-img').click(function () {
+                            let id = $(this).data('imagemId');
+                            let index = obterIndiceImagem(id);
+                            removerArquivoDoFileList(index, '#Avatar');
+                            $('.card[data-imagem-id="' + id + '"]').remove();
+                        });
+                    }
+
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        });
+    }
+
     carregarAba(el) {
         let _self = this;
         let action = el.data('action');
+        let idForm = el.attr("id");
+
         $(el).html("Processando, aguarde...");
 
         $.get(action, function (data) {
             $(el).html(data);
 
-            $('.btn-aprovar').unbind('click');
-            $('.btn-aprovar').click(function () {
-                _self.aprovar($(this));
-            });
+            if (idForm == "editar-usuario") {
+                _self.iniciarEventosFormEdicaoUsuario()
+            } else {
 
-           
+                $('.btn-aprovar').unbind('click');
+                $('.btn-aprovar').click(function () {
+                    _self.aprovar($(this));
+                });
 
-            $(".btn-detalhes").unbind('click');
-            $('.btn-detalhes').click(function (ev) {
-                ev.preventDefault();
-                $('.tab-pane.active').html('Processando, aguarde...');
+                $(".btn-detalhes").unbind('click');
+                $('.btn-detalhes').click(function (ev) {
+                    ev.preventDefault();
+                    $('.tab-pane.active').html('Processando, aguarde...');
 
-                let trocaId = parseInt($(this).data('id'));
-                $.get('/Troca/_Detalhes', { id: trocaId }, function (htmlViewDetalhes) {
-                    $('.tab-pane.active').html(htmlViewDetalhes);
+                    let trocaId = parseInt($(this).data('id'));
+                    $.get('/Troca/_Detalhes', { id: trocaId }, function (htmlViewDetalhes) {
+                        $('.tab-pane.active').html(htmlViewDetalhes);
 
-                    $(".btn-voltar").unbind('click');
-                    $(".btn-voltar").click(function (ev) {
-                        ev.preventDefault();
-                        let target = $(this).data('target');
-                        _self.carregarAba($(target));
-                    });
+                        $(".btn-voltar").unbind('click');
+                        $(".btn-voltar").click(function (ev) {
+                            ev.preventDefault();
+                            let target = $(this).data('target');
+                            _self.carregarAba($(target));
+                        });
 
-                    $("#btn-marcar-como-enviada").unbind('click');
-                    $("#btn-marcar-como-enviada").click(function () {
-                        _self.marcarComoEnviada($(this));
-                    });
+                        $("#btn-marcar-como-enviada").unbind('click');
+                        $("#btn-marcar-como-enviada").click(function () {
+                            _self.marcarComoEnviada($(this));
+                        });
 
-                    $('.img-livro').click(function (ev) {
-                        ev.preventDefault();
+                        $('.img-livro').click(function (ev) {
+                            ev.preventDefault();
 
-                        let w = window.open('');
-                        let image = new Image();
-                        image.src = $(this).attr('src');
+                            let w = window.open('');
+                            let image = new Image();
+                            image.src = $(this).attr('src');
 
-                        w.document.write(image.outerHTML);
-                        w.stop();
+                            w.document.write(image.outerHTML);
+                            w.stop();
+                        });
                     });
                 });
-            });
+            }
         });
     }
 

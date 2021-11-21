@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -7,6 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
+using TrocaLivro.Dominio.Helpers;
 using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.HttpClients
@@ -67,9 +69,30 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return appResponse;
         }
 
-        public async Task Atualizar(EditarUsuarioModel model)
+        private string BotarAspas(string valor) => $"\"{valor}\"";
+
+        public async Task<AppCommandResponse> Atualizar(EditarUsuarioCommand model)
         {
-            throw new NotImplementedException();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(model.UsuarioId), "\"usuarioId\"" },
+                { new StringContent(model.Nome), "\"nome\"" },
+                { new StringContent(model.Sobrenome), "\"sobrenome\"" },
+                { new StringContent(model.Email), "\"email\"" }
+            };
+
+            if (model.Avatar != null && model.Avatar.Length > 0)
+            {
+                var imagemBytes = new ByteArrayContent(FileHelper.ConvertToBytes(model.Avatar));
+                imagemBytes.Headers.Add("content-type", "image/jpg");
+                content.Add(imagemBytes, BotarAspas("avatar"), BotarAspas("imagem-atual.jpg"));
+            }
+
+            HttpResponseMessage resposta = await _httpClient.PostAsync($"Usuario", content);
+            var appResponse = await resposta.Content.ReadFromJsonAsync<AppCommandResponse>();
+            return appResponse;
         }
     }
 }
