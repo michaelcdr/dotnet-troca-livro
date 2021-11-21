@@ -37,7 +37,16 @@
                 <div id="imagens-container" class="row">
                     @if (!string.IsNullOrEmpty(Model.Avatar))
                     {
-                        <img src="~/Imagens/A"/>
+                        <div class="col-md-2 d-flex m-3 align-items-stretch  card" data-imagem-id="@Model.Avatar" >
+                            <div class="img-livro-container text-center pt-2 pb-2">
+                                <img src="@Model.ObterAvatarComCaminho()" class='img-livro' 
+                                    style='max-width:100px; max-height: 100px' />
+                            </div>
+                            <div class="text-center pb-2">
+                                <button class="btn btn-danger btn-sm btn-remover-img" 
+                                    data-imagem-id="@Model.Avatar" type="button">Remover</button>
+                            </div>
+                        </div> 
                     }
                 </div>
             </fieldset> <hr />

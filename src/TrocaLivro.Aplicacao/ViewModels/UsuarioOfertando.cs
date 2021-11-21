@@ -6,7 +6,7 @@
         public int LivrosEnviados { get; set; }
         public int Pontos { get; set; }
         public int DisponibilizacaoTrocaId { get; set; }
-        
+        public string Avatar { get; set; }
         public string UserName { get; set; }
     }
 }

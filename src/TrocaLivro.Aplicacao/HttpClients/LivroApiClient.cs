@@ -278,11 +278,14 @@ namespace TrocaLivro.Aplicacao.HttpClients
                 { new StringContent(comando.Pontos.ToString()), BotarAspas("pontos") },
             };
 
-            foreach (var imagem in comando.Imagens)
+            if (comando.Imagens != null)
             {
-                var imagemBytes = new ByteArrayContent(FileHelper.ConvertToBytes(imagem));
-                imagemBytes.Headers.Add("content-type", "image/jpg");
-                content.Add(imagemBytes, BotarAspas("imagens"), BotarAspas("imagem-atual.jpg"));
+                foreach (var imagem in comando.Imagens)
+                {
+                    var imagemBytes = new ByteArrayContent(FileHelper.ConvertToBytes(imagem));
+                    imagemBytes.Headers.Add("content-type", "image/jpg");
+                    content.Add(imagemBytes, BotarAspas("imagens"), BotarAspas("imagem-atual.jpg"));
+                }
             }
 
             HttpResponseMessage resposta = await httpClient.PostAsync($"{APICONTROLLER_TROCAS}/Disponibilizar", content);

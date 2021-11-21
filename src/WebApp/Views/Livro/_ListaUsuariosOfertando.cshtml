@@ -11,7 +11,14 @@
                 {
                     <tr>
                         <td class="text-center" width="10px" valign="middle">
-                            <img src="~/img/usuario/2.png" width="50" />
+                            @if (string.IsNullOrEmpty(usuarioQueEstaOfertando.Avatar))
+                            {
+                                <img src="~/img/usuario/2.png" width="50" />
+                            }
+                            else
+                            {
+                                <img src="@usuarioQueEstaOfertando.Avatar" width="50" />
+                            }
                         </td>
                         <td class="text-center" width="30%" valign="middle">
                             @if (Model.LoginUsuarioLogado == usuarioQueEstaOfertando.UserName)
@@ -27,7 +34,7 @@
                                 </span>
                             }                            
                         </td>
-                        <td class="text-center" width="" valign="middle">
+                        <td class="text-center"   valign="middle">
                             <strong>@usuarioQueEstaOfertando.Nome</strong> já enviou 
                             <strong>@usuarioQueEstaOfertando.LivrosEnviados</strong> livros
                         </td>

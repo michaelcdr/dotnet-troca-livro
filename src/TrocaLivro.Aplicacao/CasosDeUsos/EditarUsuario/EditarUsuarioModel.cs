@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TrocaLivro.Aplicacao.Helpers;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
@@ -20,5 +21,12 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         public string Email { get; set; }
 
         public string Avatar { get; set; }
+
+        public string ObterAvatarComCaminho() 
+        {
+            
+
+            return AppHelper.ObterDiretorioAvatar(this.Avatar);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrocaLivro.Aplicacao.Helpers;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Entidades;
 
@@ -77,7 +78,8 @@ namespace TrocaLivro.Aplicacao.DTO
                     Nome = e.UsuarioQueDisponibilizouParaTroca.Nome,
                     Pontos = e.Pontos,
                     LivrosEnviados = 0,
-                    UserName = e.UsuarioQueDisponibilizouParaTroca.UserName
+                    UserName = e.UsuarioQueDisponibilizouParaTroca.UserName,
+                    Avatar = AppHelper.ObterDiretorioAvatar(e.UsuarioQueDisponibilizouParaTroca.Avatar)
                 }).ToList();
             }
 

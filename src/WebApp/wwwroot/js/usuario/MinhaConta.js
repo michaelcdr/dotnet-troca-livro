@@ -18,9 +18,12 @@
     iniciarEventosFormEdicaoUsuario() {
         let formEl = $("#editar-usuario-form");
         jQuery.validator.unobtrusive.parse(formEl.parent());
+        let _self = this;
+        if ($(".img-livro-container").length > 0) 
+            _self.iniciarEventosRemocaoImg();
+
         formEl.unbind('submit');
         formEl.submit(function () {
-            let taValido = formEl.validate().form();
             let btn = $("#btn-editar-usuario");
             let formData = new FormData();
             formData.append('UsuarioId', $("#UsuarioId").val());
@@ -33,6 +36,7 @@
 
             btn.button('loading');
 
+            let taValido = formEl.validate().form();
             if (taValido) {
                 $.ajax({
                     url: formEl.attr("action"),
@@ -48,7 +52,6 @@
                         if (retorno.sucesso) {
                             alertSuccess({ title: "Sucesso", text: retorno.mensagem });
                         } else {
-                           
                             if (retorno.erros != null) {
                                 let text = "Verifique os erros a seguir: <br/>" + retorno.erros.map(e => e.mensagem).join(",");
                                 alertError({ html : text, title: retorno.mensagem });
@@ -73,27 +76,26 @@
                 for (var i = 0; i < input.files.length; i++) {
                     let reader = new FileReader();
                     reader.onload = function (e) {
-                        console.log(input)
-                        //if ($("#Avatar").val() !== "")
-                        //    removerArquivoDoFileList(0, '#Avatar');
-
                         let imagemId = createGuid();
                         let cardHtml = obterCardUpload(imagemId, e.target.result);
 
                         $('#imagens-container').append(cardHtml);
-
-                        $('.btn-remover-img').unbind('click');
-                        $('.btn-remover-img').click(function () {
-                            let id = $(this).data('imagemId');
-                            let index = obterIndiceImagem(id);
-                            removerArquivoDoFileList(index, '#Avatar');
-                            $('.card[data-imagem-id="' + id + '"]').remove();
-                        });
+                        _self.iniciarEventosRemocaoImg();
                     }
 
                     reader.readAsDataURL(input.files[i]);
                 }
             }
+        });
+    }
+
+    iniciarEventosRemocaoImg() {
+        $('.btn-remover-img').unbind('click');
+        $('.btn-remover-img').click(function () {
+            let id = $(this).data('imagemId');
+            let index = obterIndiceImagem(id);
+            removerArquivoDoFileList(index, '#Avatar');
+            $('.card[data-imagem-id="' + id + '"]').remove();
         });
     }
 
