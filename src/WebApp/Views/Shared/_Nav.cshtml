@@ -61,24 +61,7 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="collapse navbar-collapse" id="navbar-menu">
-                                <ul class="navbar-nav" >
-                                    <li class="nav-item dropdown">
-                                        <a class="dropdown-toggle nav-link text-white" href="#" id="navbarDropdown" role="button" 
-                                            data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Categorias
-                                        </a>                        
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item " href="">Categoria 1</a>
-                                        </div>
-                                    </li>
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-action="Cadastrar" asp-controller="Livro">Cadastrar livro</a>
-                                        </li>
-                                    }
-                                </ul> 
+                                <vc:categorias></vc:categorias>
                             </div>
                         </div>
                     </div>

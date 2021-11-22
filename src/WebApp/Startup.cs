@@ -17,17 +17,19 @@ using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.CasosDeUsos.DisponibilizarLivroParaTroca;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
+using TrocaLivro.Aplicacao.Helpers;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.Mapping;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Infra.Services;
+using WebApp.ViewComponents;
 
 namespace WebApp
 {
     public class Startup
     {
-        private const string API_URL = "https://localhost:5001/api/v1.0/";
+        private string API_URL = AppHelper.ObterApiPath();
 
         public Startup(IConfiguration configuration)
         {
@@ -60,6 +62,7 @@ namespace WebApp
             services.AddHttpClient<LivroApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<PacoteApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            
             services.AddAutoMapper(typeof(UsuarioProfile));
             services.AddAutoMapper(typeof(LivroProfile));
             

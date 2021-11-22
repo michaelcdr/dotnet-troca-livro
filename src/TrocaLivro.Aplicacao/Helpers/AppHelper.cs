@@ -8,5 +8,10 @@
 
             return $"https://localhost:5001/api/v1/usuario/avatar/{avatar}";
         }
+
+        public static string ObterApiPath()
+        {
+            return "https://localhost:5001/api/v1/";
+        }
     }
 }
