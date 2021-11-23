@@ -7,18 +7,35 @@
             aria-expanded="false">
             Categorias
         </a>                        
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             
-            @foreach (var categoria in Model.Categorias.Take(10))
+            @foreach (var categoria in Model.Categorias.Where(e=>e.SubCategorias.Count>0).Take(10))
             {
-                <a class="dropdown-item " href="">@categoria.Nome</a>   
+                <li class="dropdown">
+                    <a class="dropdown-item dropdown-toggle" asp-action="Index" asp-controller="Categoria" asp-route-id="@categoria.CategoriaId" 
+                        id="navbarDropdown2" role="button" data-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="false">@categoria.Nome</a> 
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        @if (categoria.SubCategorias.Count > 0)
+                        {
+                            foreach (var subcategoria in categoria.SubCategorias)
+                            {
+                                <li>
+                                    <a asp-action="Index" asp-controller="SubCategoria" asp-route-id="@subcategoria.SubCategoriaId" 
+                                        class="dropdown-item">@subcategoria.Nome</a>
+                                </li>    
+                            }
+                        }
+                    </ul>
+                </li>
             }
 
             @if (Model.Categorias.Count > 10)
             {
                 <a class="dropdown-item" asp-action="index" asp-controller="Categoria" >Ver mais</a>
             }
-        </div>
+        </ul>
     </li>
     @if (User.Identity.IsAuthenticated)
     {

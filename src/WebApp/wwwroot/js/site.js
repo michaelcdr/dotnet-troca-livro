@@ -7,21 +7,38 @@ $(document).ready(function () {
     // executes when HTML-Document is loaded and DOM is ready
 
     // breakpoint and up  
-    $(window).resize(function () {
-        if ($(window).width() >= 980) {
+    //$(window).resize(function () {
+    //    if ($(window).width() >= 980) {
 
-            // when you hover a toggle show its dropdown menu
-            $(".navbar .dropdown-toggle").hover(function () {
-                $(this).parent().toggleClass("show");
-                $(this).parent().find(".dropdown-menu").toggleClass("show");
+    //        // when you hover a toggle show its dropdown menu
+    //        $(".navbar .dropdown-toggle").hover(function () {
+    //            $(this).parent().toggleClass("show");
+    //            $(this).parent().find(".dropdown-menu").toggleClass("show");
+    //        });
+
+    //        // hide the menu when the mouse leaves the dropdown
+    //        $(".navbar .dropdown-menu").mouseleave(function () {
+    //            $(this).removeClass("show");
+    //        });
+
+    //    }
+    //});
+
+    (function ($) {
+        $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+            if (!$(this).next().hasClass('show')) {
+                $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+            }
+            var $subMenu = $(this).next(".dropdown-menu");
+            $subMenu.toggleClass('show');
+
+            $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                $('.dropdown-submenu .show').removeClass("show");
             });
 
-            // hide the menu when the mouse leaves the dropdown
-            $(".navbar .dropdown-menu").mouseleave(function () {
-                $(this).removeClass("show");
-            });
-        }
-    });
+            return false;
+        });
+    })(jQuery)
 });
 
 function createGuid() {
