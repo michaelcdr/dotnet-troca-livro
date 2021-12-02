@@ -129,7 +129,7 @@ body {
 #imagens-container .item {
     display: inline-block;
 }
-.validation-summary-errors >ul{
+.validation-summary-errors > ul{
     margin-bottom:0px;
     padding:15px;
     margin-left:15px;
@@ -140,7 +140,6 @@ body {
     border-radius: 5px;
     background-color: #f8d7da;
     border:1px solid #dc3545;
-
 } 
 
 .img-livro-container {
@@ -151,7 +150,16 @@ body {
     min-height:494px;
 }
 
-
 #minha-conta-tabs-container > .tab-pane {
     min-height: calc(100vh - 275px);
+}
+
+@media (max-width: 768px) {
+    #detalhes-livro-acoes > .btn {
+        display: block;
+        width: 100%;
+    }
+}
+h2{
+
 }

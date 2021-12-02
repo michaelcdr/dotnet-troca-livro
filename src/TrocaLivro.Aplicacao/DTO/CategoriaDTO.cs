@@ -18,5 +18,6 @@
         public string Nome { get; set; }
         public string NomeCategoria { get; set; }
         public int CategoriaId { get; set; }
+        public string UrlAmigavel { get; set; }
     }
 }

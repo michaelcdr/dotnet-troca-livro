@@ -55,6 +55,16 @@ namespace TrocaLivro.Aplicacao.Services
                 IdentityResult resultRole = await _userManager.AddToRoleAsync(usuario, ROLE_COMUN);
             }
 
+            if (await this.context.SubCategorias.AnyAsync(e => string.IsNullOrEmpty(e.UrlAmigavel)))
+            {
+                await this.context.SubCategorias
+                    .Where(subCategoriaAtual => string.IsNullOrEmpty(subCategoriaAtual.UrlAmigavel))
+                    .ForEachAsync(subCategoriaAtual =>
+                    {
+                        subCategoriaAtual.GerarUrlAmigavel();
+                    });
+            }
+
             if (await this.context.Autores.CountAsync() == 0)
             {
                 this.context.Autores.Add(new Autor("Robert C. Martin"));

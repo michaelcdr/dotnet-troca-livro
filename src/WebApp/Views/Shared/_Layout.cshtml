@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>bookexchange @ViewData["Title"] - bookexchange.com.br</title>
+    <title>bookexchange @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/lib/sweetAlert2/sweetalert2.min.css" />
@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="~/css/site-customizacoes.css" />
     <link rel="stylesheet" href="~/css/menu.css" />
     <link rel="stylesheet" href="~/lib/sidebar/jquery.sidebar.css"/>
-    @*<link rel="stylesheet" href="~/css/mega-menu.css" />*@
 </head>
 <body class="customize" data-mega-menu="true">
     <header>
@@ -26,7 +25,7 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 p-3 text-center">
+                <div class="col-xs-12 col-lg-12 p-3 text-center">
                     <h5>Curta-nos nas Redes Sociais</h5>
                     <ul class="list-unstyled social-media-footer">
                         <li class="face">
@@ -51,9 +50,10 @@
                         </li>
                     </ul>
                 </div>
+                <div class="col-xs-12 col-lg-12 text-center">
+                    &copy; 2021 - BookExchange 
+                </div>
             </div>
-
-            &copy; 2021 - BookExchange 
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

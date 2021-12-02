@@ -14,14 +14,14 @@ namespace TrocaLivro.Infra.Repositorios.EF
     {
         public LivrosRepositorio(ApplicationDbContext context) : base(context) {}
 
-        public ApplicationDbContext ApplicationDbContext
+        public ApplicationDbContext Contexto
         {
             get { return Context as ApplicationDbContext; }
         }
 
         public async Task<Livro> Obter(int id)
         {
-            return await ApplicationDbContext.Livros
+            return await Contexto.Livros
                 .Where(e => e.Id == id && !e.Deletado).Include(e => e.Autores).ThenInclude(e => e.Autor)
                 .Include(e => e.Editora)
                 .Include(e => e.Imagens)
@@ -34,39 +34,41 @@ namespace TrocaLivro.Infra.Repositorios.EF
 
         public void Atualizar(Livro livro)
         {
-            ApplicationDbContext.Livros.Update(livro);
+            Contexto.Livros.Update(livro);
         }
 
         public void RemoverImagens(List<int> idsImagens)
         {
-            ApplicationDbContext.Imagens.RemoveRange(ApplicationDbContext.Imagens.Where(e => idsImagens.Contains(e.Id)));
+            Contexto.Imagens.RemoveRange(Contexto.Imagens.Where(e => idsImagens.Contains(e.Id)));
         }
 
         public async Task<List<int>> ObterIdsImagens(int id)
-            => await ApplicationDbContext.Imagens.AsNoTracking()
+            => await Contexto.Imagens.AsNoTracking()
                                          .Where(e => e.LivroId == id).Select(e => e.Id).ToListAsync();
 
-        public async Task<List<Livro>> ObterLivrosComAutores(int tamanhoPagina, int qtdRegistrosAPular,  string termoPesquisa)
+        public async Task<List<Livro>> ObterLivrosComAutores(
+            int tamanhoPagina, int qtdRegistrosAPular, string termoPesquisa, string subCategoriaUrlAmigavel)
         {
-            return await ApplicationDbContext.Livros
-                .Where(e => termoPesquisa != null && termoPesquisa != string.Empty 
-                    ?   e.Titulo.Contains(termoPesquisa) || e.Descricao.Contains(termoPesquisa) || 
+            return await Contexto.Livros
+                .Where(e => termoPesquisa != null && termoPesquisa != string.Empty
+                    ? e.Titulo.Contains(termoPesquisa) || e.Descricao.Contains(termoPesquisa) ||
                         e.Subtitulo.Contains(termoPesquisa) ||
                         e.Autores.Any(autor => autor.Autor.Nome.Contains(termoPesquisa))
                     : true)
                 .Where(e => !e.Deletado)
+                .Where(e => subCategoriaUrlAmigavel != null ? e.SubCategoria.UrlAmigavel == subCategoriaUrlAmigavel : true)
                 .Include(e => e.Autores).ThenInclude(a => a.Autor)
                 .OrderByDescending(e => e.DataCadastro).Take(tamanhoPagina).ToListAsync();
         }
 
         public async Task<int> ObterTotal()
         {
-            return await ApplicationDbContext.Livros.AsNoTracking().CountAsync(e => !e.Deletado);
+            return await Contexto.Livros.AsNoTracking().CountAsync(e => !e.Deletado);
         }
 
         public async Task<int> ObterTotalDeTrocas()
         {
-            return await ApplicationDbContext.Trocas.AsNoTracking()
+            return await Contexto.Trocas.AsNoTracking()
                 .Where(e => e.Status == Dominio.Enums.StatusTroca.LivroEnviado)
                 .Select(e => e.Id)
                 .CountAsync();
@@ -74,7 +76,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
 
         public async Task<int> ObterTotalLivrosDisponiveisParaTroca()
         {
-            return await ApplicationDbContext.Trocas.AsNoTracking()
+            return await Contexto.Trocas.AsNoTracking()
                .Where(e => e.Status == Dominio.Enums.StatusTroca.Disponibilizado)
                .Select(e => e.Id)
                .CountAsync();
@@ -82,7 +84,7 @@ namespace TrocaLivro.Infra.Repositorios.EF
 
         public async Task<List<Livro>> PesquisarLivrosComAutores(Expression<Func<Livro, bool>> predicado)
         {
-            return await ApplicationDbContext.Livros.Include(e => e.Autores).ThenInclude(e => e.Autor)
+            return await Contexto.Livros.Include(e => e.Autores).ThenInclude(e => e.Autor)
                 .Include(e => e.Editora)
                 .Where(predicado).OrderByDescending(e => e.DataCadastro)
                 .ToListAsync();
@@ -91,29 +93,29 @@ namespace TrocaLivro.Infra.Repositorios.EF
         public async Task<bool> VerificarExistencia(string iSBN, int? idLivroAtual = null)
         {
             if (idLivroAtual != null)
-                return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN && livro.Id != (int)idLivroAtual);
+                return await Contexto.Livros.AnyAsync(livro => livro.ISBN == iSBN && livro.Id != (int)idLivroAtual);
             else
-                return await ApplicationDbContext.Livros.AnyAsync(livro => livro.ISBN == iSBN);
+                return await Contexto.Livros.AnyAsync(livro => livro.ISBN == iSBN);
         }
 
         public async Task<List<Imagem>> ObterImagens(List<int> livrosIds)
         {
-            return await ApplicationDbContext.Imagens.Where(imagemAtual => livrosIds.Contains(imagemAtual.LivroId)).ToListAsync();
+            return await Contexto.Imagens.Where(imagemAtual => livrosIds.Contains(imagemAtual.LivroId)).ToListAsync();
         }
 
         public async Task DisponibilizarParaTroca(Troca disponibilizacao)
         {
-            await ApplicationDbContext.Trocas.AddAsync(disponibilizacao);
+            await Contexto.Trocas.AddAsync(disponibilizacao);
         }
 
         public async Task Avaliar(Avaliacao avaliacao)
         {
-            await ApplicationDbContext.Avaliacoes.AddAsync(avaliacao);
+            await Contexto.Avaliacoes.AddAsync(avaliacao);
         }
          
         public async Task<List<Avaliacao>> ObterAvaliacoes(int livroId)
         {
-            return await ApplicationDbContext.Avaliacoes.Where(e => e.LivroId == livroId)
+            return await Contexto.Avaliacoes.Where(e => e.LivroId == livroId)
                 .Include(a => a.Usuario)
                 .OrderByDescending(e => e.AvaliadoEm)
                 .ToListAsync();

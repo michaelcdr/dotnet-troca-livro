@@ -35,7 +35,7 @@ namespace WebApp.ViewComponents
             HttpResponseMessage resposta = await _httpClient.GetAsync("Categoria/ComSubCategorias"); 
             var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterCategoriasResultado>>();
 
-            return View(new CategoriasMenuViewModel(appResponse.Dados.Categorias));
+            return View(new CategoriasMenuViewModel(appResponse.Dados.Categorias.Where(e => e.SubCategorias.Count > 0).Take(10).ToList()));
         }
     }
 }

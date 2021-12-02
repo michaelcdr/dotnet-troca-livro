@@ -27,7 +27,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             List<Livro> livros = await uow.Livros.ObterLivrosComAutores(
                 request.TamanhoPagina,
                 request.QuantidadeRegistrosAPular, 
-                request.TermoPesquisa);
+                request.TermoPesquisa,
+                request.SubCategoria);
 
             List<int> livrosIds = livros.Select(livro => livro.Id).ToList();
 

@@ -41,6 +41,8 @@ p {
 }
 h1 {
     margin-bottom: 0.8rem;
+    font-size: 26px;
+    margin-top: 0.8rem; 
 }
 /*h4 {
     font-weight: bold;
@@ -126,16 +128,7 @@ table a.btn-outline-success:focus, a.btn-outline-success:focus, .btn-outline-suc
     border-right: 1px solid #dee2e6;
     border-bottom: 1px solid #dee2e6;
 }
-
-
-
-
-
-
-
-
-
-
+ 
 a.page-link,
 a.page-link:link,
 a.page-link:visited,

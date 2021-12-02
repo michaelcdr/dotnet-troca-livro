@@ -144,8 +144,8 @@ namespace TrocaLivro.Api
             services.AddTransient<ILivrosRepositorio, LivrosRepositorio>();
             services.AddTransient<IAutoresRepositorio, AutoresRepositorio>();
             services.AddTransient<IEditorasRepositorio, EditorasRepositorio>();
-            services.AddTransient<ICategoriasRepositorio, CategoriasRepositorio>();
-             
+            services.AddTransient<ICategoriasRepositorio, CategoriasRepositorio>(); 
+
             services.AddTransient<IGerenciadorToken, GerenciadorToken>();
             services.AddTransient<IValidator<EditarUsuarioCommand>, EditarUsuarioCommandValidator>();
             services.AddApiVersioning();

@@ -23,6 +23,7 @@
     border-left: 2px solid #eee;
     transition:all .3s;
 }
+
 .sidebar .nivel.pesquisa .corpo {
     height: calc(100% - 170px) !important;
     top: 105px;
@@ -66,4 +67,18 @@
 }
 .sidebar .rodape button:first-child {
     margin-left:0px;
+}
+@media only screen and (max-width: 1023px) {
+    .sidebar {
+        width: 100%;
+    }
+        .sidebar .nivel {
+            width: 100%;
+        }
+        .sidebar .corpo {
+            width: 100%;
+        }
+        .sidebar .rodape {
+            width: 100%;
+        }
 }

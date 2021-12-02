@@ -20,6 +20,7 @@ using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
 using TrocaLivro.Aplicacao.Helpers;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.Mapping;
+using TrocaLivro.Aplicacao.Services;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Infra.Services;
@@ -62,10 +63,9 @@ namespace WebApp
             services.AddHttpClient<LivroApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<PacoteApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            
             services.AddAutoMapper(typeof(UsuarioProfile));
             services.AddAutoMapper(typeof(LivroProfile));
-            
+
             services.AddTransient<IValidator<DisponibilizarLivroParaTrocaViewModel>, DisponibilizarLivroParaTrocaValidator>();
             services.AddTransient<IValidator<AvaliarLivroViewModel>, AvaliarLivroValidator>();
             services.AddTransient<IValidator<EditarUsuarioCommand>, EditarUsuarioCommandValidator>();

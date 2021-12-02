@@ -8,5 +8,6 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         public int TamanhoPagina { get; set; }
         public int QuantidadeRegistrosAPular { get; set; }
         public string TermoPesquisa { get; set; }
+        public string SubCategoria { get; set; }
     }
 }

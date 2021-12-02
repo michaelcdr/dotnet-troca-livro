@@ -34,12 +34,12 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                     CategoriaId = categoriaAtual.Id,
                     Nome = categoriaAtual.Nome,
                     SubCategorias = categoriaAtual.SubCategorias.Any()
-                        ? categoriaAtual.SubCategorias.Select(subcategoriaAtual => new SubCategoriaViewModel
-                        {
-                            CategoriaId = subcategoriaAtual.CategoriaId,
-                            Nome = subcategoriaAtual.Nome,
-                            SubCategoriaId = subcategoriaAtual.Id
-                        }).ToList()
+                        ? categoriaAtual.SubCategorias.Select(subcategoriaAtual => new SubCategoriaViewModel(
+                                subcategoriaAtual.CategoriaId,
+                                subcategoriaAtual.Nome,
+                                subcategoriaAtual.Id,
+                                subcategoriaAtual.UrlAmigavel)
+                            ).ToList()
                         : new List<SubCategoriaViewModel>()
 
                 }).ToList();

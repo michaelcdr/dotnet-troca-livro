@@ -1,0 +1,22 @@
+﻿@model List<TrocaLivro.Aplicacao.ViewModels.LivroCardModel>
+
+@{
+    ViewData["Title"] = "Livros em " + ViewBag.SubCategoria;
+}
+
+<h3 class="text-center">
+    <strong>@Model.Count</strong> livros encontrados para <strong>@ViewBag.SubCategoria</strong>
+</h3>
+
+<div class="row d-flex">
+    @foreach (var livro in Model)
+    {
+        <div class="flex-fill col-md-3 mb-3">
+            <partial name="_Card" model="livro" />
+        </div>  
+    }
+</div>
+
+@section Scripts{
+    
+}

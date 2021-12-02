@@ -23,6 +23,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
         private const string APICONTROLLER_LIVRO = "livros";
         private const string APICONTROLLER_TROCAS = "trocas";
         private const string APICONTROLLER_SUBCATEGORIA = "subcategorias";
+        private const string APICONTROLLER_MANUTENCOES = "manutencoes";
         private string admToken;
         private string token;
 
@@ -36,6 +37,12 @@ namespace TrocaLivro.Aplicacao.HttpClients
             this.httpClient = httpClient;
             this.mapper = mapper; 
             this.admToken = memoryCache.Get("ADM_TOKEN").ToString();
+        }
+
+        public async Task GerarUrlAmigaveisSubCategorias()
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            await httpClient.PostAsync($"{APICONTROLLER_MANUTENCOES}/GerarUrlsAmigaveis", null);
         }
 
         public async Task<ObterDadosDashboardViewModel> ObterInformacoesHome()
@@ -241,10 +248,16 @@ namespace TrocaLivro.Aplicacao.HttpClients
         public async Task<List<SubCategoriaDTO>> ObterSubCategorias(int categoriaId)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
-
             HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_SUBCATEGORIA}/ObterTodasDaCategoria/{categoriaId}");
             var dados = await resposta.Content.ReadFromJsonAsync<List<SubCategoriaDTO>>();
             return dados;
+        }
+
+        public async Task<SubCategoriaDTO> ObterSubCategoria(string urlAmigavel)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"{APICONTROLLER_SUBCATEGORIA}/ObterPorUrlAmigavel/{urlAmigavel}");
+            return await resposta.Content.ReadFromJsonAsync<SubCategoriaDTO>();
         }
 
         private string BotarAspas(string valor) => $"\"{valor}\"";
@@ -260,7 +273,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
             return livros;
         }
 
-        public async Task<List<LivroCardModel>> ObterLivros(string termoPesquisa)
+        public async Task<List<LivroCardModel>> ObterLivros(string termoPesquisa, string subcategoria = null)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
 
@@ -269,7 +282,8 @@ namespace TrocaLivro.Aplicacao.HttpClients
             var resposta = await httpClient.GetAsync(
                 $"{APICONTROLLER_LIVRO}?TamanhoPagina={tamPagina}&"+
                 $"QuantidadeRegistrosAPular={quantidadeRegistrosAPular}&"+
-                $"TermoPesquisa={termoPesquisa}"
+                $"TermoPesquisa={termoPesquisa}&"+
+                $"SubCategoria={subcategoria}"
             );
             
             var livros = await resposta.Content.ReadFromJsonAsync<List<LivroCardModel>>();

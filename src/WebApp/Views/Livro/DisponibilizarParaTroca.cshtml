@@ -44,7 +44,7 @@
                             <option value="">Selecione...</option>
                             @for (var i = 1; i <= Model.MaximoDePontos; i++)
                             {
-                                <option value="@i">@i</option>
+                                <option value="@i">@(i > 1 ? i+ " Pontos" : i + " Ponto")</option>
                             }
                         </select>
                         <span asp-validation-for="Pontos"  class="text-danger"></span>

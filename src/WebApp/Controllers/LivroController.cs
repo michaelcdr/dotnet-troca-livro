@@ -188,5 +188,17 @@ namespace WebApp.Controllers
             AppResponse<DisponibilizarLivroParaTrocaResultado> resposta = await api.DisponibilizarParaTroca(comando);
             return Json(resposta);
         }
+
+        [Route("livros/{subcategoria}")]
+        public async Task<IActionResult> Index(string subcategoria)
+        {
+            base.AtualizarToken(this.api);
+
+            SubCategoriaDTO subCategoriaDTO = await api.ObterSubCategoria(subcategoria);
+            ViewBag.Subcategoria = subCategoriaDTO.Nome;    
+
+            List<LivroCardModel> livros = await api.ObterLivros(null, subcategoria);
+            return View(livros);
+        }
     }
 }

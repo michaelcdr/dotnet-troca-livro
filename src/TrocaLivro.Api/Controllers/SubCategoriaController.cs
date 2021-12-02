@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
+using TrocaLivro.Aplicacao.DTO;
+using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Api.Controllers
 {
@@ -38,6 +40,17 @@ namespace TrocaLivro.Api.Controllers
         {
             ObterSubCategoriasResultado resultado = await _mediator.Send(new ObterSubCategoriasQuery());
             return Ok(resultado.SubCategorias);
+        }
+
+        /// <summary>
+        /// Retorna todas subcategorias.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ObterPorUrlAmigavel/{urlAmigavel}")]
+        public async Task<IActionResult> ObterPorUrlAmigavel(string urlAmigavel)
+        {
+            AppResponse<SubCategoriaDTO> resultado = await _mediator.Send(new ObterSubCategoriaPorUrlAmigavelQuery(urlAmigavel));
+            return Ok(resultado.Dados);
         }
     }
 }

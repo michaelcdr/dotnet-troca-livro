@@ -10,6 +10,7 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
         {
             builder.ToTable("SubCategorias");
             builder.Property(e => e.Nome).IsRequired();
+            builder.Property(e => e.UrlAmigavel).HasMaxLength(255);
             builder.HasMany(e => e.Livros).WithOne(e => e.SubCategoria);
         }
     }

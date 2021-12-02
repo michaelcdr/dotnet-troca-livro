@@ -5,14 +5,13 @@
         <a class="dropdown-toggle nav-link text-white" href="#" id="navbarDropdown" role="button" 
             data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
-            Categorias
+            Catálogo
         </a>                        
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            
-            @foreach (var categoria in Model.Categorias.Where(e=>e.SubCategorias.Count>0).Take(10))
+            @foreach (var categoria in Model.Categorias)
             {
                 <li class="dropdown">
-                    <a class="dropdown-item dropdown-toggle" asp-action="Index" asp-controller="Categoria" asp-route-id="@categoria.CategoriaId" 
+                    <a class="dropdown-item dropdown-toggle"  href="javascript:void(0)"
                         id="navbarDropdown2" role="button" data-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="false">@categoria.Nome</a> 
 
@@ -22,7 +21,7 @@
                             foreach (var subcategoria in categoria.SubCategorias)
                             {
                                 <li>
-                                    <a asp-action="Index" asp-controller="SubCategoria" asp-route-id="@subcategoria.SubCategoriaId" 
+                                    <a asp-action="Index" asp-controller="Livro" asp-route-subcategoria="@subcategoria.UrlAmigavel" 
                                         class="dropdown-item">@subcategoria.Nome</a>
                                 </li>    
                             }

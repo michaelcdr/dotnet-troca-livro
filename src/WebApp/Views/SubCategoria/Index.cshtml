@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
  
-<div class="row mt-3" id="detalhes-livro" data-livro-id="@Model.Id" data-titulo="@Model.Titulo">
+<div class="row mt-2" id="detalhes-livro" data-livro-id="@Model.Id" data-titulo="@Model.Titulo">
     <div class="col-md-3">
         <img src="@Model.Capa" style="max-width:100%" />
     </div>
@@ -15,18 +15,18 @@
         <div class="isbn">@Model.ISBN - @Model.NumeroPagina páginas - @Model.Ano</div>
         <p>@Html.Raw(Model.Descricao)</p>
     </div> 
-    <div class="col-md-12 pt-2" id="detalhes-livro-acoes">
+    <div class="col-md-12 pt-2">
         @if (Model.DisponibilizarParaTroca)
         {
-            <a asp-action="DisponibilizarParaTroca" asp-controller="Livro" asp-route-id="@Model.Id" class="btn mb-2 btn-outline-dark">
+            <a asp-action="DisponibilizarParaTroca" asp-controller="Livro" asp-route-id="@Model.Id" class="btn btn-outline-dark">
                 Disponibilizar para troca
             </a>
         }
 
         @if (Model.PodeEditar)
         {
-            <a asp-action="Editar" asp-controller="Livro" asp-route-id="@Model.Id" class="btn mb-2 btn-outline-dark">Editar livro</a>
-            <button type="button" class="btn mb-2 btn-outline-danger" id="btn-deletar" data-id="@Model.Id">Deletar livro</button>
+            <a asp-action="Editar" asp-controller="Livro" asp-route-id="@Model.Id" class="btn btn-outline-dark">Editar livro</a>
+            <button type="button" class="btn btn-outline-danger" id="btn-deletar" data-id="@Model.Id">Deletar livro</button>
         }
     </div>
 </div>
