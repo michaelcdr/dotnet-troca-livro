@@ -1,0 +1,81 @@
+﻿/* cards*/
+.customize .card.card-produto {
+    height: 445px;
+}
+
+    .customize .card.card-produto.troca-solicitada {
+        height: 495px;
+    }
+
+    .customize .card.card-produto .img-container {
+        text-align: center;
+        height: 170px;
+        padding: 20px 10px 0px 10px;
+    }
+
+        .customize .card.card-produto .img-container img {
+            max-height: 150px;
+            width: unset;
+        }
+
+    .customize .card.card-produto .card-title {
+        height: 45px;
+        text-align: center;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-family: 'Raleway', sans-serif !important;
+        font-weight: 900 !important;
+    }
+
+    .customize .card.card-produto .card-text {
+        display: -webkit-box;
+        font-size: 14px;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 120px;
+        text-align: center;
+    }
+
+.card.card-produto .card-body {
+    position: relative;
+}
+
+.card.card-produto .btn-block {
+    width: calc(100% - 40px);
+    position: absolute;
+    bottom: 20px;
+}
+
+
+/* personalizações para os card de ofertas */
+.card-oferta .card-title {
+    font-size: 16px;
+    font-family: var(--font-titulo);
+    font-weight: 900;
+}
+
+
+.card-price {
+    color: var(--primary-color);
+}
+
+.card-oferta {
+    -webkit-transition: -webkit-box-shadow var(--ts-time) ease-out;
+    transition: -webkit-box-shadow var(--ts-time) ease-out;
+    -o-transition: box-shadow var(--ts-time) ease-out;
+    transition: box-shadow var(--ts-time) ease-out;
+    transition: box-shadow var(--ts-time) ease-out,-webkit-box-shadow var(--ts-time) ease-out;
+}
+
+    .card-oferta:hover {
+        -webkit-transition: -webkit-box-shadow var(--ts-time) ease-out;
+        transition: -webkit-box-shadow var(--ts-time) ease-out;
+        -o-transition: box-shadow var(--ts-time) ease-out;
+        transition: box-shadow var(--ts-time) ease-out;
+        transition: box-shadow var(--ts-time) ease-out,-webkit-box-shadow var(--ts-time) ease-out;
+        -webkit-box-shadow: 0 7px 16px 0 rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.1);
+        box-shadow: 0 7px 16px 0 rgba(0,0,0,.2), 0 1px 3px 0 rgba(0,0,0,.1);
+    }

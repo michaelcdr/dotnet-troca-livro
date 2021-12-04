@@ -1,13 +1,8 @@
-﻿:root {
-    --primary-color: #ec1a47;
-    --danger-color: #ec1a47;
-    --second-color: #F5F0EC;
-    --default-color: #23232e;
-    --ts-time: .4s;
-    --default-text-color: #23232e;
-    --bg-default: #ededed;
-    --bg-tabs: #fff;
+﻿.container-menu {
+    background-color: var(--primary-color);
+    box-shadow: var(--secondary-1) 0px -5px 20px;
 }
+
 .dropdown-menu {
     padding: 0;
     margin: 0;
@@ -27,45 +22,45 @@
     display: block !important;
 }
     .mainmenu a.dropdown-item {
-        padding: 5px 15px;
+        padding: 10px 15px;
     }
 .dropdown .dropdown-item {
-    padding: 5px 15px;
+    padding: 10px 15px;
 }
 .mainmenu .active a, .mainmenu .active a:focus,
 .mainmenu .active a:hover, .mainmenu li a:hover,
 .mainmenu li a:focus, .navbar-default .navbar-nav > .show > a,
 .navbar-default .navbar-nav > .show > a:focus, .navbar-default .navbar-nav > .show > a:hover {
     color: #fff;
-    background: var(--default-color);
+    background: var(--secondary-1);
     outline: 0;
 }
 
 .mainmenu .collapse ul > li:hover > a {
-    background: var(--default-color);
+    background: var(--secondary-1);
 }
 
-.mainmenu .collapse ul ul > li:hover > a, 
+.mainmenu .collapse ul ul > li:hover > a,
 .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus,
 .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
-    background: var(--second-color);
-    color:var(--default-color);
+    background: var(--primary-color);
+    color: var(--second-color);
     transition: all .4s;
 }
 
 .mainmenu .collapse ul ul ul > li:hover > a {
-    background: var(--second-color);
+    background: var(--primary-color);
 }
 
 .mainmenu .collapse ul ul, .mainmenu .collapse ul ul.dropdown-menu {
-    background: var(--default-color);
+    background: var(--secondary-1);
 }
 
     .mainmenu .collapse ul ul ul, .mainmenu .collapse ul ul ul.dropdown-menu {
-        background: var(--default-color);
+        background: var(--secondary-1);
     }
         .mainmenu .collapse ul ul ul ul, .mainmenu .collapse ul ul ul ul.dropdown-menu {
-            background: var(--default-color);
+            background: var(--secondary-1);
         }
 
 /******************************Drop-down menu work on hover**********************************/
@@ -133,4 +128,27 @@
     .navbar-nav .show .dropdown-menu .dropdown-menu .dropdown-menu > li > a {
         padding: 16px 15px 16px 45px
     }
+}
+
+@media only screen and (max-width: 600px) {
+    
+    #pesquisa-container {
+        position:absolute;
+        top:80px;
+    }
+        #pesquisa-container .btn-outline-light {
+            background-color: var(--default-color);
+        }
+}
+#pesquisa-container #termoPesquisa {
+    height: 3.125rem;
+    max-height: 3.125rem;
+    padding: 0 1.0625rem;
+    background-color: #fff;
+    border: 0;
+    color: var(--default-color);
+}
+#pesquisa-container #button-addon2 {
+    background-color:var(--bg-tabs);
+    border:0;
 }

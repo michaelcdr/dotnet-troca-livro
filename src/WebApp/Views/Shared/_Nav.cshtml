@@ -3,26 +3,25 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <nav class="navbar navbar-expand-sm col-sm-4 col-md-4 col-lg-3 navbar-logo">
-                        <a class="navbar-brand" href="/">
-                            <span class="fa fa-book"></span>
-                            <span class="logo-strong">B</span>ook<span class="logo-strong">E</span>xchange
-                        </a>
+                    <nav class="navbar navbar-expand-sm col-xs-6 col-sm-3 col-md-3 col-lg-2 navbar-logo">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="fa fa-bars" style="color: white"></span>
                         </button>
+                         <a class="navbar-brand" href="/">
+                            <img src="~/img/bool-exchange-icon-negative.svg" id="logo"/>
+                         </a>
                     </nav>
-                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-7">
+                    <div id="pesquisa-container" class="col-xs-12 col-sm-6 col-md-6 col-lg-8">
                         <form id="form-pesquisa" asp-controller="livro" asp-action="pesquisa" method="GET">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="input-group mr-3">
-                                        <input type="text" class="form-control" id="termoPesquisa" name="termoPesquisa" placeholder="Pesquisar produto" 
-                                            aria-label="Pesquisar produto" aria-describedby="button-addon2">
+                                <div class="col-md-12 mt-lg-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="termoPesquisa" name="termoPesquisa" placeholder="Pesquise um livro aqui..." 
+                                            aria-label="Pesquise um livro aqui..." aria-describedby="button-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-light" type="submit" id="button-addon2">
-                                                <i class="fa fa-search"></i>
+                                                <i class="fa fa-search text-dark"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -30,7 +29,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2">
+                    <div id="info-autenticacao" class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <span class="login-nav text-light text-right">
@@ -39,6 +38,7 @@
                                 <a asp-action="Sair" asp-controller="Usuario" class="a-primary" title="Sair no sistema" data-container="body" 
                                     data-toggle="tooltip" data-placement="body">Sair</a> para fazer seu logout.
                             </span>
+                            <vc:pontos></vc:pontos>                            
                         }
                         else 
                         { 
@@ -51,23 +51,23 @@
                                     Cadastre-se
                                 </a>.
                             </span>
+                            <vc:pontos></vc:pontos>
                         }
                     </div>
                 </div>
             </div>
+            
+        </div>
+    </div>
+</div>
+<div class="container-menu ">
+    <div class="container">
+        <div class="row">
             <div class="col-md-12">
                 <nav class="row navbar navbar-expand-sm navbar-light mainmenu">
-                    <div class="col-md-10">
-                        <div class="row">
-                            <div class="collapse navbar-collapse" id="navbar-menu">
-                                <vc:categorias></vc:categorias>
-                            </div>
-                        </div>
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <vc:categorias></vc:categorias>
                     </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <vc:pontos></vc:pontos>
-                    }
                 </nav>
             </div>
         </div>
