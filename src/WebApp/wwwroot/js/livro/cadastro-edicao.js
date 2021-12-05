@@ -121,7 +121,7 @@ function cadastrarAutor(el) {
                 $.sidebar.fnFechar();
             }
         }, {
-            estilo: "btn-dark", icone: "fa fa-save", label: "Salvar", callback: function () {
+            estilo: "btn-dark", icone: "fa fa-save", loadingText:"Processando...", label: "Salvar", callback: function () {
                 jQuery.validator.unobtrusive.parse($(".sidebar .corpo"));
 
                 const formId = "form-cadastrar-autor";
@@ -138,6 +138,7 @@ function cadastrarAutor(el) {
                         })
                     });
 
+                    $.sidebar.fnLoader(true);
                     fetch(myRequest)
                         .then(response => { return response.json(); })
                         .then(dados => {
@@ -151,9 +152,10 @@ function cadastrarAutor(el) {
                                 atualizarOpcoesCampoSelecaoAutor(dados.autores);
                                 $.sidebar.fnFechar();
                             }
-
+                            $.sidebar.fnLoader(false);
                         }).catch(error => {
-                            alertError({ text: error })
+                            alertError({ text: error });
+                            $.sidebar.fnLoader(false);
                         });
                 }
             }

@@ -17,6 +17,12 @@ namespace TrocaLivro.Infra.Repositorios.EF
             get { return Context as ApplicationDbContext; }
         }
 
+        public async Task<bool> Existe(string nome)
+        {
+            return await ApplicationDbContext.Autores.AnyAsync(
+                autorAtual => autorAtual.Nome == nome);
+        }
+
         public async Task<List<LivroAutor>> ObterParaLivros(List<int> livrosIds)
         {
             return await ApplicationDbContext.LivrosAutores.Where(e => livrosIds.Contains(e.LivroId)).Include(e=>e.Autor).ToListAsync();

@@ -32,7 +32,7 @@ namespace WebApp.Controllers
             base.AtualizarToken(this._api);
             AppCommandResponse resposta = await _api.CadastrarAutor(model);
             
-            if (!resposta.Sucesso) return View(resposta);
+            if (!resposta.Sucesso) return Json(resposta);
 
             List<AutorDTO> autores = await _api.ObterAutores();
 
