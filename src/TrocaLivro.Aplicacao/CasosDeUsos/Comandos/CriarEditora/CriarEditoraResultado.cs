@@ -1,4 +1,4 @@
-﻿namespace TrocaLivro.Aplicacao.CasosDeUsos.CriarEditora
+﻿namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
     public class CriarEditoraResultado
     {

@@ -61,6 +61,18 @@
     $("#btn-adicionar-autor").click(function () {
         cadastrarAutor($(this));
     });
+
+    $("#btn-adicionar-categoria").click(function () {
+        cadastrarCategoria($(this));
+    });
+
+    $("#btn-adicionar-subcategoria").click(function () {
+        cadastrarSubCategoria($(this));
+    });
+
+    $("#btn-adicionar-editora").click(function () {
+        cadastrarEditora($(this));
+    });
 });
 
 function obterImagensAtuais() {
@@ -113,7 +125,191 @@ function atualizarOpcoesCampoSelecaoEditoras(editoras) {
 
     $("#EditoraId").html(opcoes.join(""));
 }
- 
+
+function cadastrarCategoria(el) {
+    let botoes = [
+        {
+            estilo: "btn-warning", icone: "fa fa-chevron-left", callback: function () {
+                $.sidebar.fnFechar();
+            }
+        }, {
+            estilo: "btn-dark", icone: "fa fa-save", loadingText: "Processando...",
+            label: "Salvar", callback: function () {
+                jQuery.validator.unobtrusive.parse($(".sidebar .corpo"));
+
+                const formId = "form-cadastrar-categoria";
+
+                if ($("#" + formId).validate().form()) {
+                    let nomeInformado = $(`#${formId} #Nome`).val()
+
+                    const myRequest = new Request('/Categoria/Cadastrar', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Nome: nomeInformado
+                        })
+                    });
+
+                    $.sidebar.fnLoader(true);
+
+                    fetch(myRequest)
+                        .then(response => { return response.json(); })
+                        .then(dados => {
+                            if (!dados.sucesso) {
+                                var erros = [];
+                                $(dados.erros).each(function (index, erroObj) {
+                                    erros.push(erroObj.mensagem);
+                                });
+                                alertError({ title: dados.mensagem, text: erros.join("<br/>") });
+                            } else {
+                                atualizarOpcoesCampoSelecaoCategorias(dados.categorias);
+
+                                $("#CategoriaId option").removeAttr("selected");
+                                $("#CategoriaId option").each(function () {
+                                    if ($(this).html() === nomeInformado)
+                                        $(this).prop("selected", true);
+                                });
+                                $("#CategoriaId").trigger("change");
+                                $.sidebar.fnFechar();
+                            }
+                            $.sidebar.fnLoader(false);
+                        }).catch(error => {
+                            alertError({ text: error });
+                            $.sidebar.fnLoader(false);
+                        });
+                }
+            }
+        }
+    ];
+
+    $.sidebar(this, { url: `/Categoria/Cadastrar`, botoes: botoes });
+}
+
+function cadastrarSubCategoria(el) {
+    const categoriaId = parseInt($(`#CategoriaId`).val());
+    const action = `/SubCategoria/Cadastrar?categoriaId=${categoriaId}`;
+    let botoes = [
+        {
+            estilo: "btn-warning", icone: "fa fa-chevron-left", callback: function () {
+                $.sidebar.fnFechar();
+            }
+        }, {
+            estilo: "btn-dark", icone: "fa fa-save", loadingText: "Processando...",
+            label: "Salvar", callback: function () {
+                jQuery.validator.unobtrusive.parse($(".sidebar .corpo"));
+
+                const formId = "form-cadastrar-subcategoria";
+                const nomeInformado = $(`#${formId} #Nome`).val();
+
+                if ($("#" + formId).validate().form()) {
+                    const myRequest = new Request(action, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Nome: nomeInformado,
+                            CategoriaId: categoriaId
+                        })
+                    });
+
+                    $.sidebar.fnLoader(true);
+
+                    fetch(myRequest)
+                        .then(response => { return response.json(); })
+                        .then(dados => {
+                            if (!dados.sucesso) {
+                                var erros = [];
+                                $(dados.erros).each(function (index, erroObj) {
+                                    erros.push(erroObj.mensagem);
+                                });
+                                alertError({ title: dados.mensagem, text: erros.join("<br/>") });
+                            } else {
+                                atualizarOpcoesCampoSelecaoSubCategorias(dados.subCategorias);
+                                $("#SubCategoriaId option").removeAttr("selected");
+                                $("#SubCategoriaId option").each(function () {
+                                    if ($(this).html() === nomeInformado)
+                                        $(this).prop("selected", true);
+                                });
+                                $.sidebar.fnFechar();
+                            }
+                            $.sidebar.fnLoader(false);
+                        }).catch(error => {
+                            alertError({ text: error });
+                            $.sidebar.fnLoader(false);
+                        });
+                }
+            }
+        }
+    ];
+
+    $.sidebar(this, { url: action, botoes: botoes });
+}
+
+function cadastrarEditora(el) {
+    let botoes = [
+        {
+            estilo: "btn-warning", icone: "fa fa-chevron-left", callback: function () {
+                $.sidebar.fnFechar();
+            }
+        }, {
+            estilo: "btn-dark", icone: "fa fa-save", loadingText: "Processando...",
+            label: "Salvar", callback: function () {
+                jQuery.validator.unobtrusive.parse($(".sidebar .corpo"));
+
+                const formId = "form-cadastrar-editora";
+                const nomeInformado = $(`#${formId} #Nome`).val();
+                if ($("#" + formId).validate().form()) {
+                    const myRequest = new Request('/Editora/Cadastrar', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Nome: nomeInformado
+                        })
+                    });
+
+                    $.sidebar.fnLoader(true);
+
+                    fetch(myRequest)
+                        .then(response => { return response.json(); })
+                        .then(dados => {
+                            if (!dados.sucesso) {
+                                var erros = [];
+                                $(dados.erros).each(function (index, erroObj) {
+                                    erros.push(erroObj.mensagem);
+                                });
+                                alertError({ title: dados.mensagem, text: erros.join("<br/>") });
+                            } else {
+                                atualizarOpcoesCampoSelecaoEditoras(dados.editoras);
+
+                                $("#EditoraId option").removeAttr("selected");
+                                $("#EditoraId option").each(function () {
+                                    if ($(this).html() === nomeInformado)
+                                        $(this).prop("selected", true);
+                                });
+
+                                $.sidebar.fnFechar();
+                            }
+                            $.sidebar.fnLoader(false);
+                        }).catch(error => {
+                            alertError({ text: error });
+                            $.sidebar.fnLoader(false);
+                        });
+                }
+            }
+        }
+    ];
+
+    $.sidebar(this, { url: `/Editora/Cadastrar`, botoes: botoes });
+}
+
 function cadastrarAutor(el) {
     let botoes = [
         {

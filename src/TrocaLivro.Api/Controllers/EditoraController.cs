@@ -1,18 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
-using TrocaLivro.Aplicacao.CasosDeUsos.CriarEditora;
-using TrocaLivro.Dominio.Entidades;
-using TrocaLivro.Dominio.Requests;
 using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0"), ApiExplorerSettings(IgnoreApi = true)]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/editoras")]
     public class EditoraController : Controller
     {
         private readonly IMediator _mediator;

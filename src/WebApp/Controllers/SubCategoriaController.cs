@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
-using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Filtros;
 
 namespace WebApp.Controllers
 {
-    public class SubCategoriaController : Controller
+    public class SubCategoriaController : BaseController
     {
         private readonly SubCategoriaApiClient _apiSubCategorias;
 
@@ -17,21 +16,24 @@ namespace WebApp.Controllers
             this._apiSubCategorias = api;
         }
 
-        public IActionResult Cadastrar()
+        [AuthorizeCustomizado]
+        public IActionResult Cadastrar(int categoriaId)
         {
-            return PartialView(new CadastroSubCategoriaViewModel());
+            return PartialView(new CriarSubCategoriaViewModel() { CategoriaId = categoriaId });
         }
 
         [HttpPost, ModelState, AuthorizeCustomizado]
-        public async Task<IActionResult> Cadastrar(CriarSubCategoriaCommand model)
+        public async Task<IActionResult> Cadastrar([FromBody]CriarSubCategoriaCommand model)
         {
+            base.AtualizarToken(this._apiSubCategorias);
+
             AppCommandResponse resposta = await _apiSubCategorias.Cadastrar(model);
 
             if (!resposta.Sucesso) return View(resposta);
 
-            ObterSubCategoriasResultado resultado = await _apiSubCategorias.ObterSubCategorias();
+            var subCategorias = await _apiSubCategorias.ObterSubCategorias(model.CategoriaId);
 
-            return Json(new { sucesso = true, subCategorias = resultado.SubCategorias });
+            return Json(new { sucesso = true, subCategorias = subCategorias });
         }
-    }
+    } 
 }

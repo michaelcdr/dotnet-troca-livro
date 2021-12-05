@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
@@ -23,7 +22,7 @@ namespace WebApp.Controllers
         public IActionResult Cadastrar()
         {
             base.AtualizarToken(this._api);
-            return PartialView(new CadastroAutorViewModel());
+            return PartialView(new CriarAutorViewModel());
         }
         
         [HttpPost, ModelState, AuthorizeCustomizado]

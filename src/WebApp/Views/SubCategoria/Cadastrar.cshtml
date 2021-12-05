@@ -1,4 +1,4 @@
-﻿@model CadastroCategoriaViewModel
+﻿@model TrocaLivro.Aplicacao.CasosDeUsos.CriarSubCategoriaViewModel
 
 <div class="cabecalho">
     Cadastro de subcategoria:
@@ -7,6 +7,8 @@
     <form asp-action="Cadastrar" asp-controller="SubCategoria" method="post" id="form-cadastrar-subcategoria">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         
+        <input class="form-control" type="hidden" asp-for="CategoriaId"  />
+
         <div class="form-group">
             <label class="control-label">Nome</label>
             <input class="form-control" asp-for="Nome" />

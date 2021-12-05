@@ -1,12 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TrocaLivro.Aplicacao.CasosDeUsos;
+using TrocaLivro.Aplicacao.DTO;
+using TrocaLivro.Aplicacao.HttpClients;
+using TrocaLivro.Dominio.Responses;
+using WebApp.Filtros;
 
 namespace WebApp.Controllers
 {
     public class EditoraController :  BaseController
     {
-        public IActionResult Index()
+        private readonly EditoraApiClient _api;
+
+        public EditoraController(EditoraApiClient api)
         {
-            return View();
+            this._api = api;
+        }
+
+        [AuthorizeCustomizado]
+        public IActionResult Cadastrar()
+        {
+            base.AtualizarToken(this._api);
+            return PartialView(new CriarEditoraViewModel());
+        }
+
+        [HttpPost, ModelState, AuthorizeCustomizado]
+        public async Task<IActionResult> Cadastrar([FromBody] CriarEditoraCommand model)
+        {
+            base.AtualizarToken(this._api);
+            AppCommandResponse resposta = await _api.CadastrarEditora(model);
+
+            if (!resposta.Sucesso) return Json(resposta);
+
+            List<EditoraDTO> editoras = await _api.ObterEditoras();
+
+            return Json(new { sucesso = true, editoras });
         }
     }
 }

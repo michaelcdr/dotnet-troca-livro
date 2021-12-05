@@ -52,5 +52,24 @@ namespace TrocaLivro.Api.Controllers
             AppResponse<SubCategoriaDTO> resultado = await _mediator.Send(new ObterSubCategoriaPorUrlAmigavelQuery(urlAmigavel));
             return Ok(resultado.Dados);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CriarSubCategoriaCommand command)
+        {
+            AppCommandResponse resposta = await _mediator.Send(command);
+
+            if (!resposta.Sucesso) return BadRequest(resposta);
+
+            var categoria = await _mediator.Send(new ObterSubCategoriaPorNomeECategoriaIdQuery(command.CategoriaId, command.Nome));
+
+            var uri = Url.Action("Get", new { id = categoria.Dados.Id });
+
+            return Created(uri, resposta);
+        }
     }
 }

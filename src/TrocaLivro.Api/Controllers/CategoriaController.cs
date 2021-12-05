@@ -13,7 +13,7 @@ namespace TrocaLivro.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0"), ApiExplorerSettings(IgnoreApi = true)]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/categorias")]
     public class CategoriaController : Controller
     {
         private IUnitOfWork _uow;
@@ -46,6 +46,25 @@ namespace TrocaLivro.Api.Controllers
             if (!resposta.Sucesso) return BadRequest(resposta);
 
             return Ok(resposta);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CriarCategoriaCommand command)
+        {
+            AppCommandResponse resposta = await _mediator.Send(command);
+
+            if (!resposta.Sucesso) return BadRequest(resposta);
+
+            var categoria = await _mediator.Send(new ObterCategoriaPorNomeQuery(command.Nome));
+
+            var uri = Url.Action("Get", new { id = categoria.Dados.Id });
+
+            return Created(uri, resposta);
         }
     }
 }

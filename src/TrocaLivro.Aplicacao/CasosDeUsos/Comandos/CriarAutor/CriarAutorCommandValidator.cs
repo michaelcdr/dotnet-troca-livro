@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using TrocaLivro.Aplicacao.ViewModels;
+using TrocaLivro.Aplicacao.CasosDeUsos;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
-    public class CadastroSubCategoriaViewModelValidator : AbstractValidator<CadastroSubCategoriaViewModel>
+    public class CriarAutorCommandValidator : AbstractValidator<CriarAutorCommand>
     {
-        public CadastroSubCategoriaViewModelValidator()
+        public CriarAutorCommandValidator()
         {
             RuleFor(model => model.Nome)
                 .NotEmpty()

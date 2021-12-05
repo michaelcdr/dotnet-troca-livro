@@ -10,34 +10,34 @@ using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.HttpClients
 {
-    public class AutorApiClient : IAtualizadorToken
+    public class EditoraApiClient : IAtualizadorToken
     {
         private readonly HttpClient httpClient;
         private string admToken;
         private string token;
-        public AutorApiClient(HttpClient httpClient )
+
+        public EditoraApiClient(HttpClient httpClient)
         {
-            this.httpClient = httpClient; 
+            this.httpClient = httpClient;
         }
+
         public void AtualizarToken(Claim claimComToken)
         {
             this.token = claimComToken.Value;
         }
 
-        public async Task<AppCommandResponse> CadastrarAutor(CriarAutorCommand comando)
+        public async Task<AppCommandResponse> CadastrarEditora(CriarEditoraCommand comando)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"Autores", comando);
-            var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppCommandResponse>();
-            return conteudoResposta;
+            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync("Editoras", comando);
+            return await resposta.Content.ReadFromJsonAsync<AppCommandResponse>();
         }
 
-        public async Task<List<AutorDTO>> ObterAutores()
+        public async Task<List<EditoraDTO>> ObterEditoras()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
-            HttpResponseMessage resposta = await httpClient.GetAsync("Autores");
-            var dados = await resposta.Content.ReadFromJsonAsync<List<AutorDTO>>();
-            return dados;
+            HttpResponseMessage resposta = await httpClient.GetAsync("Editoras");
+            return await resposta.Content.ReadFromJsonAsync<List<EditoraDTO>>();
         }
     }
 }

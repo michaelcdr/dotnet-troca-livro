@@ -209,7 +209,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", admToken);
 
-            HttpResponseMessage resposta = await httpClient.GetAsync("Editora");
+            HttpResponseMessage resposta = await httpClient.GetAsync("Editoras");
             resposta.EnsureSuccessStatusCode();
             var editoraDTOs = await resposta.Content.ReadFromJsonAsync<List<EditoraDTO>>();
 
@@ -231,7 +231,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
 
-            HttpResponseMessage resposta = await httpClient.GetAsync("Autor");
+            HttpResponseMessage resposta = await httpClient.GetAsync("Autores");
             var dados = await resposta.Content.ReadFromJsonAsync<List<AutorDTO>>();
             return dados;
         }
@@ -240,7 +240,7 @@ namespace TrocaLivro.Aplicacao.HttpClients
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
 
-            HttpResponseMessage resposta = await httpClient.GetAsync("Categoria");
+            HttpResponseMessage resposta = await httpClient.GetAsync("Categorias");
             var dados = await resposta.Content.ReadFromJsonAsync<List<CategoriaDTO>>();
             return dados;
         }

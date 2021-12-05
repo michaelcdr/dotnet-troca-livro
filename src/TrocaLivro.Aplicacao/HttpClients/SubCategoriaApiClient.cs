@@ -10,34 +10,33 @@ using TrocaLivro.Dominio.Responses;
 
 namespace TrocaLivro.Aplicacao.HttpClients
 {
-    public class AutorApiClient : IAtualizadorToken
+    public class SubCategoriaApiClient : IAtualizadorToken
     {
         private readonly HttpClient httpClient;
         private string admToken;
         private string token;
-        public AutorApiClient(HttpClient httpClient )
+        public SubCategoriaApiClient(HttpClient httpClient)
         {
-            this.httpClient = httpClient; 
+            this.httpClient = httpClient;
         }
         public void AtualizarToken(Claim claimComToken)
         {
             this.token = claimComToken.Value;
         }
 
-        public async Task<AppCommandResponse> CadastrarAutor(CriarAutorCommand comando)
+        public async Task<AppCommandResponse> Cadastrar(CriarSubCategoriaCommand comando)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"Autores", comando);
+            HttpResponseMessage resposta = await httpClient.PostAsJsonAsync($"SubCategorias", comando);
             var conteudoResposta = await resposta.Content.ReadFromJsonAsync<AppCommandResponse>();
             return conteudoResposta;
         }
 
-        public async Task<List<AutorDTO>> ObterAutores()
-        {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.admToken);
-            HttpResponseMessage resposta = await httpClient.GetAsync("Autores");
-            var dados = await resposta.Content.ReadFromJsonAsync<List<AutorDTO>>();
-            return dados;
+        public async Task<List<SubCategoriaDTO>> ObterSubCategorias(int categoriaId)
+        { 
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"SubCategorias/ObterTodasDaCategoria/{categoriaId}" );
+            return await resposta.Content.ReadFromJsonAsync<List<SubCategoriaDTO>>();
         }
     }
 }

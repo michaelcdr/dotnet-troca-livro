@@ -32,7 +32,7 @@ namespace WebApp.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this._token);
-            HttpResponseMessage resposta = await _httpClient.GetAsync("Categoria/ComSubCategorias"); 
+            HttpResponseMessage resposta = await _httpClient.GetAsync("Categorias/ComSubCategorias"); 
             var appResponse = await resposta.Content.ReadFromJsonAsync<AppResponse<ObterCategoriasResultado>>();
 
             return View(new CategoriasMenuViewModel(appResponse.Dados.Categorias.Where(e => e.SubCategorias.Count > 0).Take(10).ToList()));

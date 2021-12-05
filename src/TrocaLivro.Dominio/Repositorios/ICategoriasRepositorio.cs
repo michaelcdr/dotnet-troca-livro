@@ -9,5 +9,7 @@ namespace TrocaLivro.Dominio.Repositorios
         Task<IList<SubCategoria>> ObterSubCategorias(int categoriaId);
         Task<IList<Categoria>> ObterTodas();
         Task<IList<SubCategoria>> ObterTodasSubCategorias();
+        Task<bool> Existe(string nome);
+        Task<Categoria> ObterPorNome(string nome);
     }
 }

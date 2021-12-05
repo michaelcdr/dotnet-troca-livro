@@ -5,7 +5,7 @@ using TrocaLivro.Dominio.Entidades;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Dominio.Transacoes;
 
-namespace TrocaLivro.Aplicacao.CasosDeUsos.CriarEditora
+namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
     public class CriarEditoraCommandHandler : IRequestHandler<CriarEditoraCommand, AppResponse<CriarEditoraResultado>>
     {

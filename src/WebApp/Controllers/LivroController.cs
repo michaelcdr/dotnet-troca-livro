@@ -18,12 +18,20 @@ namespace WebApp.Controllers
     public class LivroController : BaseController
     {
         private readonly LivroApiClient api;
+        private readonly CategoriaApiClient categoriasApi;
+        private readonly EditoraApiClient editorasApi;
+        private readonly AutorApiClient autoresApi;
         private readonly IMapper _mapper;
 
-        public LivroController(LivroApiClient livroApiClient, IMapper mapper)
+        public LivroController(
+            LivroApiClient livroApiClient, CategoriaApiClient categoriasApi, 
+            EditoraApiClient editorasApi, AutorApiClient autoresApi, IMapper mapper)
         {
-            this.api = livroApiClient;
             this._mapper = mapper;
+            this.api = livroApiClient;
+            this.categoriasApi = categoriasApi;
+            this.editorasApi = editorasApi;
+            this.autoresApi = autoresApi;
         }  
        
         public async Task<IActionResult> Detalhes(int id)
@@ -70,11 +78,10 @@ namespace WebApp.Controllers
         [AuthorizeCustomizado]
         public async Task<IActionResult> Cadastrar()
         {
-            Console.WriteLine("Cadastrar");
             return View(new CadastrarLivroViewModel(
-                await api.ObterEditoras(),
-                await api.ObterAutores(),
-                await api.ObterCategorias()
+                await editorasApi.ObterEditoras(),
+                await autoresApi.ObterAutores(),
+                await categoriasApi.ObterCategorias()
             ));
         }
 
@@ -91,9 +98,9 @@ namespace WebApp.Controllers
             {
                 ModelState.AddModelError("", string.Join("<br/>", resposta.Erros.Select(e =>e.Mensagem).ToList()));
 
-                model.Autores = await api.ObterAutores();
-                model.Editoras = await api.ObterEditoras();
-                model.Categorias = await api.ObterCategorias();
+                model.Autores = await autoresApi.ObterAutores();
+                model.Editoras = await editorasApi.ObterEditoras();
+                model.Categorias = await categoriasApi.ObterCategorias();
                 return View(model);
             }
             return RedirectToAction("Index","Home");
