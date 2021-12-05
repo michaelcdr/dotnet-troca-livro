@@ -21,6 +21,7 @@ using TrocaLivro.Aplicacao.Helpers;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.Mapping;
 using TrocaLivro.Aplicacao.Services;
+using TrocaLivro.Aplicacao.Validators;
 using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using TrocaLivro.Infra.Services;
@@ -63,12 +64,23 @@ namespace WebApp
             services.AddHttpClient<LivroApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<PacoteApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            services.AddHttpClient<AutorApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            services.AddHttpClient<SubCategoriaApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            
+
             services.AddAutoMapper(typeof(UsuarioProfile));
             services.AddAutoMapper(typeof(LivroProfile));
 
             services.AddTransient<IValidator<DisponibilizarLivroParaTrocaViewModel>, DisponibilizarLivroParaTrocaValidator>();
             services.AddTransient<IValidator<AvaliarLivroViewModel>, AvaliarLivroValidator>();
             services.AddTransient<IValidator<EditarUsuarioCommand>, EditarUsuarioCommandValidator>();
+
+            services.AddTransient<IValidator<CadastroAutorViewModel>, CadastroAutorViewModelValidator>();
+            services.AddTransient<IValidator<CadastroCategoriaViewModel>, CadastroCategoriaViewModelValidator>();
+            services.AddTransient<IValidator<CadastroSubCategoriaViewModel>, CadastroSubCategoriaViewModelValidator>();
+            services.AddTransient<IValidator<CadastroEditoraViewModel>, CadastroEditoraViewModelValidator>();
+
+            
 
             services.AddMvc().AddRazorOptions(options =>
             {

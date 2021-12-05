@@ -18,10 +18,19 @@ namespace TrocaLivro.Dominio.Entidades
 
             GerarUrlAmigavel();
         }
+        
+        public SubCategoria(string nome, int categoriaId)
+        {
+            this.Nome = nome;
+            this.CategoriaId = categoriaId;
+
+            GerarUrlAmigavel();
+        }
 
         public override bool TaValido()
         {
-            return true;
+            return !string.IsNullOrEmpty(this.Nome) &&
+                this.CategoriaId > 0;
         }
 
         public void GerarUrlAmigavel()

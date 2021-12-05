@@ -634,3 +634,31 @@ nav.navbar a {
     .img-livro {
         cursor: pointer;
     }
+
+.input-group .btn-outline-dark {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    margin-left:-2px;
+    border-width:1px;
+}
+.form-control{
+    border-color:var(--dark);
+    border-width:1px;
+}
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: var(--dark);
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(0 173 181 / 25%);
+    }
+
+    .form-control.input-validation-error, .input-validation-error {
+        border: 1px solid var(--danger-color);
+        border-color: var(--danger-color);
+        
+    }
+        .form-control.input-validation-error:focus {
+            box-shadow: 0 0 0 0.2rem rgb(247, 139, 139);
+        }
+

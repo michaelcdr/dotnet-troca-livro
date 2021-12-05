@@ -25,7 +25,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.ObterTodosAutores
         {
             IList<Autor> autores = await uow.Autores.ObterTodos();
 
-            List<AutorDTO> autoresDto = autores.Select(e => new AutorDTO { Id = e.Id, Nome = e.Nome }).ToList();
+            List<AutorDTO> autoresDto = autores.Select(e => new AutorDTO { Id = e.Id, Nome = e.Nome }).OrderBy(e=>e.Nome).ToList();
 
             var resultado = new ObterTodosAutoresResultado(autoresDto);
 

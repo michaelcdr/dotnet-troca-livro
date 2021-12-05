@@ -1,0 +1,17 @@
+﻿@model CadastroCategoriaViewModel
+
+<div class="cabecalho">
+    Cadastro de categoria:
+</div>
+<div class="corpo">
+    <form asp-action="Cadastrar" asp-controller="Categoria" method="post" id="form-cadastrar-categoria">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+        <div class="form-group">
+            <label class="control-label">Nome</label>
+            <input class="form-control" asp-for="Nome" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>  
+    </form>
+</div>
+<div class="rodape"></div>

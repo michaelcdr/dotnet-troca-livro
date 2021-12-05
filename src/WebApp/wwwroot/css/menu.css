@@ -44,8 +44,7 @@
 .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus,
 .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
     background: var(--primary-color);
-    color: var(--second-color);
-    transition: all .4s;
+    color: var(--second-color);    
 }
 
 .mainmenu .collapse ul ul ul > li:hover > a {
@@ -151,4 +150,10 @@
 #pesquisa-container #button-addon2 {
     background-color:var(--bg-tabs);
     border:0;
+}
+#navbar-menu ul.navbar-nav > li,
+#navbar-menu ul.navbar-nav > li > a:hover,
+#navbar-menu ul.navbar-nav > li li > a,
+#navbar-menu ul.navbar-nav > li li > a:hover {
+    transition: all .4s;
 }

@@ -20,7 +20,7 @@ DetalhesLivro.prototype._aplicarEventos = function () {
     }
 
     let btnAvaliar = document.querySelector('#btn-avaliar');
-    if (btnAvaliar !== null) {
+    if (btnAvaliar !== null) { 
         btnAvaliar.addEventListener('click', function () {
             return _self.avaliar(btnAvaliar.dataset.livroId);
         });

@@ -1,32 +1,38 @@
-﻿:root {
-    --primary-color: #C01327;
-    --second-color: #F5F0EC;
-}
-
-body {
+﻿body {
     font-family: 'Roboto', sans-serif;
     background-color: #F5F0EC;
 }
-
+#nav-login {
+    background-color: var(--secondary-1);
+}
+.spacer-header {
+    background-color: var(--secondary-1);
+    height: 200px;
+}
 a {
     color: var(--second-color);
     text-decoration: none;
 }
 
     a.a-primary {
-        color: var(--primary-color);
+        color: var(--secondary-1);
         text-decoration: none;
     }
+.btn-outline-dark:hover {
+    background-color: var(--secondary-1);
+    border-color: var(--secondary-1) !important;
+    transition:all .4s;
+}
+.btn-outline-dark {
+    transition: all .4s;
+    border-color: var(--secondary-1) !important;
+}
+
 /*helpers*/
 .logo-strong {
     color: var(--primary-color);
     font-weight: 400;
-}
-
-.spacer-header {
-    background-color: #343A40;
-    height: 200px;
-}
+} 
 
 .container-login,
 .container-register {
@@ -54,3 +60,6 @@ a {
         border-radius: 4px;
         border: 1px solid #eee;
     }
+#logo{
+    height:50px;
+}

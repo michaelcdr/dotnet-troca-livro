@@ -57,6 +57,10 @@
             }
         },100)
     });
+
+    $("#btn-adicionar-autor").click(function () {
+        cadastrarAutor($(this));
+    });
 });
 
 function obterImagensAtuais() {
@@ -65,3 +69,96 @@ function obterImagensAtuais() {
     
     return ids.join(",");
 }
+
+function atualizarOpcoesCampoSelecaoAutor(autores) {
+    var opcoes = [];
+    if (autores) {
+        autores.forEach(autor => {
+            opcoes.push("<option value='" + autor.id + "'>" + autor.nome + "</option>");
+        });
+    }
+
+    $("#AutorId").html(opcoes.join(""));
+}
+
+function atualizarOpcoesCampoSelecaoCategorias(categorias) {
+    var opcoes = [];
+    if (categorias) {
+        categorias.forEach(categoria => {
+            opcoes.push("<option value='" + categoria.id + "'>" + categoria.nome + "</option>");
+        });
+    }
+
+    $("#CategoriaId").html(opcoes.join(""));
+}
+
+function atualizarOpcoesCampoSelecaoSubCategorias(subCategorias) {
+    var opcoes = [];
+    if (subCategorias) {
+        subCategorias.forEach(subCategoria => {
+            opcoes.push("<option value='" + subCategoria.id + "'>" + subCategoria.nome + "</option>");
+        });
+    }
+
+    $("#SubCategoriaId").html(opcoes.join(""));
+}
+
+function atualizarOpcoesCampoSelecaoEditoras(editoras) {
+    var opcoes = [];
+    if (editoras) {
+        editoras.forEach(editor => {
+            opcoes.push("<option value='" + editor.id + "'>" + editor.nome + "</option>");
+        });
+    }
+
+    $("#EditoraId").html(opcoes.join(""));
+}
+ 
+function cadastrarAutor(el) {
+    let botoes = [
+        {
+            estilo: "btn-warning", icone: "fa fa-chevron-left", callback: function () {
+                $.sidebar.fnFechar();
+            }
+        }, {
+            estilo: "btn-dark", icone: "fa fa-save", label: "Salvar", callback: function () {
+                jQuery.validator.unobtrusive.parse($(".sidebar .corpo"));
+
+                const formId = "form-cadastrar-autor";
+
+                if ($("#" + formId).validate().form()) {
+                    const myRequest = new Request('/Autor/Cadastrar', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Nome: $(`#${formId} #Nome`).val()
+                        })
+                    });
+
+                    fetch(myRequest)
+                        .then(response => { return response.json(); })
+                        .then(dados => {
+                            if (!dados.sucesso) {
+                                var erros = [];
+                                $(dados.erros).each(function (index, erroObj) {
+                                    erros.push(erroObj.mensagem);
+                                });
+                                alertError({ title: dados.mensagem, text: erros.join("<br/>") });
+                            } else {
+                                atualizarOpcoesCampoSelecaoAutor(dados.autores);
+                                $.sidebar.fnFechar();
+                            }
+
+                        }).catch(error => {
+                            alertError({ text: error })
+                        });
+                }
+            }
+        }
+    ];
+
+    $.sidebar(this, { url: `/Autor/Cadastrar`, botoes: botoes });
+};
