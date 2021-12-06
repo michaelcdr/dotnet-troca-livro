@@ -39,59 +39,74 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="AutorId" class="control-label">Autor</label>
-                <select asp-for="AutorId" multiple class="form-control" style="height:150px">
-                    @foreach (var item in Model.Autores)
-                    {
-                        if (Model.AutorId.Any(autorId => item.Id == autorId))
+                <div class="input-group">
+                    <select asp-for="AutorId" multiple class="form-control" style="height:150px">
+                        @foreach (var item in Model.Autores)
                         {
-                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                            if (Model.AutorId.Any(autorId => item.Id == autorId))
+                            {
+                                <option value="@item.Id" selected="selected">@item.Nome</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Nome</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@item.Id">@item.Nome</option>
-                        }
-                    }
-                </select>
+                    </select>
+                    <button class="btn btn-outline-dark" type="button" id="btn-adicionar-autor">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
                 <span asp-validation-for="AutorId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label">Categoria</label>
-                <select asp-for="CategoriaId" class="form-control" data-id="@Model.CategoriaId">
-                    <option value="">Selecione...</option>
-                    @foreach (var item in Model.Categorias)
-                    {
-                        if (item.Id == Model.CategoriaId)
+                <div class="input-group">
+                    <select asp-for="CategoriaId" class="form-control" data-id="@Model.CategoriaId">
+                        <option value="">Selecione...</option>
+                        @foreach (var item in Model.Categorias)
                         {
-                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                            if (item.Id == Model.CategoriaId)
+                            {
+                                <option value="@item.Id" selected="selected">@item.Nome</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Nome</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@item.Id">@item.Nome</option>
-                        }
-                    }
-                </select>
+                    </select>
+                    <button class="btn btn-outline-dark" type="button" id="btn-adicionar-categoria">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="SubCategoriaId" class="control-label">SubCategoria</label>
-                <select asp-for="SubCategoriaId" class="form-control">
-                    <option value="">Selecione...</option>
-                    @foreach (var item in Model.SubCategorias)
-                    {
-                        if (item.Id == Model.SubCategoriaId)
+                <div class="input-group">
+                    <select asp-for="SubCategoriaId" class="form-control">
+                        <option value="">Selecione...</option>
+                        @foreach (var item in Model.SubCategorias)
                         {
-                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                            if (item.Id == Model.SubCategoriaId)
+                            {
+                                <option value="@item.Id" selected="selected">@item.Nome</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Nome</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@item.Id">@item.Nome</option>
-                        }
-                    }
-                </select>
+                    </select>
+                    <button class="btn btn-outline-dark" type="button" id="btn-adicionar-subcategoria">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
                 <span asp-validation-for="SubCategoriaId" class="text-danger"></span>
             </div>
         </div>
@@ -99,20 +114,25 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EditoraId" class="control-label">Editora</label>
-                <select asp-for="EditoraId" class="form-control">
-                    <option value="">Selecione...</option>
-                    @foreach (var item in Model.Editoras)
-                    {
-                        if (item.Id == Model.EditoraId)
+                <div class="input-group">
+                    <select asp-for="EditoraId" class="form-control">
+                        <option value="">Selecione...</option>
+                        @foreach (var item in Model.Editoras)
                         {
-                            <option value="@item.Id" selected="selected">@item.Nome</option>
+                            if (item.Id == Model.EditoraId)
+                            {
+                                <option value="@item.Id" selected="selected">@item.Nome</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Nome</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@item.Id">@item.Nome</option>
-                        }
-                    }
-                </select>
+                    </select>
+                    <button class="btn btn-outline-dark" type="button" id="btn-adicionar-editora">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
                 <span asp-validation-for="EditoraId" class="text-danger"></span>
             </div>
         </div>

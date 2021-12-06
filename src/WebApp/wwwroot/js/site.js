@@ -26,6 +26,7 @@ $(document).ready(function () {
 
     (function ($) {
         $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+            console.log("clicou")
             if (!$(this).next().hasClass('show')) {
                 $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
             }
@@ -38,6 +39,14 @@ $(document).ready(function () {
 
             return false;
         });
+
+        $(".navbar-toggler").click(function () {
+            if (!$(".container-menu").hasClass("open"))
+                $(".container-menu").addClass("open");
+            else {
+                $(".container-menu").removeClass("open");
+            }
+        })
     })(jQuery)
 });
 

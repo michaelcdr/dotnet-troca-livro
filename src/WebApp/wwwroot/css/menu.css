@@ -1,159 +1,185 @@
-﻿.container-menu {
-    background-color: var(--primary-color);
-    box-shadow: var(--secondary-1) 0px -5px 20px;
+﻿@media only screen and (max-width: 600px) {
+    .container-menu {
+        padding-left: 0px;
+        padding-right: 0px;
+        background-color: var(--secondary-1);
+        position: absolute;
+        width: 100%;
+        z-index: 9999;
+        display: none;
+    }
+
+    .container-menu.open {
+        display: unset;
+    }
 }
 
-.dropdown-menu {
-    padding: 0;
-    margin: 0;
-    border: 0 solid transition !important;
-    border: 0 solid rgba(0,0,0,.15);
-    border-radius: 0;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important
+@media only screen and (min-width: 601px) {
+    .container-menu {
+        background-color: var(--primary-color);
+        box-shadow: var(--secondary-1) 0px -5px 20px;
+    }
 }
 
-.mainmenu a, .navbar-default .navbar-nav > li > a, 
-.mainmenu ul li a, .navbar-expand-lg .navbar-nav .nav-link {
-    color: #fff;
-    font-size: 16px;
-    text-transform: capitalize;
-    padding: 16px 15px;
-    display: block !important;
-}
-    .mainmenu a.dropdown-item {
+    .dropdown-menu {
+        padding: 0;
+        margin: 0;
+        border: 0 solid transition !important;
+        border: 0 solid rgba(0,0,0,.15);
+        border-radius: 0;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important
+    }
+
+    .mainmenu a, .navbar-default .navbar-nav > li > a,
+    .mainmenu ul li a, .navbar-expand-lg .navbar-nav .nav-link {
+        color: #fff;
+        font-size: 16px;
+        text-transform: capitalize;
+        padding: 16px 15px;
+        display: block !important;
+    }
+
+        .mainmenu a.dropdown-item {
+            padding: 10px 15px;
+        }
+
+    .dropdown .dropdown-item {
         padding: 10px 15px;
     }
-.dropdown .dropdown-item {
-    padding: 10px 15px;
-}
-.mainmenu .active a, .mainmenu .active a:focus,
-.mainmenu .active a:hover, .mainmenu li a:hover,
-.mainmenu li a:focus, .navbar-default .navbar-nav > .show > a,
-.navbar-default .navbar-nav > .show > a:focus, .navbar-default .navbar-nav > .show > a:hover {
-    color: #fff;
-    background: var(--secondary-1);
-    outline: 0;
-}
 
-.mainmenu .collapse ul > li:hover > a {
-    background: var(--secondary-1);
-}
+    .mainmenu .active a, .mainmenu .active a:focus,
+    .mainmenu .active a:hover, .mainmenu li a:hover,
+    .mainmenu li a:focus, .navbar-default .navbar-nav > .show > a,
+    .navbar-default .navbar-nav > .show > a:focus, .navbar-default .navbar-nav > .show > a:hover {
+        color: #fff;
+        background: var(--secondary-1);
+        outline: 0;
+    }
 
-.mainmenu .collapse ul ul > li:hover > a,
-.navbar-default .navbar-nav .show .dropdown-menu > li > a:focus,
-.navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
-    background: var(--primary-color);
-    color: var(--second-color);    
-}
-
-.mainmenu .collapse ul ul ul > li:hover > a {
-    background: var(--primary-color);
-}
-
-.mainmenu .collapse ul ul, .mainmenu .collapse ul ul.dropdown-menu {
-    background: var(--secondary-1);
-}
-
-    .mainmenu .collapse ul ul ul, .mainmenu .collapse ul ul ul.dropdown-menu {
+    .mainmenu .collapse ul > li:hover > a {
         background: var(--secondary-1);
     }
-        .mainmenu .collapse ul ul ul ul, .mainmenu .collapse ul ul ul ul.dropdown-menu {
+
+    .mainmenu .collapse ul ul > li:hover > a,
+    .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus,
+    .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover {
+        background: var(--primary-color);
+        color: var(--second-color);
+    }
+
+    .mainmenu .collapse ul ul ul > li:hover > a {
+        background: var(--primary-color);
+    }
+
+    .mainmenu .collapse ul ul, .mainmenu .collapse ul ul.dropdown-menu {
+        background: var(--secondary-1);
+    }
+
+        .mainmenu .collapse ul ul ul, .mainmenu .collapse ul ul ul.dropdown-menu {
             background: var(--secondary-1);
         }
 
-/******************************Drop-down menu work on hover**********************************/
-.mainmenu {
-    background: none;
-    border: 0 solid;
-    margin: 0;
-    padding: 0;
-    min-height: 20px;
-    width: 100%;
-}
-
-@media only screen and (min-width: 767px) {
-    .mainmenu .collapse ul li:hover > ul {
-        display: block
-    }
-
-    .mainmenu .collapse ul ul {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        min-width: 250px;
-        display: none
-    }
-        /*******/
-        .mainmenu .collapse ul ul li {
-            position: relative
-        }
-
-            .mainmenu .collapse ul ul li:hover > ul {
-                display: block
+            .mainmenu .collapse ul ul ul ul, .mainmenu .collapse ul ul ul ul.dropdown-menu {
+                background: var(--secondary-1);
             }
 
-        .mainmenu .collapse ul ul ul {
+    /******************************Drop-down menu work on hover**********************************/
+    .mainmenu {
+        background: none;
+        border: 0 solid;
+        margin: 0;
+        padding: 0;
+        min-height: 20px;
+        width: 100%;
+    }
+
+    @media only screen and (min-width: 767px) {
+        .mainmenu .collapse ul li:hover > ul {
+            display: block
+        }
+
+        .mainmenu .collapse ul ul {
             position: absolute;
-            top: 0;
-            left: 100%;
+            top: 100%;
+            left: 0;
             min-width: 250px;
             display: none
         }
             /*******/
-            .mainmenu .collapse ul ul ul li {
+            .mainmenu .collapse ul ul li {
                 position: relative
             }
 
-                .mainmenu .collapse ul ul ul li:hover ul {
+                .mainmenu .collapse ul ul li:hover > ul {
                     display: block
                 }
 
-            .mainmenu .collapse ul ul ul ul {
+            .mainmenu .collapse ul ul ul {
                 position: absolute;
                 top: 0;
-                left: -100%;
+                left: 100%;
                 min-width: 250px;
-                display: none;
-                z-index: 1
+                display: none
             }
-}
+                /*******/
+                .mainmenu .collapse ul ul ul li {
+                    position: relative
+                }
 
-@media only screen and (max-width: 767px) {
-    .navbar-nav .show .dropdown-menu .dropdown-menu > li > a {
-        padding: 16px 15px 16px 35px
+                    .mainmenu .collapse ul ul ul li:hover ul {
+                        display: block
+                    }
+
+                .mainmenu .collapse ul ul ul ul {
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    min-width: 250px;
+                    display: none;
+                    z-index: 1
+                }
     }
 
-    .navbar-nav .show .dropdown-menu .dropdown-menu .dropdown-menu > li > a {
-        padding: 16px 15px 16px 45px
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    
-    #pesquisa-container {
-        position:absolute;
-        top:80px;
-    }
-        #pesquisa-container .btn-outline-light {
-            background-color: var(--default-color);
+    @media only screen and (max-width: 767px) {
+        .navbar-nav .show .dropdown-menu .dropdown-menu > li > a {
+            padding: 16px 15px 16px 35px
         }
-}
-#pesquisa-container #termoPesquisa {
-    height: 3.125rem;
-    max-height: 3.125rem;
-    padding: 0 1.0625rem;
-    background-color: #fff;
-    border: 0;
-    color: var(--default-color);
-}
-#pesquisa-container #button-addon2 {
-    background-color:var(--bg-tabs);
-    border:0;
-}
-#navbar-menu ul.navbar-nav > li,
-#navbar-menu ul.navbar-nav > li > a:hover,
-#navbar-menu ul.navbar-nav > li li > a,
-#navbar-menu ul.navbar-nav > li li > a:hover {
-    transition: all .4s;
-}
+
+        .navbar-nav .show .dropdown-menu .dropdown-menu .dropdown-menu > li > a {
+            padding: 16px 15px 16px 45px
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+
+        #pesquisa-container {
+            position: absolute;
+            top: 80px;
+        }
+
+            #pesquisa-container .btn-outline-light {
+                background-color: var(--default-color);
+            }
+    }
+
+    #pesquisa-container #termoPesquisa {
+        height: 3.125rem;
+        max-height: 3.125rem;
+        padding: 0 1.0625rem;
+        background-color: #fff;
+        border: 0;
+        color: var(--default-color);
+    }
+
+    #pesquisa-container #button-addon2 {
+        background-color: var(--bg-tabs);
+        border: 0;
+    }
+
+    #navbar-menu ul.navbar-nav > li,
+    #navbar-menu ul.navbar-nav > li > a:hover,
+    #navbar-menu ul.navbar-nav > li li > a,
+    #navbar-menu ul.navbar-nav > li li > a:hover {
+        transition: all .4s;
+    }
