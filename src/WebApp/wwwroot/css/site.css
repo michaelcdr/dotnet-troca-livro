@@ -258,3 +258,13 @@ main {
     padding-left: 15px;
     font-style: italic;
 }
+
+#livros-disponibilizados-troca .card.card-produto{
+    height:480px;
+}
+#trocas-solicitadas-ao-usuario-logado .card.card-produto {
+    height: 480px;
+}
+#trocas-solicitadas-pelo-usuario-logado .card.card-produto {
+    height: 510px;
+}

@@ -10,11 +10,33 @@
         <img src="@Model.Capa" style="max-width:100%" />
     </div>
     <div class="col-md-9">
-        <h1 class="mt-0">@Model.Titulo</h1>
-        <h4 class="ator">@Model.Autores </h4>
-        <div class="isbn">@Model.ISBN - @Model.NumeroPagina páginas - @Model.Ano</div>
+        <h1 class="mt-0">@Model.Titulo</h1>        
         <p>@Html.Raw(Model.Descricao)</p>
     </div> 
+    <div  class="col-md-12 pt-2">
+        <table class="table table-borderless table-striped">
+            <tr>
+                <td width="10%"><strong>Autores:</strong></td>
+                <td>@Model.Autores</td>
+            </tr>
+            <tr>
+                <td><strong>Editora:</strong></td>
+                <td>@Model.Editora</td>
+            </tr>
+            <tr>
+                <td><strong>ISBN:</strong></td>
+                <td>@Model.ISBN</td>
+            </tr>
+            <tr>
+                <td><strong>Ano:</strong></td>
+                <td>@Model.Ano</td>
+            </tr>
+            <tr>
+                <td><strong>Páginas:</strong></td>
+                <td>@Model.NumeroPagina</td>
+            </tr>
+        </table>
+    </div>
     <div class="col-md-12 pt-2" id="detalhes-livro-acoes">
         @if (Model.DisponibilizarParaTroca)
         {
@@ -29,6 +51,7 @@
             <button type="button" class="btn mb-2 btn-outline-danger" id="btn-deletar" data-id="@Model.Id">Deletar livro</button>
         }
     </div>
+    
 </div>
 
 <partial name="_ListaUsuariosOfertando"/>

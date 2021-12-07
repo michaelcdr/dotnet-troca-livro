@@ -102,6 +102,15 @@ namespace WebApp.Controllers
 
             model.Usuario = User.Identity.Name;
             
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Ocorreram um ou mais erros de validação.");
+                model.Autores = await autoresApi.ObterAutores();
+                model.Editoras = await editorasApi.ObterEditoras();
+                model.Categorias = await categoriasApi.ObterCategorias();
+                return View(model);
+            }
+
             AppResponse<CadastrarLivroResultado> resposta = await api.CadastrarLivro(model);
             
             if (!resposta.Sucesso)

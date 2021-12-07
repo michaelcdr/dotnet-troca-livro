@@ -39,9 +39,6 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.CadastrarLivro
 
             if (!livro.TaValido())
                 return new AppResponse<CadastrarLivroResultado>("Erro.", false, livro.ObterErros());
-
-            if (await uow.Livros.VerificarExistencia(livro.ISBN))
-                livro.AdicionarErro("Livro já cadastrado.", "");
             
             if (commando.Imagens.Count > 0) 
             { 

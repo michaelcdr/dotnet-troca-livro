@@ -1,6 +1,4 @@
-﻿
-
-body {
+﻿body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--bg-default);
     color: var(--default-text-color);
@@ -540,7 +538,7 @@ nav.navbar a {
     }
 
     .table a:link, .table a:visited, .table a:hover, .table a:active {
-        color: var(--default-color);
+        color: var(--dark);
     }
 
     .categories-menu > span {

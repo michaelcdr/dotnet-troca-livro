@@ -1,5 +1,6 @@
 ﻿$(function () {
     $('#Imagens').change(function () {
+        $('#imagens-container').empty();
         let input = this;
         if (input.files) {
             for (var i = 0; i < input.files.length; i++) {
