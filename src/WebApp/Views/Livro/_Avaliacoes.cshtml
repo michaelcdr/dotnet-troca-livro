@@ -2,16 +2,36 @@
 
 <div class="row">
     <div class="col-md-12 mt-3">
-        <h3>Avaliações</h3>
+        <div id="div-avaliacao" class="pull-right pb-2">
+            <div id="div-titulo-avaliacoes">Avaliações dos usuários:</div>
+            <div id="div-avaliacao-geral-estrelas" class="nota">
+                <div class="nota-componente">
+                    <span class="fa fa-star @(Model.CalcularAvaliacao() < 1 ? "deselecionada" :"")" ></span>
+                    <span class="fa fa-star @(Model.CalcularAvaliacao() < 2 ? "deselecionada" :"")" ></span>
+                    <span class="fa fa-star @(Model.CalcularAvaliacao() < 3 ? "deselecionada" :"")" ></span>
+                    <span class="fa fa-star @(Model.CalcularAvaliacao() < 4 ? "deselecionada" :"")" ></span>
+                    <span class="fa fa-star @(Model.CalcularAvaliacao() < 5 ? "deselecionada" :"")" ></span>
+                </div>
+            </div>
+            <div id="div-avaliacao-geral" class="pull-left" style="">
+                @Model.ObterAvaliacaoFormatada()
+            </div>
+            <div class="clearfix"></div>    
+        </div>
+        <div class="clearfix"></div>
     </div>
     <div class="col-md-12">
         <div class="card col-md-12 pt-3 pb-3">
             <div class="row">
                 <div class="col-md-8">
-                    <div>Esse livro não possui avaliações.</div>
-                    <div>
-                        <strong>Faça a primeira :) </strong>
-                    </div>
+                    @if (Model.Avaliacoes.Count == 0)
+                    {
+                        <div>Esse livro não possui avaliações.</div>
+                    
+                        <div>
+                            <strong>Faça a primeira :) </strong>
+                        </div>
+                    }
                 </div>
                 <div class="col-md-4 text-right">
                     @if (Model.PodeAvaliar)
@@ -22,25 +42,7 @@
                 </div>
             </div>
             <div id="avaliacoes">
-                @foreach (var livroAvaliado in Model.Avaliacoes)
-                {
-                    <div class="card-avaliacao">
-                        <h3>@livroAvaliado.Titulo</h3>
-                        <div class="nota">
-                            <div class="nota-componente">
-                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 1 ? "deselecionada" :"")" ></span>
-                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 2 ? "deselecionada" :"")" ></span>
-                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 3 ? "deselecionada" :"")" ></span>
-                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 4 ? "deselecionada" :"")" ></span>
-                                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 5 ? "deselecionada" :"")" ></span>
-                            </div>
-                        </div>
-                        <div class="descricao">
-                            @Html.Raw(livroAvaliado.Descricao)
-                        </div>
-                        <strong>@livroAvaliado.Usuario - @livroAvaliado.Data</strong>
-                    </div>
-                }
+                <partial name="_ListaAvaliacoes" model="Model.Avaliacoes" />
             </div>
         </div>
     </div>

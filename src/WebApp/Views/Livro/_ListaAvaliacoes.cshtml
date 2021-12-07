@@ -6,11 +6,11 @@
         <h3>@livroAvaliado.Titulo</h3>
         <div class="nota">
             <div class="nota-componente">
-                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 1 ? "deselecionada" :"")" ></span>
-                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 2 ? "deselecionada" :"")" ></span>
-                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 3 ? "deselecionada" :"")" ></span>
-                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 4 ? "deselecionada" :"")" ></span>
-                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() <= 5 ? "deselecionada" :"")" ></span>
+                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 1 ? "deselecionada" :"")" ></span>
+                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 2 ? "deselecionada" :"")" ></span>
+                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 3 ? "deselecionada" :"")" ></span>
+                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 4 ? "deselecionada" :"")" ></span>
+                <span class="fa fa-star @(livroAvaliado.Nota.GetHashCode() < 5 ? "deselecionada" :"")" ></span>
             </div>
         </div>
         <div class="descricao">

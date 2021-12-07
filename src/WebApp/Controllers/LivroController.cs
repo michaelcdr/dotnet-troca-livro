@@ -37,10 +37,16 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Detalhes(int id)
         {
             base.AtualizarToken(this.api);
+            LivroDetalhes model = await ObterDetalhes(id);
 
+            return View(model);
+        }
+
+        private async Task<LivroDetalhes> ObterDetalhes(int id)
+        {
             LivroDTO livro = await api.ObterLivro(id);
             LivroDetalhes model = LivroDetalhes.GerarPorLivroDTO(livro);
-            
+
             if (User.Identity.IsAuthenticated)
             {
                 model.PodeAvaliar = true;
@@ -50,10 +56,14 @@ namespace WebApp.Controllers
                 model.LoginUsuarioLogado = User.Identity.Name;
             }
 
-            return View(model);
+            return model;
         }
 
-        public IActionResult _Avaliacoes(LivroDetalhes model) => PartialView(model);
+        public async Task<IActionResult> _Avaliacoes(int id) 
+        {
+            LivroDetalhes model = await ObterDetalhes(id);
+            return PartialView(model);
+        }
 
         public IActionResult _ListaUsuariosOfertando(LivroDetalhes model) => PartialView(model);
 
@@ -139,10 +149,17 @@ namespace WebApp.Controllers
             {
                 ModelState.AddModelError("", string.Join("<br/>", resposta.Erros.Select(e => e.Mensagem).ToList()));
 
+                // em caso de erro obtemos novamente alguns dados pára a viewmodel
                 model.Autores = await api.ObterAutores();
                 model.Editoras = await api.ObterEditoras();
                 model.Categorias = await api.ObterCategorias();
                 model.SubCategorias = await api.ObterSubCategorias((int)model.CategoriaId);
+
+                LivroDTO livroDadosAtuais = await api.ObterLivro(model.Id);
+
+                model.ImagensAtuais = livroDadosAtuais.Imagens.Select(e => new ImagemDTO {
+                    Id = e.Id, ImagemBase64 = e.ImagemBase64 
+                }).ToList();
 
                 return View(model);
             }

@@ -56,7 +56,9 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos.EditarLivro
                 return new AppResponse<EditarLivroResultado>("Erro.", false, livro.ObterErros());
 
             if (await uow.Livros.VerificarExistencia(livro.ISBN,livro.Id)) 
-                return new AppResponse<EditarLivroResultado>(msgErro, false, new List<Notificacao>() { new Notificacao("Livro já cadastrado.","") });
+                return new AppResponse<EditarLivroResultado>(msgErro, false, new List<Notificacao>() { 
+                    new Notificacao($"O ISBN {livro.ISBN} já está sendo usado por outro livro.","") 
+                });
 
             List<int> idsImagens = command.ImagensAtuaisId == null 
                 ? new List<int>() 

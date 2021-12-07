@@ -18,7 +18,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         @if (categoria.SubCategorias.Count > 0)
                         {
-                            foreach (var subcategoria in categoria.SubCategorias)
+                            foreach (var subcategoria in categoria.SubCategorias.OrderBy(e=>e.Nome))
                             {
                                 <li>
                                     <a asp-action="Index" asp-controller="Livro" asp-route-subcategoria="@subcategoria.UrlAmigavel" 

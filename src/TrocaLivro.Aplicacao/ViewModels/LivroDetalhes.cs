@@ -51,5 +51,20 @@ namespace TrocaLivro.Aplicacao.ViewModels
                 Avaliacoes = livro.Avaliacoes ?? new List<AvaliacaoLivro>()
             };
         }
+
+        public decimal CalcularAvaliacao()
+        {
+            if (this.Avaliacoes.Count == 0)
+                return 0;
+
+            decimal total= this.Avaliacoes.Sum(e=>e.Nota.GetHashCode());
+
+            return (decimal)total / (decimal)this.Avaliacoes.Count;
+        }
+
+        public string ObterAvaliacaoFormatada()
+        {
+            return "" + this.CalcularAvaliacao().ToString("N1") + " de 5";
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace WebApp.Controllers
 
             AppCommandResponse resposta = await _apiSubCategorias.Cadastrar(model);
 
-            if (!resposta.Sucesso) return View(resposta);
+            if (!resposta.Sucesso) return Json(resposta);
 
             var subCategorias = await _apiSubCategorias.ObterSubCategorias(model.CategoriaId);
 

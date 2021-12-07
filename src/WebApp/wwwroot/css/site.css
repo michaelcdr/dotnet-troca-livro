@@ -236,3 +236,25 @@ main {
         min-height: calc(100vh - 303px);
     }
 }
+.navbar-logo > button.navbar-toggler{
+    margin-left:-10px;
+}
+
+#div-titulo-avaliacoes {
+    font-style: italic;
+    float: left;
+    font-size: 18px;
+    display: inline-block;
+}
+#div-avaliacao-geral-estrelas {
+    display: inline-block;
+    padding-left: 15px;
+    float: left;
+}
+#div-avaliacao-geral {
+    font-size: 18px;
+    float: left;
+    display:inline-block;
+    padding-left: 15px;
+    font-style: italic;
+}

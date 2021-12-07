@@ -14,13 +14,15 @@ DetalhesLivro.prototype._aplicarEventos = function () {
     let _self = this;
     let btnDeletar = document.querySelector('#btn-deletar');
     if (btnDeletar !== null) {
+        btnDeletar.removeEventListener('click', function () { });
         btnDeletar.addEventListener('click', function () {
             return _self.deletarLivro(btnDeletar.dataset.id);
         });
     }
 
     let btnAvaliar = document.querySelector('#btn-avaliar');
-    if (btnAvaliar !== null) { 
+    if (btnAvaliar !== null) {
+        btnAvaliar.removeEventListener('click', function () { });
         btnAvaliar.addEventListener('click', function () {
             return _self.avaliar(btnAvaliar.dataset.livroId);
         });
@@ -139,13 +141,16 @@ DetalhesLivro.prototype.avaliar = function () {
 
 DetalhesLivro.prototype.listarAvaliacoes = function () {
     let livroId = this._livroId;
-
-    const myRequest = new Request('/Livro/_ListaAvaliacoes/' + livroId, {
+    let _self = this;
+    const myRequest = new Request('/Livro/_Avaliacoes/' + livroId, {
         method: 'GET' 
     });
 
     fetch(myRequest)
         .then(response => {
-            response.text().then(resultado => $("#avaliacoes").html(resultado));
+            response.text().then(resultado => {
+                $("#avaliacoes-container").html(resultado)
+                _self._aplicarEventos();
+            });
         });
 };

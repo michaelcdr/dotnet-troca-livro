@@ -7,7 +7,7 @@
 <h1>Minha conta » <small>Meus dados</small></h1>
 
 <div class="row">
-    <div class="col-3">
+    <div class="col-md-3 col-xs-12">
         <div class="nav flex-column nav-pills" id="tabs-minha-conta"  role="tablist" aria-orientation="vertical" data-color="dark">
             <a role="tab" data-toggle="pill" aria-selected="true"  id="editar-usuario-tab"                class="nav-link active" href="#editar-usuario"                aria-controls="editar-usuario"><i class="fa fa-user"></i> Perfil</a>
             <a role="tab" data-toggle="pill" aria-selected="false" id="livros-disponibilizados-troca-tab" class="nav-link"        href="#livros-disponibilizados-troca" aria-controls="livros-disponibilizados-troca"  ><i class="fa fa-long-arrow-right"></i> Livros disponibilizados</a>
@@ -16,7 +16,7 @@
             <a role="tab" data-toggle="pill" aria-selected="false" id="meus-livros-tab"                   class="nav-link"        href="#meus-livros"                   aria-controls="meus-livros"  ><i class="fa fa-pencil"></i> Meus cadastros</a>
         </div>
     </div>
-    <div class="col-9">
+    <div class="col-md-9 col-xs-12">
         <div class="tab-content" id="minha-conta-tabs-container">
             <div role="tabpanel" class="tab-pane show active" id="editar-usuario"                aria-labelledby="editar-usuario-tab" data-action="@Url.Action("_Editar","Usuario")"></div>
             <div role="tabpanel" class="tab-pane"             id="meus-livros"                   aria-labelledby="meus-livros-tab" data-action="@Url.Action("_CadastradosPeloUsuario","Livro")"></div>
