@@ -18,6 +18,7 @@
         <h5 class="card-title">@Model.Livro.Titulo</h5>
         <p class="card-text">@Model.Livro.DescricaoFormatadaParaCard</p>
         <div class="text-center"><small >Disponibilizado por <strong>@Model.ObterPontos()</strong></small></div>
-        <a asp-action="Detalhes" asp-controller="Livro" asp-route-id="@Model.Livro.Id" class="btn btn-outline-dark btn-block">Ver detalhes</a>
+        <a href="#" data-id="@Model.TrocaId"
+        class="btn btn-outline-dark btn-block btn-detalhes">Ver detalhes</a>
     </div>
 </div> 

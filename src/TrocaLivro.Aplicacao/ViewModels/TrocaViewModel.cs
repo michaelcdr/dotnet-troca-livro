@@ -29,7 +29,7 @@ namespace TrocaLivro.Aplicacao.ViewModels
 
         public bool PodeMarcarComoRecebido()
         {
-            return this.Status == StatusTroca.LivroEnviado;    
+            return this.Status == StatusTroca.LivroEnviado && SolicitadoPeloUsuarioLogado;    
         }
 
         public string ObterStatusFormatado()
