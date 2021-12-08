@@ -18,6 +18,7 @@ namespace TrocaLivro.Aplicacao.ViewModels
         public DateTime? DataAprovacaoTroca { get; private set; }
         public DateTime? DataEnvio { get; set; }
         public DateTime? DataRecebimento { get; set; }
+        public DateTime? DataSolicitacaoTroca { get; set; }
         public string Capa { get; private set; }
         public List<string> Imagens { get; set; }
         public string EnderecoEntrega { get; set; }
@@ -30,6 +31,11 @@ namespace TrocaLivro.Aplicacao.ViewModels
         public bool PodeMarcarComoRecebido()
         {
             return this.Status == StatusTroca.LivroEnviado && SolicitadoPeloUsuarioLogado;    
+        }
+
+        public bool NaoFoiAprovado()
+        {
+            return Status == StatusTroca.TrocaSolicitada && !SolicitadoPeloUsuarioLogado;
         }
 
         public string ObterStatusFormatado()

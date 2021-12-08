@@ -36,6 +36,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         public DateTime? DataAprovacaoTroca { get; private set; }
         public DateTime? DataRecebimento { get;  set; }
         public DateTime? DataEnvio { get;  set; }
+        public DateTime? DataSolicitacaoTroca { get; set; }
         public string Capa { get; private set; }
         public List<string> Imagens { get; set; }
         public string EnderecoEntrega { get; set; }
@@ -76,7 +77,8 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             { 
                 Imagens = imagensTroca,
                 DataEnvio = troca.DataEnvio,
-                DataRecebimento = troca.DataRecebimento
+                DataRecebimento = troca.DataRecebimento,
+                DataSolicitacaoTroca = troca.DataSolicitacaoTroca
             };
 
             if (troca.Endereco != null)

@@ -14,18 +14,11 @@
     <div class="card-body">
         <h5 class="card-title">@Model.Livro.Titulo</h5>
         <p class="card-text">@Model.Livro.DescricaoFormatadaParaCard</p>
-        <div class="text-center"><small>Pontos necessários: @Model.Pontos</small></div>
-
-        @if (Model.NaoFoiAprovado())
-        {
-            <a data-id="@Model.TrocaId" class="btn btn-aprovar btn-outline-success btn-block"
-            data-loading-text="Processando...">Aprovar troca</a>
-        }
-        else
-        {
-            <a href="#" data-id="@Model.TrocaId"  class="btn btn-outline-dark btn-block btn-detalhes" 
-                data-loading-text="Processando...">Detalhes
-            </a>
-        }
+        @*<div class="text-center"><small>Pontos necessários: @Model.Pontos</small></div>*@
+ 
+        <a href="#" data-id="@Model.TrocaId"  class="btn btn-outline-dark btn-block btn-detalhes" 
+            data-loading-text="Processando...">Detalhes
+        </a>
+        
     </div>
 </div>

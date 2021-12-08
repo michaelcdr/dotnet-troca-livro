@@ -38,6 +38,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
             await db.SaveChangesAsync();
 
             troca.AdicionarEnderecoDeEntrega(usuario.Endereco.OrderByDescending(e => e.Id).First().Id);
+            await db.SaveChangesAsync();
 
             return new AppResponse<SolicitarTrocaResultado>(true,"Troca solicitada com sucesso.");
         }

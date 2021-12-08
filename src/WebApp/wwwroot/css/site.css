@@ -208,16 +208,20 @@ a.a-primary:active {
     font-size: 0.7rem;
     text-align: right;
 }
+    .pontos-container .badge {
+        font-size: 0.62rem;
+    }
 
 
-@media only screen and (max-width: 600px) {
-    .pontos-container {
+    @media only screen and (max-width: 600px) {
+        .pontos-container {
         font-size: 10px;
     }
 
     .badge.pontos {
         position: relative;
         top: -2px;
+      
         padding: 2px 4px;
     }
 }

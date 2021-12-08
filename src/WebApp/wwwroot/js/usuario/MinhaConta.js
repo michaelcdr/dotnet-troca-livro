@@ -112,10 +112,7 @@
             if (idForm == "editar-usuario") {
                 _self.iniciarEventosFormEdicaoUsuario()
             } else {
-                $('.btn-aprovar').unbind('click');
-                $('.btn-aprovar').click(function () {
-                    _self.aprovar($(this));
-                });
+                
 
                 $(".btn-detalhes").unbind('click');
                 $('.btn-detalhes').click(function (ev) {
@@ -142,6 +139,11 @@
                         $("#btn-marcar-como-recebido").unbind('click');
                         $("#btn-marcar-como-recebido").click(function () {
                             _self.marcarComoRecebido($(this));
+                        });
+
+                        $('.btn-aprovar').unbind('click');
+                        $('.btn-aprovar').click(function () {
+                            _self.aprovar($(this));
                         });
 
                         $('.img-livro').unbind('click');

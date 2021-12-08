@@ -27,8 +27,12 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
         {
             Livro = livroCardModel;
             Pontos = trocaAtual.Pontos;
-            Disponibilizador = trocaAtual.UsuarioQueDisponibilizouParaTroca.ObterNomeCompleto();
-            Solicitante = trocaAtual.UsuarioQueSolicitouTroca.ObterNomeCompleto();
+            Disponibilizador = trocaAtual.UsuarioQueDisponibilizouParaTroca != null
+                ? trocaAtual.UsuarioQueDisponibilizouParaTroca.ObterNomeCompleto()
+                : string.Empty;
+            Solicitante = trocaAtual.UsuarioQueSolicitouTroca != null 
+                ? trocaAtual.UsuarioQueSolicitouTroca.ObterNomeCompleto()
+                :string.Empty;
             TrocaId = trocaAtual.Id;
             Status = trocaAtual.Status;
         }

@@ -77,7 +77,6 @@ namespace TrocaLivro.Aplicacao.DTO
                     DisponibilizacaoTrocaId = e.Id,
                     Nome = e.UsuarioQueDisponibilizouParaTroca.Nome,
                     Pontos = e.Pontos,
-                    LivrosEnviados = 0,
                     UserName = e.UsuarioQueDisponibilizouParaTroca.UserName,
                     Avatar = AppHelper.ObterDiretorioAvatar(e.UsuarioQueDisponibilizouParaTroca.Avatar)
                 }).ToList();

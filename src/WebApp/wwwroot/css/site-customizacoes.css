@@ -51,6 +51,7 @@ h1 {
     transition: all 0.4s;
     border-width: 3px;
     cursor: pointer;
+    color:var(--danger-color);
     border-color: var(--danger-color);
 }
 .btn-outline-dark {
@@ -72,6 +73,12 @@ table a.btn-outline-dark:focus, a.btn-outline-dark:focus, .btn-outline-dark:focu
     color: var(--second-color);
     background-color: var(--dark);
     border-color: var(--dark);
+}
+table a.btn-outline-danger:hover, a.btn-outline-danger:hover, .btn-outline-danger:hover,
+table a.btn-outline-danger:active, a.btn-outline-danger:active, .btn-outline-danger:active,
+table a.btn-outline-danger:focus, a.btn-outline-danger:focus, .btn-outline-danger:focus {
+    color: #fff !important;
+    background-color: var(--danger-color);
 }
 .badge.badge-danger{
     background-color:var(--danger-color);
