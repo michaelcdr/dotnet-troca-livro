@@ -49,5 +49,10 @@ namespace TrocaLivro.Infra.Repositorios.EF
                 .Where(e => e.Nome == nome)
                 .SingleOrDefaultAsync();
         }
+
+        public void AdicionarSubCategoria(SubCategoria subCategoria)
+        {
+            ApplicationDbContext.SubCategorias.Add(subCategoria);
+        }
     }
 }

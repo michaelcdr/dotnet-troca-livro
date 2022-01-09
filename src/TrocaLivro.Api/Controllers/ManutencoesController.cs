@@ -11,7 +11,7 @@ namespace TrocaLivro.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/Manutencoes")]
+    [Route("api/v{version:apiVersion}/Manutencoes"), ApiExplorerSettings(IgnoreApi = true)]
     public class ManutencoesController : Controller
     {
         private readonly IMediator _mediator;
@@ -23,11 +23,6 @@ namespace TrocaLivro.Api.Controllers
             this._gerenciadorToken = gerenciadorToken;
         }
 
-        /// <summary>
-        /// Gerar as urls amigaveis.
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
         [HttpPost("GerarUrlsAmigaveis"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GerarUrlsAmigaveis(GerarUrlsAmigaveisCommand comando)
         {
@@ -37,7 +32,6 @@ namespace TrocaLivro.Api.Controllers
             if (!resposta.Sucesso) return BadRequest(resposta);
 
             return Ok(resposta);
-        }
-         
+        }         
     }
 }

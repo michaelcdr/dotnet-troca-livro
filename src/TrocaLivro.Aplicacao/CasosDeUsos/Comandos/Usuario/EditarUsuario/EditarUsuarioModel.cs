@@ -24,9 +24,7 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 
         public string ObterAvatarComCaminho() 
         {
-            
-
-            return AppHelper.ObterDiretorioAvatar(this.Avatar);
+            return AmbienteConfigHelper.ObterDiretorioAvatar(this.Avatar);
         }
     }
 }

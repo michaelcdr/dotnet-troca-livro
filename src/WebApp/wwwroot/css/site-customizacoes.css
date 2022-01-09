@@ -51,7 +51,7 @@ h1 {
     transition: all 0.4s;
     border-width: 3px;
     cursor: pointer;
-    color:var(--danger-color);
+    color:var(--danger-color)!important;
     border-color: var(--danger-color);
 }
 .btn-outline-dark {

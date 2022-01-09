@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -23,13 +24,20 @@ using TrocaLivro.Dominio.Responses;
 
 namespace WebApp
 {
+    public static class ServiceProviderExtensions
+    {
+        public static T ResolveWith<T>(this IServiceProvider provider, params object[] parameters) where T : class =>
+            ActivatorUtilities.CreateInstance<T>(provider, parameters);
+    }
     public class Startup
     {
-        private string API_URL = AppHelper.ObterApiPath();
+        private string API_URL = String.Empty;
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            API_URL = configuration.GetSection("ApiPath").Value;
         }
 
         public IConfiguration Configuration { get; }
@@ -54,8 +62,9 @@ namespace WebApp
                     };
                 });
 
+            
+            services.Configure<AmbienteConfigHelper>(Configuration.GetSection(nameof(AmbienteConfigHelper)));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services.AddHttpClient<LivroApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<PacoteApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
@@ -93,6 +102,8 @@ namespace WebApp
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env , IMemoryCache memoryCache)
         {
+            AppServicesHelper.Services = app.ApplicationServices;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

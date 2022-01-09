@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -18,9 +19,10 @@ namespace WebApp.ViewComponents
         private readonly HttpContext _httpContext;
         private readonly HttpClient _httpClient;
         private readonly string _token;
+
         public CategoriasViewComponent(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
-        {
-            httpClient.BaseAddress = new Uri(AppHelper.ObterApiPath());
+        { 
+            httpClient.BaseAddress = new Uri(AmbienteConfigHelper.ObterApiPath());
 
             this._httpClient = httpClient;  
             this._httpContext = httpContextAccessor.HttpContext;

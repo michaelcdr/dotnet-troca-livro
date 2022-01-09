@@ -78,7 +78,7 @@ namespace TrocaLivro.Aplicacao.DTO
                     Nome = e.UsuarioQueDisponibilizouParaTroca.Nome,
                     Pontos = e.Pontos,
                     UserName = e.UsuarioQueDisponibilizouParaTroca.UserName,
-                    Avatar = AppHelper.ObterDiretorioAvatar(e.UsuarioQueDisponibilizouParaTroca.Avatar)
+                    Avatar = AmbienteConfigHelper.ObterDiretorioAvatar(e.UsuarioQueDisponibilizouParaTroca.Avatar)
                 }).ToList();
             }
 

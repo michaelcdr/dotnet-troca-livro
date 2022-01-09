@@ -8,7 +8,8 @@ using TrocaLivro.Dominio.Responses;
 namespace TrocaLivro.Api.Controllers
 {
     [ApiController]
-    [ApiVersion("1.0"), ApiExplorerSettings(IgnoreApi = true)]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/autores")]
     public class AutorController : Controller
     {
