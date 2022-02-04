@@ -1,0 +1,42 @@
+﻿@page "/autores"
+@using TrocaLivro.Models.DTO
+
+@inject HttpClient Http
+
+<PageTitle>Lista de autores</PageTitle>
+
+<h1>Lista de autores</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (autores == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var autor in autores)
+            {
+                <tr>
+                    <td>@autor.Nome</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private AutorDTO[]? autores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        autores = await Http.GetFromJsonAsync<AutorDTO[]>("http://localhost:12864/api/v1/autores");
+    } 
+}

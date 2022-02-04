@@ -52,6 +52,9 @@ namespace TrocaLivro.Testes.Integracao
             var categoria = new Categoria("Categoria Teste 1");
             unitOfWork.Categorias.Add(categoria);
 
+            var usuario = new Usuario("michael", "michael", "michaelcdr@hotmail.com", "reis");
+            unitOfWork.Usuarios.Add(usuario);
+
             await unitOfWork.CommitAsync();
             
             var subCategoria = new SubCategoria("SubCategoria 1", categoria.Id);
@@ -78,7 +81,8 @@ namespace TrocaLivro.Testes.Integracao
                 Descricao = "Lorem ipsum dolor, Lorem ipsum dolor",
                 NumeroPaginas = 1000,
                 ISBN = "123456789",
-                Imagens = imagens 
+                Imagens = imagens,
+                Usuario = usuario.Id
             };
 
             var mapperConfigs = new MapperConfiguration(cfg => {

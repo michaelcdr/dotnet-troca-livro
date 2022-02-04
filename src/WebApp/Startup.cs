@@ -31,7 +31,7 @@ namespace WebApp
     }
     public class Startup
     {
-        private string API_URL = String.Empty;
+        private readonly string API_URL = String.Empty;
 
         public Startup(IConfiguration configuration)
         {
@@ -114,7 +114,7 @@ namespace WebApp
                 app.UseHsts();
             }
 
-            HttpClient httpClient = new HttpClient() { BaseAddress = new Uri(API_URL) };
+            HttpClient httpClient = new() { BaseAddress = new Uri(API_URL) };
 
             var resposta = httpClient
                 .PostAsJsonAsync("Usuario/Logar", new LogarUsuarioModel { Usuario = "michael", Senha = "123456" })
