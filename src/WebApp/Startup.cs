@@ -61,7 +61,6 @@ namespace WebApp
                         OnValidatePrincipal = async context => { await Task.CompletedTask; }
                     };
                 });
-
             
             services.Configure<AmbienteConfigHelper>(Configuration.GetSection(nameof(AmbienteConfigHelper)));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -72,7 +71,6 @@ namespace WebApp
             services.AddHttpClient<SubCategoriaApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<CategoriaApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
             services.AddHttpClient<EditoraApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-
 
             services.AddAutoMapper(typeof(UsuarioProfile));
             services.AddAutoMapper(typeof(LivroProfile));
