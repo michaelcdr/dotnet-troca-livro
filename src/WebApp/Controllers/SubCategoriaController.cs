@@ -22,7 +22,7 @@ namespace WebApp.Controllers
             return PartialView(new CriarSubCategoriaViewModel() { CategoriaId = categoriaId });
         }
 
-        [HttpPost, ModelState, AuthorizeCustomizado]
+        [HttpPost, ModelStateValidador, AuthorizeCustomizado]
         public async Task<IActionResult> Cadastrar([FromBody]CriarSubCategoriaCommand model)
         {
             base.AtualizarToken(this._apiSubCategorias);

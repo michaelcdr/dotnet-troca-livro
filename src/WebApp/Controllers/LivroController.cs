@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,7 +54,6 @@ namespace WebApp.Controllers
                 model.PodeSolicitarTroca = true;
                 model.LoginUsuarioLogado = User.Identity.Name;
             }
-
             return model;
         }
 
@@ -67,10 +65,9 @@ namespace WebApp.Controllers
 
         public IActionResult _ListaUsuariosOfertando(LivroDetalhes model) => PartialView(model);
 
-        public PartialViewResult Avaliar(int id, string tituloLivro)
-            => PartialView(new AvaliarLivroViewModel(id, tituloLivro));
+        public PartialViewResult Avaliar(int id, string tituloLivro) => PartialView(new AvaliarLivroViewModel(id, tituloLivro));
 
-        [HttpPost, AuthorizeCustomizado, ModelStateAttribute]
+        [HttpPost, ModelStateValidador, AuthorizeCustomizado]
         public async Task<JsonResult> Avaliar(AvaliarLivroCommand command)
         {
             base.AtualizarToken(this.api);
@@ -214,7 +211,7 @@ namespace WebApp.Controllers
             return View(new DisponibilizarLivroParaTrocaViewModel(livro));
         }
             
-        [HttpPost, ModelStateAttribute]
+        [HttpPost, ModelStateValidador]
         public async Task<IActionResult> DisponibilizarParaTroca(DisponibilizarLivroParaTrocaCommand comando)
         {
             base.AtualizarToken(this.api);

@@ -1,8 +1,6 @@
 ﻿class AvaliadorLivro {
     constructor() {
-
         this.iniciarEventos();
-        
     }
 
     iniciarEventos() {

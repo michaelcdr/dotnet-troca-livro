@@ -22,7 +22,6 @@ namespace TrocaLivro.Api.Controllers
         public CategoriaController(IMediator mediator, IUnitOfWork uow)
         {
             this._mediator = mediator;
-
             this._uow = uow;
         }
 

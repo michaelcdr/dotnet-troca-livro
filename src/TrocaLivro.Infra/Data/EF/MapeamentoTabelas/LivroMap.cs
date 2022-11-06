@@ -17,7 +17,8 @@ namespace TrocaLivro.Infra.Data.EF.MapeamentoTabelas
             builder.HasMany(e => e.Autores).WithOne(e => e.Livro);
             builder.HasMany(e => e.Imagens).WithOne(e => e.Livro);
             builder.HasMany(e => e.Arquivos).WithOne(e => e.Livro);
-            builder.HasOne(e => e.SubCategoria).WithMany(e => e.Livros).HasForeignKey(e=>e.SubCategoriaId);
+            builder.HasOne(e => e.SubCategoria)
+                .WithMany(e => e.Livros).HasForeignKey(e=>e.SubCategoriaId);
         }
     }
 }

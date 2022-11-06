@@ -31,7 +31,7 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        [HttpPost, AuthorizeCustomizado, ModelState]
+        [HttpPost, ModelStateValidador, AuthorizeCustomizado]
         public async Task<JsonResult> Solicitar(TrocarLivroViewModel model)
         {
             base.AtualizarToken(this.api);

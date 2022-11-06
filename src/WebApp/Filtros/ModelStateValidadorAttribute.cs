@@ -8,7 +8,7 @@ using TrocaLivro.Dominio.Responses;
 namespace WebApp.Filtros
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class ModelStateAttribute : Attribute, IActionFilter
+    public class ModelStateValidadorAttribute : Attribute, IActionFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)
         { 

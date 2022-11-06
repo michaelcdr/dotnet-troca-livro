@@ -33,9 +33,10 @@ namespace TrocaLivro.Dominio.Entidades
             this.Avatar = avatar;
         }
 
-        public void AdicionarEndereco(string usuarioId, string bairro, string cEP, string complemento, string uF, string logradouro, int numero, string cidade)
+        public void AdicionarEndereco(
+            string usuarioId, string bairro, string cEP, string complemento, string uF, string logradouro, int numero, string cidade)
         {
-            this.Endereco.Add(new Endereco(usuarioId, bairro, cEP, complemento, uF, logradouro, numero,cidade));
+            this.Endereco.Add(new Endereco(usuarioId, bairro, cEP, complemento, uF, logradouro, numero, cidade));
         }
 
         public void DebitarPontos(int pontos)

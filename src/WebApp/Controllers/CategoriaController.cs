@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.DTO;
 using TrocaLivro.Aplicacao.HttpClients;
-using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
 using WebApp.Filtros;
 
@@ -26,7 +25,7 @@ namespace WebApp.Controllers
             return PartialView(new CriarCategoriaViewModel());
         }
 
-        [HttpPost, ModelState, AuthorizeCustomizado]
+        [HttpPost, ModelStateValidador, AuthorizeCustomizado]
         public async Task<IActionResult> Cadastrar([FromBody] CriarCategoriaCommand model)
         {
             base.AtualizarToken(this._api);

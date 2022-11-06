@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -38,7 +37,7 @@ namespace WebApp.Controllers
 
         public IActionResult _Logar() => View(new LogarUsuarioModel()); 
 
-        [HttpPost]
+        [HttpPost, ModelStateValidador]
         public async Task<JsonResult> Logar(LogarUsuarioModel model)
         {
             if (ModelState.IsValid)
@@ -122,10 +121,9 @@ namespace WebApp.Controllers
         }
 
         [AuthorizeCustomizado]
-        public async Task<IActionResult> MinhaConta()
+        public IActionResult MinhaConta()
         {
-            var model = new MinhaContaViewModel();
-            return View(model);
+            return View(new MinhaContaViewModel());
         }
 
         [AuthorizeCustomizado]
@@ -137,7 +135,7 @@ namespace WebApp.Controllers
             return PartialView(model);
         }
 
-        [HttpPost, AuthorizeCustomizado, ModelState]
+        [HttpPost, ModelStateValidador, AuthorizeCustomizado]
         public async Task<JsonResult> _Editar(EditarUsuarioCommand model)
         {
             base.AtualizarToken(this.usuarioApi);

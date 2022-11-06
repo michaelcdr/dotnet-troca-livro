@@ -25,7 +25,7 @@ namespace WebApp.Controllers
             return PartialView(new CriarEditoraViewModel());
         }
 
-        [HttpPost, ModelState, AuthorizeCustomizado]
+        [HttpPost, ModelStateValidador, AuthorizeCustomizado]
         public async Task<IActionResult> Cadastrar([FromBody] CriarEditoraCommand model)
         {
             base.AtualizarToken(this._api);
