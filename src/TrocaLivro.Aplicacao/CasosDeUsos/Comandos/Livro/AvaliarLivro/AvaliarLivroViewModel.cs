@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using TrocaLivro.Dominio.Enums;
+﻿using TrocaLivro.Dominio.Enums;
 
 namespace TrocaLivro.Aplicacao.CasosDeUsos
 {

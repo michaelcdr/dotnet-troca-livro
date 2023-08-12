@@ -19,9 +19,16 @@ namespace TrocaLivro.Infra.Repositorios.EF
             get { return Context as ApplicationDbContext; }
         }
 
+        public void Atualizar(Usuario usuario)
+        {
+            ApplicationDbContext.Usuarios.Update(usuario);
+        }
+
         public async Task<Usuario> ObterPorLogin(string usuario)
         {
-            return await ApplicationDbContext.Usuarios.SingleOrDefaultAsync(usuarioAtual => usuarioAtual.UserName == usuario);
+            return await ApplicationDbContext.Usuarios
+                .Include(e => e.AvaliacoesFeitas)
+                .SingleOrDefaultAsync(usuarioAtual => usuarioAtual.UserName == usuario);
         }
     }
 }

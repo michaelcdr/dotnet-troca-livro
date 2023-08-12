@@ -18,13 +18,13 @@ namespace WebApp.Controllers
 {
     public class UsuarioController : BaseController
     {
-        private readonly UsuarioApiClient usuarioApi;
-        private readonly IMapper mapper;
+        private readonly UsuarioApiClient _usuarioApi;
+        private readonly IMapper _mapper;
 
         public UsuarioController(UsuarioApiClient contaApiClient, IMapper mapper)
         {
-            this.usuarioApi = contaApiClient;
-            this.mapper = mapper;
+            this._usuarioApi = contaApiClient;
+            this._mapper = mapper;
         }
 
         public IActionResult Login()
@@ -42,7 +42,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppResponse<LogarUsuarioResultado> resultado = await usuarioApi.Logar(model);
+                AppResponse<LogarUsuarioResultado> resultado = await _usuarioApi.Logar(model);
 
                 if (!resultado.Sucesso)
                 {
@@ -93,7 +93,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppResponse<RegistrarUsuarioResultado> resultado = await usuarioApi.Registrar(model);
+                AppResponse<RegistrarUsuarioResultado> resultado = await _usuarioApi.Registrar(model);
 
                 if (!resultado.Sucesso)
                 {
@@ -102,7 +102,7 @@ namespace WebApp.Controllers
                 }
                 else
                 {
-                    AppResponse<LogarUsuarioResultado> logarUsuarioResultado = await usuarioApi.Logar(new LogarUsuarioModel(model.Usuario , model.Senha));
+                    AppResponse<LogarUsuarioResultado> logarUsuarioResultado = await _usuarioApi.Logar(new LogarUsuarioModel(model.Usuario , model.Senha));
 
                     await AutenticarRegistrandoClaimns(model.Usuario, logarUsuarioResultado);
 
@@ -129,17 +129,17 @@ namespace WebApp.Controllers
         [AuthorizeCustomizado]
         public async Task<IActionResult> _Editar()
         {
-            base.AtualizarToken(this.usuarioApi);
-            AppResponse<ObterUsuarioResultado> resultado = await usuarioApi.Obter(User.Identity.Name);
-            var model = mapper.Map<EditarUsuarioModel>(resultado.Dados);
+            base.AtualizarToken(this._usuarioApi);
+            AppResponse<ObterUsuarioResultado> resultado = await _usuarioApi.Obter(User.Identity.Name);
+            var model = _mapper.Map<EditarUsuarioModel>(resultado.Dados);
             return PartialView(model);
         }
 
         [HttpPost, ModelStateValidador, AuthorizeCustomizado]
         public async Task<JsonResult> _Editar(EditarUsuarioCommand model)
         {
-            base.AtualizarToken(this.usuarioApi);
-            return Json(await usuarioApi.Atualizar(model));
+            base.AtualizarToken(this._usuarioApi);
+            return Json(await _usuarioApi.Atualizar(model));
         }
     }
 }

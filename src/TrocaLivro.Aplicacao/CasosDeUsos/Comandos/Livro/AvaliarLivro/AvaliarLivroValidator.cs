@@ -16,7 +16,6 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
                 .NotEmpty()
                 .WithMessage("Informe uma descrição");
              
-
             RuleFor(model => model.Nota)
                 .IsInEnum()
                 .WithMessage("A nota deve ser selecionada.");

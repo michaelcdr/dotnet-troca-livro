@@ -1,4 +1,3 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -8,27 +7,19 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
-using TrocaLivro.Aplicacao.CasosDeUsos.DisponibilizarLivroParaTroca;
 using TrocaLivro.Aplicacao.CasosDeUsos.LogarUsuario;
 using TrocaLivro.Aplicacao.Helpers;
-using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.Mapping;
-using TrocaLivro.Aplicacao.ViewModels;
 using TrocaLivro.Dominio.Responses;
+using WebApp.IOC;
 
 namespace WebApp
 {
-    public static class ServiceProviderExtensions
-    {
-        public static T ResolveWith<T>(this IServiceProvider provider, params object[] parameters) where T : class =>
-            ActivatorUtilities.CreateInstance<T>(provider, parameters);
-    }
     public class Startup
     {
         private readonly string API_URL = String.Empty;
@@ -64,33 +55,11 @@ namespace WebApp
             
             services.Configure<AmbienteConfigHelper>(Configuration.GetSection(nameof(AmbienteConfigHelper)));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddHttpClient<LivroApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            services.AddHttpClient<UsuarioApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            services.AddHttpClient<PacoteApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            services.AddHttpClient<AutorApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            services.AddHttpClient<SubCategoriaApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            services.AddHttpClient<CategoriaApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
-            services.AddHttpClient<EditoraApiClient>(config => { config.BaseAddress = new Uri(API_URL); });
+            services.AddHttpClients(API_URL);
+            services.AddValidators();
 
             services.AddAutoMapper(typeof(UsuarioProfile));
             services.AddAutoMapper(typeof(LivroProfile));
-
-            services.AddTransient<IValidator<DisponibilizarLivroParaTrocaViewModel>, DisponibilizarLivroParaTrocaValidator>();
-            services.AddTransient<IValidator<AvaliarLivroViewModel>, AvaliarLivroValidator>();
-            services.AddTransient<IValidator<EditarUsuarioCommand>, EditarUsuarioCommandValidator>();
-
-            services.AddTransient<IValidator<CriarAutorViewModel>, CriarAutorViewModelValidator>();
-            services.AddTransient<IValidator<CriarAutorCommand>, CriarAutorCommandValidator>();
-
-            services.AddTransient<IValidator<CriarCategoriaViewModel>, CriarCategoriaViewModelValidator>();
-            services.AddTransient<IValidator<CriarCategoriaCommand>, CriarCategoriaCommandValidator>();
-
-            services.AddTransient<IValidator<CriarSubCategoriaViewModel>, CriarSubCategoriaViewModelValidator>();
-            services.AddTransient<IValidator<CriarSubCategoriaCommand>, CriarSubCategoriaCommandValidator>();
-
-            services.AddTransient<IValidator<CriarEditoraViewModel>, CriarEditoraViewModelValidator>();
-
-            
 
             services.AddMvc().AddRazorOptions(options =>
             {
@@ -108,7 +77,8 @@ namespace WebApp
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/erro/500");
+                app.UseStatusCodePagesWithRedirects("/erro/{0}");
                 app.UseHsts();
             }
 

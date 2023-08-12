@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using TrocaLivro.Dominio.Enums;
 
 namespace TrocaLivro.Dominio.Entidades
 {
@@ -13,7 +14,8 @@ namespace TrocaLivro.Dominio.Entidades
         private List<Notificacao> _erros { get; set; }
         public List<Troca> TrocasDisponibilizadas { get; set; }
         public List<Troca> TrocasSolicitadas { get; set; }
-        public List<Endereco> Endereco { get; private set; }    
+        public List<Endereco> Endereco { get; private set; }
+        public List<Avaliacao> AvaliacoesFeitas { get; private set; }
         public Usuario(string nome, string userName, string email, string sobrenome)
         {
             this.Nome = nome;
@@ -23,6 +25,7 @@ namespace TrocaLivro.Dominio.Entidades
             this.TrocasDisponibilizadas = new List<Troca>();
             this.TrocasSolicitadas = new List<Troca>();
             this.Endereco = new List<Endereco>();
+            this.AvaliacoesFeitas = new List<Avaliacao>();
         }
 
         public void Atualizar(string nome, string sobrenome, string email, string avatar)
@@ -33,10 +36,25 @@ namespace TrocaLivro.Dominio.Entidades
             this.Avatar = avatar;
         }
 
-        public void AdicionarEndereco(
-            string usuarioId, string bairro, string cEP, string complemento, string uF, string logradouro, int numero, string cidade)
+        public void AdicionarEndereco(string usuarioId, 
+                                      string bairro, 
+                                      string cEP, 
+                                      string complemento, 
+                                      string uF, 
+                                      string logradouro, 
+                                      int numero, 
+                                      string cidade)
         {
-            this.Endereco.Add(new Endereco(usuarioId, bairro, cEP, complemento, uF, logradouro, numero, cidade));
+            this.Endereco.Add(new Endereco(
+                usuarioId, 
+                bairro, 
+                cEP, 
+                complemento, 
+                uF, 
+                logradouro, 
+                numero, 
+                cidade
+            ));
         }
 
         public void DebitarPontos(int pontos)
@@ -81,6 +99,17 @@ namespace TrocaLivro.Dominio.Entidades
         public string ObterNomeCompleto()
         {
             return this.Nome + " " + this.Sobrenome;
+        }
+
+        public void AvaliarLivro(int livroId,string titulo, string descricao, NotaLivroEnum nota)
+        {
+            AvaliacoesFeitas.Add(new Avaliacao(
+                livroId,
+                this.Id,
+                titulo,
+                descricao,
+                nota
+            ));
         }
     }
 }

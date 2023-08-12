@@ -53,8 +53,11 @@ namespace TrocaLivro.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
-            UserManager<Usuario> userManager, RoleManager<TipoUsuario> roleManager, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, 
+                              IWebHostEnvironment env, 
+                              UserManager<Usuario> userManager, 
+                              RoleManager<TipoUsuario> roleManager, 
+                              ApplicationDbContext context)
         {
             
             app.UseDeveloperExceptionPage();
