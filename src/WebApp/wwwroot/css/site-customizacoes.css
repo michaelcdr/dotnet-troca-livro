@@ -667,3 +667,18 @@ nav.navbar a {
             box-shadow: 0 0 0 0.2rem rgb(247, 139, 139);
         }
 
+@media only screen and (min-width: 769px) {
+    .capa {
+        max-width: 100%;
+    }
+}
+    @media only screen and (max-width: 768px) {
+        .capa {
+            max-width: 160px;
+        }
+    }
+@media only screen and (max-width: 661px) {
+    .capa {
+        max-width: 200px;
+    }
+}
