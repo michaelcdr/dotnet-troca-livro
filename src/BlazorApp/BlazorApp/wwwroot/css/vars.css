@@ -1,0 +1,42 @@
+﻿/*:root {
+    --primary-color: #651015;
+    --default-text-color: #646361;
+    --danger-color: #ec1a47;
+    --second-color: #ededed;
+    --default-color: #bb181b;
+    --ts-time: .4s;
+    --bg-default: #ededed;
+}*/
+
+/*:root {
+    --primary-color: #ec1a47;
+    --danger-color: #ec1a47;
+    --second-color: #F5F0EC;
+    --default-color: #23232e;
+    --ts-time: .4s;
+    --default-text-color: #23232e;
+    --bg-default: #ededed;
+    --bg-tabs:#fff;
+}*/
+/* cores da shade */
+:root {
+    --primary-color: #00ADB5;
+    --second-color: #eeeeee;
+    --default-color: #393E46;
+    --ts-time: .4s;
+    --default-text-color: #393E46;
+    --bg-default: #eee;
+    --bg-tabs: #fff;
+    --text-light: #eeeeee;
+    --dark: #00ADB5;
+    --secondary-1: #1A1A1B;
+    --danger-color: #E05D5D;
+    --font-titulo: 'Raleway', sans-serif;
+}
+/*:root {
+    --primary-color: #ec1a47;
+    --danger-color: #ec1a47;
+    --second-color: #F5F0EC;
+    --default-color: #212529;
+    --ts-time: .4s;
+} */

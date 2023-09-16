@@ -1,4 +1,6 @@
 ﻿@page "/autores"
+@layout SiteLayout
+
 @using System.Diagnostics;
 @using TrocaLivro.Models.DTO
 
@@ -38,7 +40,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        autores = await Http.GetFromJsonAsync<AutorDTO[]>("http://localhost:12864/api/v1/autores");
+        autores = await Http.GetFromJsonAsync<AutorDTO[]>("autores");
 
         Debug.WriteLine(autores);
     } 

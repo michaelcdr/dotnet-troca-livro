@@ -1,0 +1,65 @@
+﻿body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F5F0EC;
+}
+#nav-login {
+    background-color: var(--secondary-1);
+}
+.spacer-header {
+    background-color: var(--secondary-1);
+    height: 200px;
+}
+a {
+    color: var(--second-color);
+    text-decoration: none;
+}
+
+    a.a-primary {
+        color: var(--secondary-1);
+        text-decoration: none;
+    }
+.btn-outline-dark:hover {
+    background-color: var(--secondary-1);
+    border-color: var(--secondary-1) !important;
+    transition:all .4s;
+}
+.btn-outline-dark {
+    transition: all .4s;
+    border-color: var(--secondary-1) !important;
+}
+
+/*helpers*/
+.logo-strong {
+    color: var(--primary-color);
+    font-weight: 400;
+} 
+
+.container-login,
+.container-register {
+    width: 100%;
+    position: absolute;
+    top: 80px;
+}
+
+    .container-register .card {
+        background-color: #fff;
+        max-width: calc(100% - 200px);
+        margin: 0px auto;
+        padding: 80px 80px !important;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }
+
+    .container-login .card {
+        background-color: #fff;
+        max-width: 456px;
+        margin: 0px auto;
+        padding: 80px 80px !important;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }
+#logo{
+    height:50px;
+}
