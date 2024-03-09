@@ -16,7 +16,7 @@ namespace TrocaLivro.Api.Controllers
     [Route("api/v{version:apiVersion}/categorias")]
     public class CategoriaController : Controller
     {
-        private IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow;
         private readonly IMediator _mediator;
 
         public CategoriaController(IMediator mediator, IUnitOfWork uow)

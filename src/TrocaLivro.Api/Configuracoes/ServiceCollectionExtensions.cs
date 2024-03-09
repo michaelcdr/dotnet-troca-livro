@@ -36,7 +36,11 @@ namespace TrocaLivro.Api.Configuracoes
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrocaLivro.Api", Version = "v1", Description = "Documentação da API" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "TrocaLivro.Api", 
+                    Version = "v1", 
+                    Description = "Documentação da API"
+                });
 
                 var securityScheme = new OpenApiSecurityScheme()
                 {

@@ -12,16 +12,17 @@ namespace TrocaLivro.Aplicacao.CasosDeUsos
 {
     public class ObterCategoriasQueryHandler : IRequestHandler<ObterCategoriasQuery, AppResponse<ObterCategoriasResultado>>
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
 
         public ObterCategoriasQueryHandler(ApplicationDbContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public async Task<AppResponse<ObterCategoriasResultado>> Handle(ObterCategoriasQuery request, CancellationToken cancellationToken)
         {
-            List<Categoria> categorias = await context.Categorias.Include(categoriaAtual => categoriaAtual.SubCategorias)
+            List<Categoria> categorias = await _context.Categorias
+                .Include(categoriaAtual => categoriaAtual.SubCategorias)
                 .OrderBy(categoriaAtual => categoriaAtual.Nome)
                 .ToListAsync();
 

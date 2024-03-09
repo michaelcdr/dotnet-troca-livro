@@ -2,7 +2,7 @@
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class Editora : EntidadeBase
+    public class Editora : Entidade
     {
         public int Id { get; private set; }
         public string Nome { get; private set; }

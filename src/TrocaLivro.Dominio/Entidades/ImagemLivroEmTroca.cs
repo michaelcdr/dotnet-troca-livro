@@ -1,16 +1,13 @@
 ﻿namespace TrocaLivro.Dominio.Entidades
 {
-    public class ImagemLivroEmTroca : EntidadeBase
+    public class ImagemLivroEmTroca : Entidade
     {
-        public int Id { get;  set; }
+        public int Id { get; set; }
         public int TrocaId { get; private set; }
         public byte[] Nome { get; private set; }
         public Troca Troca { get; set; }
 
-        public ImagemLivroEmTroca()
-        {
-
-        }
+        protected ImagemLivroEmTroca() { }
 
         public ImagemLivroEmTroca(int trocaId, byte[] nome)
         {

@@ -2,13 +2,11 @@
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class Endereco : EntidadeBase
+    public class Endereco : Entidade
     {
         public int Id { get; set; }
-        
         public string UsuarioId { get; private set; }
         public Usuario Usuario { get; set; }
-
         public string Bairro { get; private set; }
         public string CEP { get; private set; }
         public string Complemento { get; private set; }

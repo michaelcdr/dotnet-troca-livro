@@ -4,7 +4,7 @@ using TrocaLivro.Dominio.Enums;
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class Troca : EntidadeBase
+    public class Troca : Entidade
     {
         public int Id { get; set; }
         public int LivroId { get; set; }

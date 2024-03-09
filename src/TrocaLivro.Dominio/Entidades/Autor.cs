@@ -2,13 +2,13 @@
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class Autor : EntidadeBase
+    public class Autor : Entidade
     {
         public Autor(string nome)
         {
             Nome = nome;
         }
-
+        protected Autor() { }
         public int Id { get; private set; }
         public string Nome { get; private set; }
         public List<LivroAutor> LivrosAutores { get; private set; }
@@ -18,6 +18,6 @@ namespace TrocaLivro.Dominio.Entidades
                 this._erros.Add(new Notificacao("O nome deve ser informado", "Nome"));
 
             return this._erros.Count == 0;
-        }
+        } 
     }
 }

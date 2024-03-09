@@ -19,13 +19,12 @@ namespace TrocaLivro.Infra.Transacoes
             return await _context.SaveChangesAsync();
         }
 
-        public UnitOfWork(
-            ApplicationDbContext context,
-            ILivrosRepositorio livrosRepositorio,
-            IUsuariosRepositorio usuariosRepositorio, 
-            IEditorasRepositorio editorasRepositorio, 
-            IAutoresRepositorio autoresRepositorio, 
-            ICategoriasRepositorio categoriasRepositorio )
+        public UnitOfWork(ApplicationDbContext context,
+                          ILivrosRepositorio livrosRepositorio,
+                          IUsuariosRepositorio usuariosRepositorio, 
+                          IEditorasRepositorio editorasRepositorio, 
+                          IAutoresRepositorio autoresRepositorio, 
+                          ICategoriasRepositorio categoriasRepositorio )
         {
             this._context = context;
             this.Livros = livrosRepositorio;

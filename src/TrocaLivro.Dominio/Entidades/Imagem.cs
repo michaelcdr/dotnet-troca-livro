@@ -1,6 +1,6 @@
 ﻿namespace TrocaLivro.Dominio.Entidades
 {
-    public class Imagem : EntidadeBase
+    public class Imagem : Entidade
     {
         public int Id { get; set; }
         public int LivroId { get; private set; }        
@@ -9,10 +9,7 @@
         public int Largura { get; private set; }
         public Livro Livro { get; private set; }
 
-        public Imagem()
-        {
-
-        }
+        protected Imagem() { }
 
         public Imagem(byte[] nome, int altura, int largura)
         {

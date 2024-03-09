@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class SubCategoria : EntidadeBase
+    public class SubCategoria : Entidade
     {
         public int Id { get; set; }
         public int CategoriaId { get; set; }

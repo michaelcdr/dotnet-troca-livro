@@ -39,18 +39,23 @@ namespace TrocaLivro.Infra.Services
 
             var role = rolesDoUsuario.First();
 
+            var identityClaims = new ClaimsIdentity(new[]
+            {
+                new Claim("Id", usuario.Id),
+                new Claim(ClaimTypes.Role, role),
+                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, login),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            });
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim("Id", usuario.Id),
-                    new Claim(ClaimTypes.Role, role),
-                    new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                    new Claim(JwtRegisteredClaimNames.Sub, login),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                }),
-                Expires = DateTime.Now.AddDays(15),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Subject = identityClaims,
+                Expires = DateTime.UtcNow.AddDays(15),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key), 
+                    SecurityAlgorithms.HmacSha256Signature
+                )
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

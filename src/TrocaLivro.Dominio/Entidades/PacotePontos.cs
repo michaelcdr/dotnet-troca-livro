@@ -4,6 +4,8 @@ namespace TrocaLivro.Dominio.Entidades
 {
     public class PacotePontos
     {
+        public PacotePontos() { }
+
         public PacotePontos(int id, string titulo, string descritivo, decimal valor, int pontos)
         {
             Id = id;
@@ -12,10 +14,7 @@ namespace TrocaLivro.Dominio.Entidades
             Valor = valor;
             Pontos = pontos;
         }
-        public PacotePontos()
-        {
-
-        }
+       
         public int Id { get; set; }
         public string Titulo { get; set; }
         public string Descritivo { get; set; }

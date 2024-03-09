@@ -1,6 +1,6 @@
 ﻿namespace TrocaLivro.Dominio.Entidades
 {
-    public class Arquivo:EntidadeBase
+    public class Arquivo : Entidade
     {
         public int Id { get; set; }
         public string Nome { get; set; }

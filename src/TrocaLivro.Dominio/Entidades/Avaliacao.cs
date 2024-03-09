@@ -3,7 +3,7 @@ using TrocaLivro.Dominio.Enums;
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class Avaliacao : EntidadeBase
+    public class Avaliacao : Entidade
     {
         public int Id { get; set; }
         public string UsuarioId { get; private set; }

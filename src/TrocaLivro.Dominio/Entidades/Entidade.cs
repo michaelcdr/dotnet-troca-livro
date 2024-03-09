@@ -2,7 +2,7 @@
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public abstract class EntidadeBase
+    public abstract class Entidade
     {
         public List<Notificacao> _erros { get; private set; } = new List<Notificacao>();
 

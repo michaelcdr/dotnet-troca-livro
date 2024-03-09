@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,15 +13,16 @@ using TrocaLivro.Infra.Data;
 using TrocaLivro.Infra.Repositorios.EF;
 using TrocaLivro.Infra.Transacoes;
 using Xunit;
+using Moq;
 
 namespace TrocaLivro.Testes.Integracao
 {
-    public class CadastrarLivroCommandHanderHandle
+    public class CadastrarLivroCommandHandleTestes
     {
         [Fact]
         public async Task DadoInformacoesValidasDeveCadastrarUmLivro()
         {
-            //act
+            // Arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("DbContextoInMemory")
                 .Options;
@@ -93,10 +93,10 @@ namespace TrocaLivro.Testes.Integracao
             var handler = new CadastrarLivroCommandHandler(mapper, unitOfWork);
             var cancellationToken = It.IsAny<CancellationToken>();
 
-            //arranje
+            // Act
             var resultado = await handler.Handle(comando, cancellationToken);
 
-            //assert
+            // Assert
             Assert.True(resultado.Sucesso);
 
             Livro livroCadastrado = await unitOfWork.Livros.Obter(1);

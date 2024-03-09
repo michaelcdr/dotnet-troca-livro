@@ -2,12 +2,11 @@
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class Categoria:EntidadeBase
+    public class Categoria : Entidade
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
-        public List<SubCategoria> SubCategorias { get; set; }
-
+        public string Nome { get; private set; }
+        public List<SubCategoria> SubCategorias { get; private set; }
 
         public override bool TaValido()
         {

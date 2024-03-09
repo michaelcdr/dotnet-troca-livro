@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TrocaLivro.Dominio.Entidades
 {
-    public class Livro : EntidadeBase
+    public class Livro : Entidade
     {
         public int Id { get; private set; }
         public string Titulo { get; private set; }
