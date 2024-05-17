@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace TrocaLivro.Dominio.Entidades
+﻿namespace TrocaLivro.Dominio.Entidades
 {
     public class PacotePontos
     {
