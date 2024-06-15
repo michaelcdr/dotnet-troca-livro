@@ -22,7 +22,8 @@ namespace TrocaLivro.Aplicacao.Helpers
         {
             get
             {
-                var service = services.GetService(typeof(IOptionsMonitor<AmbienteConfigHelper>)) as IOptionsMonitor<AmbienteConfigHelper>;
+                var service = services
+                    .GetService(typeof(IOptionsMonitor<AmbienteConfigHelper>)) as IOptionsMonitor<AmbienteConfigHelper>;
                 AmbienteConfigHelper config = service.CurrentValue;
                 return config;
             }

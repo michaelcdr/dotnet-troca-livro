@@ -26,7 +26,7 @@ namespace WebApp.Controllers
             return View(model);
         }
 
-        public async Task<PartialViewResult> _PacotesPontos(List<PacotePontos> pacotes)
+        public PartialViewResult _PacotesPontos(List<PacotePontos> pacotes)
         {
             return PartialView(pacotes);
         }
@@ -34,7 +34,6 @@ namespace WebApp.Controllers
         public IActionResult Privacy() 
         {
             throw new System.Exception("aaaaaaaaa");
-            return View();
         }
 
         [Route("erro/{id:length(3,3)}")]

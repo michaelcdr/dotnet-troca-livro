@@ -18,6 +18,13 @@
     --bg-default: #ededed;
     --bg-tabs:#fff;
 }*/
+/*:root {
+    --primary-color: #ec1a47;
+    --danger-color: #ec1a47;
+    --second-color: #F5F0EC;
+    --default-color: #212529;
+    --ts-time: .4s;
+} */
 /* cores da shade */
 :root {
     --primary-color: #00ADB5;
@@ -33,10 +40,3 @@
     --danger-color: #E05D5D;
     --font-titulo: 'Raleway', sans-serif;
 }
-/*:root {
-    --primary-color: #ec1a47;
-    --danger-color: #ec1a47;
-    --second-color: #F5F0EC;
-    --default-color: #212529;
-    --ts-time: .4s;
-} */

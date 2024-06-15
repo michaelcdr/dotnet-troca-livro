@@ -72,7 +72,7 @@ namespace WebApp.Controllers
         }
 
         [AuthorizeCustomizado]
-        public async Task<IActionResult> _LivrosEnviados()
+        public IActionResult _LivrosEnviados()
         {
             return PartialView();
         }
@@ -108,7 +108,7 @@ namespace WebApp.Controllers
         }
 
         [AuthorizeCustomizado]
-        public async Task<IActionResult> _Aprovadas()
+        public IActionResult _Aprovadas()
         {
             return PartialView();
         }

@@ -1,0 +1,25 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/lib/animate/animate.css",
+      "wwwroot/lib/sidebar/jquery.sidebar.css",
+      "wwwroot/css/vars.css",
+      "wwwroot/css/site.css",
+      "wwwroot/css/site-customizacoes.css",
+      "wwwroot/css/cards.css",
+      "wwwroot/css/menu.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/lib/sidebar/jquery.sidebar.js",
+      "wwwroot/js/bs4-extensions.js",
+      "wwwroot/js/sweet-alert-helper.js",
+      "wwwroot/js/extensoesJquery.js",
+      "wwwroot/js/site.js"
+    ],
+    "sourceMap": false
+  }
+]

@@ -6,7 +6,7 @@ using TrocaLivro.Aplicacao.CasosDeUsos.DisponibilizarLivroParaTroca;
 using TrocaLivro.Aplicacao.HttpClients;
 using TrocaLivro.Aplicacao.ViewModels;
 
-namespace WebApp.IOC
+namespace WebApp.Configurations
 {
     public static class ServiceCollectionExtensions
     {
