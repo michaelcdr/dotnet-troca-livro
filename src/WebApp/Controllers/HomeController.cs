@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using TrocaLivro.Aplicacao.CasosDeUsos;
 using TrocaLivro.Aplicacao.HttpClients;
-using TrocaLivro.Aplicacao.Services;
 using TrocaLivro.Dominio.Entidades;
-using TrocaLivro.Infra.Repositorios.Data;
 using WebApp.Models;
 
 namespace WebApp.Controllers

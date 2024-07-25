@@ -24,9 +24,8 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
     .AddEnvironmentVariables();
 
-builder.Services
-    .AddControllersWithViews()
-    .AddFluentValidation();
+builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services

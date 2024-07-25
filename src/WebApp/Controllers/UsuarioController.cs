@@ -40,27 +40,22 @@ namespace WebApp.Controllers
         [HttpPost, ModelStateValidador]
         public async Task<JsonResult> Logar(LogarUsuarioModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return Json(new { Sucesso = false, Mensagem = "Informe os campos usuário e senha" });
+
+            AppResponse<LogarUsuarioResultado> resultado = await _usuarioApi.Logar(model);
+
+            if (!resultado.Sucesso)
             {
-                AppResponse<LogarUsuarioResultado> resultado = await _usuarioApi.Logar(model);
+                string mensagem = resultado.Erros != null 
+                    ?"<br />" + string.Join("<br/>", resultado.Erros.Select(e => e.Mensagem).ToArray())
+                    : resultado.Mensagem;
 
-                if (!resultado.Sucesso)
-                {
-                    string mensagem = resultado.Mensagem;
-
-                    if (resultado.Erros != null)
-                        mensagem = "<br />" + string.Join("<br/>", resultado.Erros.Select(e => e.Mensagem).ToArray());
-
-                    return Json(new { Sucesso = false, Mensagem = mensagem });
-                }
-                else
-                {
-                    await AutenticarRegistrandoClaimns(model.Usuario, resultado);
-
-                    return Json(new { sucesso = true, urlDestino = Url.Action("Index", "Home") });
-                }
+                return Json(new { Sucesso = false, Mensagem = mensagem });
             }
-            return Json(new { Sucesso = false, Mensagem = "Informe os campos usuário e senha" }) ;
+
+            await AutenticarRegistrandoClaimns(model.Usuario, resultado);
+
+            return Json(new { sucesso = true, urlDestino = Url.Action("Index", "Home") });            
         }
 
         private async Task AutenticarRegistrandoClaimns(string username, AppResponse<LogarUsuarioResultado> logarUsuarioResultado)
@@ -91,25 +86,23 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Registrar(RegistrarUsuarioModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            AppResponse<RegistrarUsuarioResultado> resultado = await _usuarioApi.Registrar(model);
+
+            if (!resultado.Sucesso)
             {
-                AppResponse<RegistrarUsuarioResultado> resultado = await _usuarioApi.Registrar(model);
+                foreach (var item in resultado.Erros)
+                    ModelState.AddModelError("", item.Mensagem);
 
-                if (!resultado.Sucesso)
-                {
-                    foreach (var item in resultado.Erros)
-                        ModelState.AddModelError("", item.Mensagem);
-                }
-                else
-                {
-                    AppResponse<LogarUsuarioResultado> logarUsuarioResultado = await _usuarioApi.Logar(new LogarUsuarioModel(model.Usuario , model.Senha));
-
-                    await AutenticarRegistrandoClaimns(model.Usuario, logarUsuarioResultado);
-
-                    return RedirectToAction("Index", "Home");
-                }
+                return View(model);
             }
-            return View(model);
+            
+            AppResponse<LogarUsuarioResultado> logarUsuarioResultado = await _usuarioApi.Logar(new LogarUsuarioModel(model.Usuario , model.Senha));
+
+            await AutenticarRegistrandoClaimns(model.Usuario, logarUsuarioResultado);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult AprovarTrocas() => View();

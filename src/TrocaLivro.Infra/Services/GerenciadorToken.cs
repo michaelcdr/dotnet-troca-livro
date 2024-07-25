@@ -19,10 +19,11 @@ namespace TrocaLivro.Infra.Services
         private readonly UserManager<Usuario> _userManager;
         private readonly JwtConfiguracao _jwtConfig;
 
-        public GerenciadorToken(UserManager<Usuario> userManager, IOptionsMonitor<JwtConfiguracao> optionsMonitor)
+        public GerenciadorToken(UserManager<Usuario> userManager, 
+                                IOptions<JwtConfiguracao> optionsMonitor)
         {
             _userManager = userManager;
-            _jwtConfig = optionsMonitor.CurrentValue;
+            _jwtConfig = optionsMonitor.Value;
         }
 
         public async Task<AppResponse<TokenResultado>> Gerar(string login)
@@ -51,7 +52,7 @@ namespace TrocaLivro.Infra.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = identityClaims,
-                Expires = DateTime.UtcNow.AddDays(15),
+                Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key), 
                     SecurityAlgorithms.HmacSha256Signature
