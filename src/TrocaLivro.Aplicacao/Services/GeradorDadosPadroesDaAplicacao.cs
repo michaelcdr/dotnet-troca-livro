@@ -12,18 +12,30 @@ namespace TrocaLivro.Aplicacao.Services
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly RoleManager<TipoUsuario> _roleManager;
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
         private const string ROLE_ADM = "admin";
         private const string ROLE_COMUN = "comum";
+        private List<Autor> _autores = [];
 
-        public GeradorDadosPadroesDaAplicacao(
-            UserManager<Usuario> userManager, 
-            RoleManager<TipoUsuario> roleManager,
-            ApplicationDbContext context)
+        public GeradorDadosPadroesDaAplicacao(UserManager<Usuario> userManager, 
+                                              RoleManager<TipoUsuario> roleManager,
+                                              ApplicationDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            this.context = context;
+            _context = context;
+
+            _autores = new List<Autor>
+            {
+                new Autor("Robert C. Martin"),
+                new Autor("Eric Evans"),
+                new Autor("George Martin"),
+                new Autor("Andrei Fernandes"),
+                new Autor("Martin Fowler"),
+                new Autor("H.P. Lovecraft"),
+                new Autor("Neil Gaiman"),
+                new Autor("J.R.R. Tolkien")
+            };
         }
 
         public async Task Gerar()
@@ -55,9 +67,9 @@ namespace TrocaLivro.Aplicacao.Services
                 IdentityResult resultRole = await _userManager.AddToRoleAsync(usuario, ROLE_COMUN);
             }
 
-            if (await this.context.SubCategorias.AnyAsync(e => string.IsNullOrEmpty(e.UrlAmigavel)))
+            if (await _context.SubCategorias.AnyAsync(e => string.IsNullOrEmpty(e.UrlAmigavel)))
             {
-                await this.context.SubCategorias
+                await _context.SubCategorias
                     .Where(subCategoriaAtual => string.IsNullOrEmpty(subCategoriaAtual.UrlAmigavel))
                     .ForEachAsync(subCategoriaAtual =>
                     {
@@ -65,29 +77,20 @@ namespace TrocaLivro.Aplicacao.Services
                     });
             }
 
-            if (await this.context.Autores.CountAsync() == 0)
-            {
-                this.context.Autores.Add(new Autor("Robert C. Martin"));
-                this.context.Autores.Add(new Autor("Eric Evans"));
-                this.context.Autores.Add(new Autor("George Martin"));
-                this.context.Autores.Add(new Autor("Andrei Fernandes"));
-                this.context.Autores.Add(new Autor("Martin Fowler"));
-                this.context.Autores.Add(new Autor("H.P. Lovecraft"));
-                this.context.Autores.Add(new Autor("Neil Gaiman"));
-                this.context.Autores.Add(new Autor("J.R.R. Tolkien"));
-            }
+            if (await _context.Autores.CountAsync() == 0)
+                _context.Autores.AddRange(_autores);
 
-            if (await this.context.Editoras.CountAsync() == 0)
+            if (await _context.Editoras.CountAsync() == 0)
             {
-                this.context.Editoras.Add(new Editora("Prentice Hall PTR"));
-                this.context.Editoras.Add(new Editora("Alta Books"));
+                _context.Editoras.Add(new Editora("Prentice Hall PTR"));
+                _context.Editoras.Add(new Editora("Alta Books"));
             }
             
-            await this.context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-            if (await this.context.Categorias.CountAsync() == 0)
+            if (await _context.Categorias.CountAsync() == 0)
             {
-                this.context.Categorias.AddRange(
+                _context.Categorias.AddRange(
                     new List<Categoria>
                     {
                         new Categoria("Administração"),
@@ -125,9 +128,9 @@ namespace TrocaLivro.Aplicacao.Services
                         new Categoria("Hqs")
                     }
                 );
-                await this.context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                Categoria categoriaInformatica = await this.context.Categorias.SingleAsync(e => e.Nome == "Informática");
+                Categoria categoriaInformatica = await _context.Categorias.SingleAsync(e => e.Nome == "Informática");
 
                 categoriaInformatica.AdicionarSubCategorias(
                     new List<SubCategoria>()
@@ -148,7 +151,7 @@ namespace TrocaLivro.Aplicacao.Services
                     }
                 );
 
-                await this.context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
         }
     }
