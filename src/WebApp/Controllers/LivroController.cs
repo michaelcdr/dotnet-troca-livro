@@ -22,9 +22,11 @@ namespace WebApp.Controllers
         private readonly AutorApiClient autoresApi;
         private readonly IMapper _mapper;
 
-        public LivroController(
-            LivroApiClient livroApiClient, CategoriaApiClient categoriasApi, 
-            EditoraApiClient editorasApi, AutorApiClient autoresApi, IMapper mapper)
+        public LivroController(LivroApiClient livroApiClient, 
+                               CategoriaApiClient categoriasApi, 
+                               EditoraApiClient editorasApi,
+                               AutorApiClient autoresApi, 
+                               IMapper mapper)
         {
             this._mapper = mapper;
             this.api = livroApiClient;

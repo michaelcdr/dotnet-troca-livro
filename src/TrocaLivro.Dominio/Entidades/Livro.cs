@@ -35,11 +35,11 @@ namespace TrocaLivro.Dominio.Entidades
 
         public Livro()
         {
-            this.Autores = new List<LivroAutor>();
-            this.Imagens = new List<Imagem>();
-            this.Arquivos = new List<Arquivo>();
-            this.Avaliacoes = new List<Avaliacao>();
-            this.DiponibilizacaoParaTrocas = new List<Troca>();
+            Autores = new List<LivroAutor>();
+            Imagens = new List<Imagem>();
+            Arquivos = new List<Arquivo>();
+            Avaliacoes = new List<Avaliacao>();
+            DiponibilizacaoParaTrocas = new List<Troca>();
         }
 
         public void AdicionarAutores(List<LivroAutor> livroAutors)
@@ -47,20 +47,20 @@ namespace TrocaLivro.Dominio.Entidades
             this.Autores.AddRange(livroAutors);
         }
 
-        public void Atualizar(
-            string titulo, string subtitulo, string descricao, string isbn, int ano, int numeroPaginas, 
-            string alteradoPor, List<int> idsAutores, int editoraId, int subCategoriaId)
+        public void Atualizar(string titulo, string subtitulo, string descricao, string isbn, 
+                              int ano, int numeroPaginas, 
+                              string alteradoPor, List<int> idsAutores, int editoraId, int subCategoriaId)
         {
-            this.Titulo = titulo;
-            this.Subtitulo = subtitulo;
-            this.Descricao = descricao;
-            this.ISBN = isbn;
-            this.Ano = ano;
-            this.NumeroPaginas = numeroPaginas;
-            this.DataAlteracao = DateTime.Now;
-            this.AlteradoPor = alteradoPor;
-            this.SubCategoriaId = subCategoriaId;
-            this.EditoraId = editoraId;
+            Titulo = titulo;
+            Subtitulo = subtitulo;
+            Descricao = descricao;
+            ISBN = isbn;
+            Ano = ano;
+            NumeroPaginas = numeroPaginas;
+            DataAlteracao = DateTime.Now;
+            AlteradoPor = alteradoPor;
+            SubCategoriaId = subCategoriaId;
+            EditoraId = editoraId;
 
             List<int> autoresAtuais = this.Autores.Select(e => e.AutorId).ToList();
 
