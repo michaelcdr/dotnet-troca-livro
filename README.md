@@ -59,7 +59,7 @@ git clone https://github.com/michaelcdr/dotnet-troca-livro.git
 
 3. Execute as migrations
 ```bash
-cd src/BookExchange.API
+cd src/TrocaLivro.Api
 dotnet ef database update
 ```
 
