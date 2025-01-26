@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TrocaLivro.Dominio\TrocaLivro.Dominio.csproj" />
+    <ProjectReference Include="..\..\src\TrocaLivro.Dominio\TrocaLivro.Dominio.csproj" />
   </ItemGroup>
 
 </Project>

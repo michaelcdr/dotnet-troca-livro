@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\TrocaLivro.Aplicacao\TrocaLivro.Aplicacao.csproj" />
+    <ProjectReference Include="..\..\src\TrocaLivro.Aplicacao\TrocaLivro.Aplicacao.csproj" />
   </ItemGroup>
 
 </Project>
